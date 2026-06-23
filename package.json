@@ -17,8 +17,7 @@
     "react-router-dom": "^7.x",
     "lucide-react": "^0.x",
     "swiper": "^12.x",
-    "framer-motion": "^12.x",
-    "react-simple-maps": "^3.x"
+    "framer-motion": "^12.x"
   },
 
   "devDependencies": {

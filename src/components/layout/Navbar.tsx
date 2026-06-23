@@ -1,57 +1,119 @@
-import { Globe, Menu } from "lucide-react";
+
+import { useState } from "react";
+import { Globe, Menu, X } from "lucide-react";
+import logo from "../../assets/logo.png";
+
+const navItems = [
+  "Home",
+  "Districts",
+  "Culture",
+  "Community",
+  "Tribals",
+  "Tourism",
+  "Marketplace",
+  "Gallery",
+];
 
 const Navbar = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
-    <header className="fixed top-0 left-0 w-full z-50 glass-navbar transition-all duration-300">
-      <div className="w-full max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        
-        {/* Logo */}
-        <div className="flex items-center gap-1">
-          <span className="text-amber-500 font-black text-2xl uppercase bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
-            Bihar
-          </span>
-          <span className="text-white font-light text-2xl uppercase">
-            Darshan
-          </span>
-        </div>
+    <header className="fixed top-0 left-0 w-full z-50">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 py-3 sm:py-4">
+        <div className="h-14 sm:h-16 px-4 sm:px-8 rounded-full flex items-center justify-between bg-transparent">
+          {/* Logo */}
+          <div className="flex items-center gap-3 shrink-0">
+            <img
+              src={logo}
+              alt="Bihar Darshan"
+              className="h-16 sm:h-20 w-auto object-contain"
+            />
+          </div>
 
-        {/* Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 text-sm font-medium tracking-wide">
-          {["Home", "Districts", "Culture", "Community", "Tribals", "Tourism", "Marketplace", "Gallery"].map((item) => (
-            <a 
-              key={item}
-              href={`#${item.toLowerCase()}`} 
-              className="text-gray-300 hover:text-amber-400 transition-colors duration-300 relative py-1 group"
+          {/* Desktop Navigation */}
+          <nav className="hidden xl:flex items-center gap-6 2xl:gap-8">
+            {navItems.map((item, index) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className={`relative text-sm font-medium transition-all duration-300 hover:text-amber-400 ${
+                  index === 0 ? "text-amber-400" : "text-white"
+                }`}
+              >
+                {item}
+
+                {index === 0 && (
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-full bg-amber-400 rounded-full" />
+                )}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button className="hidden lg:flex items-center gap-2 px-4 h-10 rounded-xl border border-white/15 bg-white/5 text-white text-sm hover:border-amber-400 hover:text-amber-400 transition-all duration-300 cursor-pointer">
+              <Globe size={16} />
+              Translator
+            </button>
+
+            <button className="hidden lg:block px-5 h-10 rounded-xl border border-white/15 bg-white/5 text-white text-sm hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-pointer">
+              Login
+            </button>
+
+            <button className="hidden md:block px-5 h-10 rounded-xl bg-amber-500 hover:bg-amber-600 text-black font-semibold text-sm transition-all duration-300 cursor-pointer">
+              Share Your Story
+            </button>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              className="xl:hidden text-white p-1 cursor-pointer"
+              onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {item}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-          ))}
-        </nav>
-
-        {/* Actions */}
-        <div className="flex items-center gap-4">
-          <button className="hidden sm:flex items-center gap-2 border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full text-xs font-semibold text-gray-200 hover:text-amber-400 bg-white/5 hover:bg-amber-500/5 transition-all duration-300 cursor-pointer">
-            <Globe size={14} className="animate-spin-slow" />
-            Translator
-          </button>
-
-          <button className="hidden sm:block border border-white/10 hover:border-white/20 px-5 py-2 rounded-full text-xs font-semibold text-white bg-white/5 hover:bg-white/10 transition-all duration-300 cursor-pointer">
-            Login
-          </button>
-
-          <button className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer">
-            Share Story
-          </button>
-
-          <button className="lg:hidden text-white hover:text-amber-400 transition-colors duration-200">
-            <Menu size={24} />
-          </button>
+              {mobileOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
         </div>
 
+        {/* Mobile Dropdown */}
+        {mobileOpen && (
+          <div className="xl:hidden mt-2 rounded-2xl bg-black/80 backdrop-blur-2xl border border-white/10 p-6">
+            <nav className="flex flex-col gap-4">
+              {navItems.map((item, index) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setMobileOpen(false)}
+                  className={`text-base font-medium transition-colors duration-300 ${
+                    index === 0
+                      ? "text-amber-400"
+                      : "text-white/90 hover:text-amber-400"
+                  }`}
+                >
+                  {item}
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-white/10">
+              <button className="flex items-center justify-center gap-2 px-4 h-11 rounded-xl border border-white/15 bg-white/5 text-white text-sm">
+                <Globe size={16} />
+                Translator
+              </button>
+
+              <button className="px-5 h-11 rounded-xl border border-white/15 bg-white/5 text-white text-sm">
+                Login
+              </button>
+
+              <button className="px-5 h-11 rounded-xl bg-amber-500 text-black font-semibold text-sm">
+                Share Your Story
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
 };
 
 export default Navbar;
+

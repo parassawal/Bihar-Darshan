@@ -28,12 +28,12 @@ const GallerySection = () => {
   const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
 
   const openLightbox = (item: GalleryItem) => {
-  setLightboxItem(item);
-};
+    setLightboxItem(item);
+  };
 
-const closeLightbox = () => {
-  setLightboxItem(null);
-};
+  const closeLightbox = () => {
+    setLightboxItem(null);
+  };
 
   return (
     <section

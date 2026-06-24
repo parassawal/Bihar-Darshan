@@ -19,23 +19,18 @@ const places = [
 
 const PopularPlaces = () => {
   return (
-    <section id="places" className="py-16 sm:py-20 lg:py-24">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        <Carousel
-          title="Popular Places You Must Visit"
-          subtitle="Explore"
-        >
-          {places.map((place, index) => (
-            <PlaceCard
-              key={place.name}
-              image={place.image}
-              name={place.name}
-              district={place.district}
-              index={index}
-            />
-          ))}
-        </Carousel>
-      </div>
+    <section id="places" className="pt-32 pb-16 sm:pt-40 sm:pb-20 lg:pt-48 lg:pb-24 overflow-hidden">
+      <Carousel title="Popular Places You Must Visit" subtitle="Explore">
+        {places.map((place, index) => (
+          <PlaceCard
+            key={place.name}
+            image={place.image}
+            name={place.name}
+            district={place.district}
+            index={index}
+          />
+        ))}
+      </Carousel>
     </section>
   );
 };

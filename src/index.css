@@ -1,12 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-signature: "Cormorant Garamond", serif;
 
   --color-gold: #D4A017;
   --color-gold-dark: #B8860B;
   --color-gold-light: #F0D060;
+  --color-brand-gold: #D4A017;
+  --color-brand-dark: #111827;
+  --color-brand-gray: #FAFAF8;
   --color-primary: #111827;
   --color-secondary: #6B7280;
   --color-bg: #FFFFFF;
@@ -33,13 +38,16 @@ body {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #c4c4c4;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #a0a0a0;
 }
@@ -48,6 +56,7 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -71,12 +80,10 @@ body {
 .bihar-map-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(15, 20, 25, 0.55) 0%,
-    rgba(15, 20, 25, 0.40) 40%,
-    rgba(15, 20, 25, 0.55) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(15, 20, 25, 0.55) 0%,
+      rgba(15, 20, 25, 0.40) 40%,
+      rgba(15, 20, 25, 0.55) 100%);
   z-index: 1;
 }
 
@@ -149,6 +156,7 @@ body {
     opacity: 0;
     transform: translate(-50%, -90%);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -100%);

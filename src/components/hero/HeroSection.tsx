@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Landmark, Map, Utensils, Sparkles, MessageSquare } from "lucide-react";
 import heroImage from "../../assets/hero.png";
 
 const HeroSection = () => {
@@ -16,28 +17,27 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
 
       {/* Hero Content */}
-      <div className="relative z-10 flex items-center justify-center h-full text-center px-4">
+      <div className="relative z-10 flex items-center justify-center h-full text-center px-4 pb-24 sm:pb-32">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white leading-[1.1] tracking-tight">
+          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl text-white leading-[1.1] tracking-tight">
             Discover the
             <br />
-            Soul of{" "}
-            <span className="text-gold italic">Bihar</span>
+            Soul of <span className="text-gold italic inline-block" style={{ fontFamily: 'var(--font-signature)', fontSize: '1.15em', lineHeight: '0.8' }}>Bihar</span>
           </h1>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.8 }}
-            className="mt-8 sm:mt-10"
+            className="mt-6 sm:mt-8"
           >
-            <p className="text-white/70 text-base sm:text-lg max-w-xl mx-auto font-light leading-relaxed">
-              Explore ancient heritage, vibrant culture, and timeless beauty
-              across 38 districts
+            <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-3xl mx-auto font-light leading-relaxed">
+              Journey through ancient civilizations, sacred temples, breathtaking landscapes,
+              vibrant festivals, authentic cuisine, and modern stories waiting to be explored.
             </p>
           </motion.div>
 
@@ -63,10 +63,39 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+      {/* Floating Stats Bar */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 1.2 }}
+        className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 w-full max-w-7xl px-4 z-20"
+      >
+        <div className="border border-white/20 rounded-[3rem] py-8 px-8 sm:px-16 flex flex-wrap items-center justify-center sm:justify-between gap-10 sm:gap-4 transition-all duration-500 hover:border-white/40">
+          <StatItem icon={<Landmark size={24} strokeWidth={1.2} />} value="500+" label="Attractions" />
+          <div className="hidden sm:block w-px h-10 bg-white/10" />
+          <StatItem icon={<Map size={24} strokeWidth={1.2} />} value="38" label="Districts" />
+          <div className="hidden sm:block w-px h-10 bg-white/10" />
+          <StatItem icon={<Utensils size={24} strokeWidth={1.2} />} value="100+" label="Local Foods" />
+          <div className="hidden sm:block w-px h-10 bg-white/10" />
+          <StatItem icon={<Sparkles size={24} strokeWidth={1.2} />} value="50+" label="Festivals" />
+          <div className="hidden sm:block w-px h-10 bg-white/10" />
+          <StatItem icon={<MessageSquare size={24} strokeWidth={1.2} />} value="1000+" label="Stories" />
+        </div>
+      </motion.div>
     </section>
   );
 };
+
+const StatItem = ({ icon, value, label }: { icon: React.ReactNode, value: string, label: string }) => (
+  <div className="flex items-center gap-3 group">
+    <div className="text-gold flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+      {icon}
+    </div>
+    <div className="flex flex-col">
+      <p className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-none mb-0.5">{value}</p>
+      <p className="text-white/40 text-[10px] font-semibold uppercase tracking-[0.2em]">{label}</p>
+    </div>
+  </div>
+);
 
 export default HeroSection;

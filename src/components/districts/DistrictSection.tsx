@@ -19,24 +19,22 @@ const districts = [
 
 const DistrictSection = () => {
   return (
-    <section id="districts" className="py-16 sm:py-20 lg:py-24 bg-bg-section">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        <Carousel
-          title="Districts of Bihar"
-          subtitle="Discover"
-          actionLabel="View All Districts"
-          actionHref="#districts"
-        >
-          {districts.map((district, index) => (
-            <DistrictCard
-              key={district.name}
-              image={district.image}
-              name={district.name}
-              index={index}
-            />
-          ))}
-        </Carousel>
-      </div>
+    <section id="districts" className="pt-32 pb-16 sm:pt-40 sm:pb-20 lg:pt-48 lg:pb-24 overflow-hidden">
+      <Carousel
+        title="Districts of Bihar"
+        subtitle="Discover"
+        actionLabel="View All Districts"
+        actionHref="#districts"
+      >
+        {districts.map((district, index) => (
+          <DistrictCard
+            key={district.name}
+            image={district.image}
+            name={district.name}
+            index={index}
+          />
+        ))}
+      </Carousel>
     </section>
   );
 };

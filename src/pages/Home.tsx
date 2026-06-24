@@ -3,7 +3,6 @@ import HeroSection from "../components/hero/HeroSection";
 import PopularPlaces from "../components/places/PopularPlaces";
 import DistrictSection from "../components/districts/DistrictSection";
 import BiharMapSection from "../components/map/BiharMapSection";
-import StatisticsSection from "../components/stats/StatisticsSection";
 import CommunitySection from "../components/communities/CommunitySection";
 import GallerySection from "../components/gallery/GallerySection";
 import ShareStorySection from "../components/cta/ShareStorySection";
@@ -27,8 +26,6 @@ const Home = () => {
       {/* 4. Interactive Bihar Map */}
       <BiharMapSection />
 
-      {/* 5. Statistics Strip */}
-      <StatisticsSection />
 
       {/* 6. Discover Community */}
       <CommunitySection />

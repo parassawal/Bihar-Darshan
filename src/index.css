@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-signature: "Cormorant Garamond", serif;
+
+  --color-gold: #D4A017;
+  --color-gold-dark: #B8860B;
+  --color-gold-light: #F0D060;
+  --color-brand-gold: #D4A017;
+  --color-brand-dark: #111827;
+  --color-brand-gray: #FAFAF8;
+  --color-primary: #111827;
+  --color-secondary: #6B7280;
+  --color-bg: #FFFFFF;
+  --color-bg-dark: #0F1419;
+  --color-bg-section: #FAFAF8;
+  --color-card-border: #E5E7EB;
+}
+
+
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  background: var(--color-bg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+/* Hide scrollbar for carousel containers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ── Interactive Bihar Map ── */
+.bihar-map-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.bihar-map-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.bihar-map-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(15, 20, 25, 0.55) 0%,
+      rgba(15, 20, 25, 0.40) 40%,
+      rgba(15, 20, 25, 0.55) 100%);
+  z-index: 1;
+}
+
+.bihar-map-container {
+  position: relative;
+  z-index: 2;
+}
+
+/* District polygon paths */
+.district-path {
+  transition: fill 0.25s ease, stroke 0.25s ease, filter 0.25s ease, opacity 0.25s ease;
+  cursor: pointer;
+  stroke: rgba(255, 255, 255, 0.45);
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+}
+
+.district-path:hover {
+  filter: brightness(1.35) drop-shadow(0 0 6px rgba(212, 160, 23, 0.5));
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 1.2;
+}
+
+.district-path.selected {
+  fill: #D4A017 !important;
+  stroke: #B8860B;
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 10px rgba(212, 160, 23, 0.6));
+}
+
+/* Map SVG drop shadow */
+.bihar-svg-wrapper {
+  filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.35));
+}
+
+/* Tooltip */
+.map-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 20;
+  transform: translate(-50%, -100%);
+  animation: tooltipFadeIn 0.2s ease;
+}
+
+.map-tooltip-inner {
+  background: rgba(30, 30, 30, 0.92);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.map-tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid rgba(30, 30, 30, 0.92);
+  margin: 0 auto;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -90%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%);
+  }
+}
+
+/* Zoom controls */
+.map-zoom-controls {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.map-zoom-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.map-zoom-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.map-zoom-btn:active {
+  transform: scale(0.92);
+}
+/* Google Translate Cleanup Backup */
+.skiptranslate iframe, .goog-te-banner-frame { display: none !important; }
+body { top: 0 !important; }
+#goog-gt-tt { display: none !important; }
+.goog-text-highlight { background: transparent !important; box-shadow: none !important; color: inherit !important; pointer-events: none !important; }

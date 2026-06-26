@@ -11,7 +11,6 @@ import {
   doc,
   query,
   where,
-  orderBy,
   updateDoc,
   arrayUnion,
   arrayRemove,
@@ -104,8 +103,7 @@ const CommunityFeed = () => {
     try {
       const q = query(
         collection(db, "communityPosts"),
-        where("communityId", "==", id),
-        orderBy("createdAt", "desc")
+        where("communityId", "==", id)
       );
       const snap = await getDocs(q);
       const list: PostData[] = [];
@@ -129,6 +127,14 @@ const CommunityFeed = () => {
           createdAt: data.createdAt || null,
         });
       });
+      
+      // Sort locally to avoid needing a Firestore composite index
+      list.sort((a, b) => {
+        const timeA = (a.createdAt as any)?.seconds || 0;
+        const timeB = (b.createdAt as any)?.seconds || 0;
+        return timeB - timeA;
+      });
+      
       setPosts(list);
     } catch (err) {
       console.error("Error fetching posts:", err);
@@ -300,35 +306,35 @@ const CommunityFeed = () => {
       <Navbar />
 
       {/* Community Header / Banner */}
-      <div className="relative pt-20 bg-brand-dark text-white pb-12">
-        <div className="h-48 sm:h-64 bg-gradient-to-br from-gold/20 via-amber-900/20 to-orange-900/20 overflow-hidden">
+      <div className="relative pt-20 bg-brand-gray text-brand-dark pb-12">
+        <div className="h-48 sm:h-64 bg-gray-100 overflow-hidden relative">
           {community?.bannerImage ? (
             <img src={community.bannerImage} alt="" className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-gold/10 via-amber-800/15 to-orange-900/10" />
+            <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/5" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         </div>
 
-        <div className="relative max-w-4xl mx-auto px-6 -mt-12">
-          <div className="flex items-end gap-4 mb-4">
+        <div className="relative max-w-4xl mx-auto px-6 -mt-16 z-10">
+          <div className="flex items-end gap-5 mb-5">
             {/* Community Icon */}
-            <div className="w-20 h-20 rounded-2xl bg-white border-4 border-white overflow-hidden shadow-xl shrink-0">
+            <div className="w-24 h-24 rounded-[1.25rem] bg-white border-4 border-white overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] shrink-0">
               {community?.iconImage ? (
                 <img src={community.iconImage} alt="" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-gold/30 to-amber-700/30 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-gold">{community?.name?.[0] || "?"}</span>
+                <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/10 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-brand-gold">{community?.name?.[0] || "?"}</span>
                 </div>
               )}
             </div>
 
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight truncate">
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight truncate text-brand-dark">
                 {community?.name}
               </h1>
-              <div className="flex items-center gap-3 text-gray-400 text-sm mt-1">
-                <span className="flex items-center gap-1">
+              <div className="flex items-center gap-3 text-gray-500 text-sm mt-1.5 font-medium">
+                <span className="flex items-center gap-1.5 bg-gray-100 px-2.5 py-0.5 rounded-full text-brand-dark">
                   <Users size={14} />
                   {community?.memberCount || 0} members
                 </span>
@@ -338,14 +344,14 @@ const CommunityFeed = () => {
             </div>
           </div>
 
-          <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-2xl">
+          <p className="text-gray-500 text-[15px] leading-relaxed mb-6 max-w-2xl">
             {community?.description}
           </p>
 
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-4">
             <button
               onClick={() => navigate("/community")}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:bg-white/10 text-sm font-semibold transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-[1rem] bg-white border border-gray-200 hover:bg-gray-50 text-sm font-semibold transition-all shadow-sm text-brand-dark"
             >
               <ArrowLeft size={16} />
               All Communities
@@ -358,7 +364,7 @@ const CommunityFeed = () => {
                 }
                 setShowCreatePost(true);
               }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold hover:bg-gold-dark text-black text-sm font-bold uppercase tracking-wider transition-all shadow-lg shadow-gold/20"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-[1rem] bg-brand-gold hover:bg-brand-gold/90 text-brand-dark text-sm font-bold uppercase tracking-wider transition-all shadow-lg shadow-brand-gold/20"
             >
               <Plus size={16} />
               Create Post
@@ -391,22 +397,22 @@ const CommunityFeed = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="bg-white border border-gray-100 shadow-sm rounded-2xl overflow-hidden hover:border-gray-300 hover:shadow-md transition-all duration-300"
+                className="bg-white rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 border border-gray-100"
               >
                 {/* Post Header */}
-                <div className="flex items-center gap-3 px-5 pt-5 pb-3">
-                  <div className="w-9 h-9 rounded-full bg-white/10 overflow-hidden shrink-0">
+                <div className="flex items-center gap-3 px-6 pt-6 pb-4">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden shrink-0 border border-gray-200">
                     {post.authorPhoto ? (
                       <img src={post.authorPhoto} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-gold/30 to-amber-700/30 flex items-center justify-center">
-                        <span className="text-sm font-bold text-gold">{post.authorName[0]}</span>
+                      <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/5 flex items-center justify-center">
+                        <span className="text-sm font-bold text-brand-gold">{post.authorName[0]}</span>
                       </div>
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 truncate">{post.authorName}</p>
-                    <p className="text-xs text-gray-400 flex items-center gap-1">
+                    <p className="text-[15px] font-bold text-gray-900 truncate">{post.authorName}</p>
+                    <p className="text-xs text-gray-400 flex items-center gap-1 font-medium mt-0.5">
                       <Clock size={11} />
                       {formatTime(post.createdAt)}
                     </p>
@@ -414,20 +420,20 @@ const CommunityFeed = () => {
                 </div>
 
                 {/* Post Content */}
-                <div className="px-5 pb-3">
-                  <h2 className="text-lg font-bold text-brand-dark mb-2 leading-snug">{post.title}</h2>
+                <div className="px-6 pb-4">
+                  <h2 className="text-[19px] font-bold text-brand-dark mb-2.5 leading-snug">{post.title}</h2>
                   {post.body && (
-                    <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{post.body}</p>
+                    <p className="text-gray-600 text-[15px] leading-relaxed whitespace-pre-wrap">{post.body}</p>
                   )}
                 </div>
 
                 {/* Post Image */}
                 {post.imageUrl && (
-                  <div className="px-5 pb-3">
+                  <div className="px-6 pb-4">
                     <img
                       src={post.imageUrl}
                       alt=""
-                      className="w-full max-h-[500px] object-cover rounded-xl border border-white/5"
+                      className="w-full max-h-[500px] object-cover rounded-2xl border border-gray-100"
                     />
                   </div>
                 )}

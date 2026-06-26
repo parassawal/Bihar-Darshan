@@ -9,7 +9,6 @@ import {
   getDocs,
   query,
   where,
-  orderBy,
   serverTimestamp,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -67,12 +66,19 @@ const Community = () => {
     try {
       const q = query(
         collection(db, "communityGroups"),
-        where("status", "==", "approved"),
-        orderBy("createdAt", "desc")
+        where("status", "==", "approved")
       );
       const snap = await getDocs(q);
       const list: CommunityGroup[] = [];
       snap.forEach((d) => list.push({ id: d.id, ...d.data() } as CommunityGroup));
+      
+      // Sort locally to avoid needing a Firestore composite index
+      list.sort((a, b) => {
+        const timeA = (a.createdAt as any)?.seconds || 0;
+        const timeB = (b.createdAt as any)?.seconds || 0;
+        return timeB - timeA;
+      });
+      
       setCommunities(list);
     } catch (err) {
       console.error("Error fetching communities:", err);
@@ -157,28 +163,25 @@ const Community = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-28 pb-16 overflow-hidden bg-brand-dark text-white">
-        <div className="absolute inset-0 bg-gradient-to-b from-gold/5 via-transparent to-transparent" />
-        <div className="absolute top-20 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-amber-500/5 rounded-full blur-[100px]" />
+      <div className="bg-brand-dark pt-32 pb-16 mb-12 relative overflow-hidden">
+        <div className="absolute inset-0 bg-brand-gold/15 opacity-50 mix-blend-overlay"></div>
+        <div className="absolute inset-x-0 bottom-0 h-px bg-brand-gold/20"></div>
 
-        <div className="relative max-w-7xl mx-auto px-6 sm:px-10">
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-10 z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="text-center mb-12"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-bold uppercase tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/20 text-brand-gold text-xs font-bold uppercase tracking-widest mb-6">
               <Sparkles size={14} />
               Bihar's Digital Town Square
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4">
-              <span className="bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
-                Communities
-              </span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 text-white">
+              Communities
             </h1>
-            <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
               Join topic-based communities, share posts, and connect with people who love Bihar.
               Anyone can create a community — once approved, it goes live!
             </p>
@@ -198,7 +201,7 @@ const Community = () => {
                 placeholder="Search communities..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-brand-dark placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold/30 transition-all"
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-[1.25rem] text-brand-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold/30 transition-all shadow-sm"
               />
             </div>
             <button
@@ -209,7 +212,7 @@ const Community = () => {
                 }
                 setShowCreateModal(true);
               }}
-              className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gold hover:bg-gold-dark text-black font-bold text-sm uppercase tracking-wider transition-all shrink-0 shadow-lg shadow-gold/20"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-[1.25rem] bg-brand-gold hover:bg-brand-gold/90 text-brand-dark font-bold text-sm uppercase tracking-wider transition-all shrink-0 shadow-lg shadow-brand-gold/20"
             >
               <Plus size={18} />
               Create Community
@@ -241,48 +244,48 @@ const Community = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: i * 0.08 }}
                   onClick={() => navigate(`/community/${community.id}`)}
-                  className="group cursor-pointer bg-white border border-gray-100 shadow-sm rounded-2xl overflow-hidden hover:border-gold/30 hover:bg-white/[0.06] transition-all duration-300 hover:shadow-xl hover:shadow-gold/5"
+                  className="group cursor-pointer bg-white rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_12px_30px_rgb(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-1"
                 >
                   {/* Banner */}
-                  <div className="relative h-32 bg-gradient-to-br from-gold/20 via-amber-900/20 to-orange-900/20 overflow-hidden">
+                  <div className="relative h-36 bg-gray-100 overflow-hidden">
                     {community.bannerImage ? (
                       <img
                         src={community.bannerImage}
                         alt=""
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-gold/15 via-amber-800/20 to-orange-900/15" />
+                      <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/5" />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   </div>
 
                   {/* Content */}
-                  <div className="relative px-5 pb-5 -mt-6">
+                  <div className="relative px-6 pb-6 -mt-8">
                     {/* Icon */}
-                    <div className="w-14 h-14 rounded-xl bg-white border-2 border-gray-100 overflow-hidden mb-3 shadow-lg">
+                    <div className="w-16 h-16 rounded-[1.25rem] bg-white border-[3px] border-white overflow-hidden mb-4 shadow-lg">
                       {community.iconImage ? (
                         <img src={community.iconImage} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-gold/30 to-amber-700/30 flex items-center justify-center">
-                          <span className="text-xl font-bold text-gold">{community.name[0]}</span>
+                        <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/10 flex items-center justify-center">
+                          <span className="text-2xl font-bold text-brand-gold">{community.name[0]}</span>
                         </div>
                       )}
                     </div>
 
-                    <h3 className="text-lg font-bold text-brand-dark group-hover:text-brand-gold transition-colors duration-300 mb-1">
+                    <h3 className="text-[19px] font-bold text-brand-dark group-hover:text-brand-gold transition-colors duration-300 mb-1.5 leading-tight">
                       {community.name}
                     </h3>
-                    <p className="text-gray-400 text-sm line-clamp-2 mb-4 leading-relaxed">
+                    <p className="text-gray-500 text-sm line-clamp-2 mb-5 leading-relaxed">
                       {community.description}
                     </p>
 
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 text-gray-400 text-xs font-medium">
+                    <div className="flex items-center justify-between mt-auto">
+                      <div className="flex items-center gap-1.5 text-gray-400 text-xs font-semibold">
                         <Users size={14} />
                         {community.memberCount} {community.memberCount === 1 ? "member" : "members"}
                       </div>
-                      <div className="flex items-center gap-1 text-gold/60 text-xs font-semibold group-hover:text-gold transition-colors">
+                      <div className="flex items-center gap-1 text-brand-gold text-xs font-bold group-hover:translate-x-1 transition-transform duration-300">
                         Enter <ArrowRight size={14} />
                       </div>
                     </div>
@@ -292,7 +295,7 @@ const Community = () => {
             </div>
           )}
         </div>
-      </section>
+      </div>
 
       {/* Create Community Modal */}
       <AnimatePresence>

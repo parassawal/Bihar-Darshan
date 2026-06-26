@@ -72,7 +72,9 @@ const PostCard = ({
       <div className="px-6 pb-4">
         <h2 className="text-[19px] font-bold text-brand-dark mb-2.5 leading-snug">{post.title}</h2>
         {post.body && (
-          <p className="text-gray-600 text-[15px] leading-relaxed whitespace-pre-wrap">{post.body}</p>
+          <p className="text-gray-600 text-[15px] leading-relaxed whitespace-pre-wrap">
+            {post.body.split(/Read more at:/i)[0].trim()}
+          </p>
         )}
       </div>
 

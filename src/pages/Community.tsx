@@ -63,8 +63,8 @@ const Community = () => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
-    setLoading(true);
+  const fetchData = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       // Fetch communities
       const cQuery = query(collection(db, "communityGroups"), where("status", "==", "approved"));
@@ -101,7 +101,7 @@ const Community = () => {
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
@@ -140,9 +140,30 @@ const Community = () => {
   // Post Actions
   const handleLike = async (post: PostData) => {
     if (!currentUser) { navigate("/login"); return; }
-    const postRef = doc(db, "communityPosts", post.id);
     const alreadyLiked = post.likedBy.includes(currentUser.uid);
     const alreadyDisliked = post.dislikedBy.includes(currentUser.uid);
+
+    // Optimistic Update
+    setPosts(currentPosts => currentPosts.map(p => {
+      if (p.id === post.id) {
+        const newPost = { ...p };
+        if (alreadyLiked) {
+          newPost.likes -= 1;
+          newPost.likedBy = newPost.likedBy.filter(uid => uid !== currentUser.uid);
+        } else {
+          newPost.likes += 1;
+          newPost.likedBy = [...newPost.likedBy, currentUser.uid];
+          if (alreadyDisliked) {
+            newPost.dislikes -= 1;
+            newPost.dislikedBy = newPost.dislikedBy.filter(uid => uid !== currentUser.uid);
+          }
+        }
+        return newPost;
+      }
+      return p;
+    }));
+
+    const postRef = doc(db, "communityPosts", post.id);
     try {
       if (alreadyLiked) {
         await updateDoc(postRef, { likes: post.likes - 1, likedBy: arrayRemove(currentUser.uid) });
@@ -154,15 +175,39 @@ const Community = () => {
         }
         await updateDoc(postRef, updates);
       }
-      fetchData(); // Simplest way to refresh state, could be optimized
-    } catch (err) { console.error(err); }
+      // fetchData(false); // Removed to avoid overriding optimistic update with stale data while writing
+    } catch (err) { 
+      console.error(err);
+      fetchData(false); // Revert on failure
+    }
   };
 
   const handleDislike = async (post: PostData) => {
     if (!currentUser) { navigate("/login"); return; }
-    const postRef = doc(db, "communityPosts", post.id);
     const alreadyDisliked = post.dislikedBy.includes(currentUser.uid);
     const alreadyLiked = post.likedBy.includes(currentUser.uid);
+
+    // Optimistic Update
+    setPosts(currentPosts => currentPosts.map(p => {
+      if (p.id === post.id) {
+        const newPost = { ...p };
+        if (alreadyDisliked) {
+          newPost.dislikes -= 1;
+          newPost.dislikedBy = newPost.dislikedBy.filter(uid => uid !== currentUser.uid);
+        } else {
+          newPost.dislikes += 1;
+          newPost.dislikedBy = [...newPost.dislikedBy, currentUser.uid];
+          if (alreadyLiked) {
+            newPost.likes -= 1;
+            newPost.likedBy = newPost.likedBy.filter(uid => uid !== currentUser.uid);
+          }
+        }
+        return newPost;
+      }
+      return p;
+    }));
+
+    const postRef = doc(db, "communityPosts", post.id);
     try {
       if (alreadyDisliked) {
         await updateDoc(postRef, { dislikes: post.dislikes - 1, dislikedBy: arrayRemove(currentUser.uid) });
@@ -174,8 +219,10 @@ const Community = () => {
         }
         await updateDoc(postRef, updates);
       }
-      fetchData();
-    } catch (err) { console.error(err); }
+    } catch (err) { 
+      console.error(err); 
+      fetchData(false);
+    }
   };
 
   const handleShare = async (post: PostData) => {
@@ -188,8 +235,13 @@ const Community = () => {
         await navigator.clipboard.writeText(`${text}\n${url}`);
         alert("Link copied to clipboard!");
       }
+      
+      // Optimistic update
+      setPosts(currentPosts => currentPosts.map(p => 
+        p.id === post.id ? { ...p, shares: p.shares + 1 } : p
+      ));
+      
       await updateDoc(doc(db, "communityPosts", post.id), { shares: post.shares + 1 });
-      fetchData();
     } catch (err) { console.error(err); }
   };
 

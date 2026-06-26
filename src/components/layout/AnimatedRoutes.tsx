@@ -13,6 +13,8 @@ import Tribals from '../../pages/Tribals';
 import TribeDetail from '../../pages/TribeDetail';
 import Community from '../../pages/Community';
 import CommunityFeed from '../../pages/CommunityFeed';
+import { useAuth } from '../../contexts/AuthContext';
+import { useNewsAutomator } from '../../hooks/useNewsAutomator';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -30,6 +32,9 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+  const { currentUser } = useAuth();
+  
+  useNewsAutomator(currentUser);
 
   return (
     <AnimatePresence mode="wait">

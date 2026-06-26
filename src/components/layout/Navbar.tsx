@@ -31,6 +31,7 @@ const Navbar = () => {
 
   const getPath = (item: string) => {
     if (item === "Home") return "/";
+    if (item === "Districts") return "/districts";
     if (item === "Culture") return "/culture";
     if (item === "Tourism") return "/tourism";
     if (item === "Tribes") return "/tribals";
@@ -40,6 +41,7 @@ const Navbar = () => {
 
   const isActive = (item: string) => {
     if (item === "Home" && location.pathname === "/") return true;
+    if (item === "Districts" && location.pathname === "/districts") return true;
     if (item === "Culture" && location.pathname === "/culture") return true;
     if (item === "Tourism" && location.pathname === "/tourism") return true;
     if (item === "Tribes" && location.pathname === "/tribals") return true;

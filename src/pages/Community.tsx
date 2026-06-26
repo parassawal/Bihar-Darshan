@@ -280,7 +280,7 @@ const Community = () => {
               Bihar's Digital Town Square
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 text-white">
-              The News Portal
+              Communities
             </h1>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
               Discover what's trending, explore topic-based communities, and connect with people who love Bihar.

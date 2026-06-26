@@ -9,9 +9,7 @@ interface JourneyCardProps {
 
 const JourneyCard = ({ trip, isCenter = false }: JourneyCardProps) => {
   return (
-    <motion.div
-      whileHover={{ y: -8, scale: isCenter ? 1.02 : 1.04 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+    <div
       className={`relative flex flex-col rounded-[24px] overflow-hidden group cursor-pointer transition-all duration-500
         ${isCenter
           ? "w-[420px] h-[640px] shadow-[0_40px_80px_rgba(0,0,0,0.3)] border-2 border-brand-gold/40 z-20"
@@ -113,7 +111,7 @@ const JourneyCard = ({ trip, isCenter = false }: JourneyCardProps) => {
           </motion.button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

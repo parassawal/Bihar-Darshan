@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
@@ -7,6 +7,10 @@ import {
   collection,
   addDoc,
   getDocs,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
   query,
   where,
   serverTimestamp,
@@ -14,36 +18,34 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import PostCard from "../components/communities/PostCard";
+import type { CommunityGroup, PostData } from "../types/community";
 import {
-  Users,
   Plus,
   X,
   Sparkles,
-  ArrowRight,
   Clock,
   Search,
   Image as ImageIcon,
   Loader2,
+  Flame,
+  TrendingUp,
+  LayoutGrid,
 } from "lucide-react";
 
-interface CommunityGroup {
-  id: string;
-  name: string;
-  description: string;
-  bannerImage: string;
-  iconImage: string;
-  createdBy: string;
-  creatorName: string;
-  status: string;
-  memberCount: number;
-  createdAt: unknown;
-}
+type TabType = "new" | "trending" | "top";
 
 const Community = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+  
+  // Data State
   const [communities, setCommunities] = useState<CommunityGroup[]>([]);
+  const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // UI State
+  const [activeTab, setActiveTab] = useState<TabType>("trending");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -58,49 +60,148 @@ const Community = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   useEffect(() => {
-    fetchCommunities();
+    fetchData();
   }, []);
 
-  const fetchCommunities = async () => {
+  const fetchData = async () => {
     setLoading(true);
     try {
-      const q = query(
-        collection(db, "communityGroups"),
-        where("status", "==", "approved")
-      );
-      const snap = await getDocs(q);
-      const list: CommunityGroup[] = [];
-      snap.forEach((d) => list.push({ id: d.id, ...d.data() } as CommunityGroup));
-      
-      // Sort locally to avoid needing a Firestore composite index
-      list.sort((a, b) => {
-        const timeA = (a.createdAt as any)?.seconds || 0;
-        const timeB = (b.createdAt as any)?.seconds || 0;
-        return timeB - timeA;
+      // Fetch communities
+      const cQuery = query(collection(db, "communityGroups"), where("status", "==", "approved"));
+      const cSnap = await getDocs(cQuery);
+      const cList: CommunityGroup[] = [];
+      cSnap.forEach((d) => cList.push({ id: d.id, ...d.data() } as CommunityGroup));
+      setCommunities(cList);
+
+      // Fetch posts
+      const pSnap = await getDocs(collection(db, "communityPosts"));
+      const pList: PostData[] = [];
+      pSnap.forEach((d) => {
+        const data = d.data();
+        pList.push({
+          id: d.id,
+          communityId: data.communityId || "",
+          communityName: data.communityName || "",
+          title: data.title || "",
+          body: data.body || "",
+          imageUrl: data.imageUrl || "",
+          authorId: data.authorId || "",
+          authorName: data.authorName || "Anonymous",
+          authorPhoto: data.authorPhoto || "",
+          likes: data.likes || 0,
+          dislikes: data.dislikes || 0,
+          shares: data.shares || 0,
+          likedBy: data.likedBy || [],
+          dislikedBy: data.dislikedBy || [],
+          createdAt: data.createdAt || null,
+        });
       });
-      
-      setCommunities(list);
+      setPosts(pList);
+
     } catch (err) {
-      console.error("Error fetching communities:", err);
+      console.error("Error fetching data:", err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Trending Engine Logic
+  const getTrendingScore = (post: PostData) => {
+    // Engagement Score = Likes (x2) + Shares (x3) - Dislikes
+    const engagement = (post.likes * 2) + (post.shares * 3) - post.dislikes;
+    
+    // Simple time decay: newer posts get a boost
+    const now = Math.floor(Date.now() / 1000);
+    const postTime = post.createdAt?.seconds || now;
+    const hoursAge = Math.max(1, (now - postTime) / 3600);
+    
+    // The older it is, the lower the score becomes relative to its engagement
+    return engagement / Math.pow(hoursAge, 1.5);
+  };
+
+  const sortedPosts = useMemo(() => {
+    const list = [...posts];
+    if (activeTab === "new") {
+      list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    } else if (activeTab === "top") {
+      list.sort((a, b) => b.likes - a.likes);
+    } else if (activeTab === "trending") {
+      list.sort((a, b) => getTrendingScore(b) - getTrendingScore(a));
+    }
+    return list;
+  }, [posts, activeTab]);
+
+  const trendingCommunities = useMemo(() => {
+    const list = [...communities];
+    list.sort((a, b) => b.memberCount - a.memberCount);
+    return list.slice(0, 5);
+  }, [communities]);
+
+  // Post Actions
+  const handleLike = async (post: PostData) => {
+    if (!currentUser) { navigate("/login"); return; }
+    const postRef = doc(db, "communityPosts", post.id);
+    const alreadyLiked = post.likedBy.includes(currentUser.uid);
+    const alreadyDisliked = post.dislikedBy.includes(currentUser.uid);
+    try {
+      if (alreadyLiked) {
+        await updateDoc(postRef, { likes: post.likes - 1, likedBy: arrayRemove(currentUser.uid) });
+      } else {
+        const updates: any = { likes: post.likes + 1, likedBy: arrayUnion(currentUser.uid) };
+        if (alreadyDisliked) {
+          updates.dislikes = post.dislikes - 1;
+          updates.dislikedBy = arrayRemove(currentUser.uid);
+        }
+        await updateDoc(postRef, updates);
+      }
+      fetchData(); // Simplest way to refresh state, could be optimized
+    } catch (err) { console.error(err); }
+  };
+
+  const handleDislike = async (post: PostData) => {
+    if (!currentUser) { navigate("/login"); return; }
+    const postRef = doc(db, "communityPosts", post.id);
+    const alreadyDisliked = post.dislikedBy.includes(currentUser.uid);
+    const alreadyLiked = post.likedBy.includes(currentUser.uid);
+    try {
+      if (alreadyDisliked) {
+        await updateDoc(postRef, { dislikes: post.dislikes - 1, dislikedBy: arrayRemove(currentUser.uid) });
+      } else {
+        const updates: any = { dislikes: post.dislikes + 1, dislikedBy: arrayUnion(currentUser.uid) };
+        if (alreadyLiked) {
+          updates.likes = post.likes - 1;
+          updates.likedBy = arrayRemove(currentUser.uid);
+        }
+        await updateDoc(postRef, updates);
+      }
+      fetchData();
+    } catch (err) { console.error(err); }
+  };
+
+  const handleShare = async (post: PostData) => {
+    const url = `${window.location.origin}/community/${post.communityId}`;
+    const text = `${post.title} — on Bihar Darshan`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: post.title, text, url });
+      } else {
+        await navigator.clipboard.writeText(`${text}\n${url}`);
+        alert("Link copied to clipboard!");
+      }
+      await updateDoc(doc(db, "communityPosts", post.id), { shares: post.shares + 1 });
+      fetchData();
+    } catch (err) { console.error(err); }
+  };
+
+  // Create Community handlers
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setFormIcon(file);
-      setIconPreview(URL.createObjectURL(file));
-    }
+    if (file) { setFormIcon(file); setIconPreview(URL.createObjectURL(file)); }
   };
 
   const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setFormBanner(file);
-      setBannerPreview(URL.createObjectURL(file));
-    }
+    if (file) { setFormBanner(file); setBannerPreview(URL.createObjectURL(file)); }
   };
 
   const handleCreate = async () => {
@@ -145,14 +246,14 @@ const Community = () => {
         setBannerPreview("");
       }, 2000);
     } catch (err) {
-      console.error("Error creating community:", err);
-      alert("Failed to create community. Please try again.");
+      console.error(err);
+      alert("Failed to create community.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  const filtered = communities.filter(
+  const filteredCommunities = communities.filter(
     (c) =>
       c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -163,138 +264,207 @@ const Community = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <div className="bg-brand-dark pt-32 pb-16 mb-12 relative overflow-hidden">
+      <div className="bg-brand-dark pt-32 pb-16 mb-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-brand-gold/15 opacity-50 mix-blend-overlay"></div>
         <div className="absolute inset-x-0 bottom-0 h-px bg-brand-gold/20"></div>
 
-        <div className="relative max-w-7xl mx-auto px-6 sm:px-10 z-10">
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-10 z-10 flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="text-center mb-12"
+            className="text-center"
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/20 text-brand-gold text-xs font-bold uppercase tracking-widest mb-6">
               <Sparkles size={14} />
               Bihar's Digital Town Square
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 text-white">
-              Communities
+              The News Portal
             </h1>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-              Join topic-based communities, share posts, and connect with people who love Bihar.
-              Anyone can create a community — once approved, it goes live!
+              Discover what's trending, explore topic-based communities, and connect with people who love Bihar.
             </p>
           </motion.div>
+        </div>
+      </div>
 
-          {/* Search + Create */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="flex flex-col sm:flex-row items-center gap-4 max-w-2xl mx-auto mb-16"
-          >
-            <div className="relative flex-1 w-full">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[280px_1fr_320px] gap-8 pb-20">
+        
+        {/* LEFT SIDEBAR: Navigation / Directory */}
+        <aside className="hidden lg:block space-y-6">
+          <div className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-gray-100">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
+              <LayoutGrid size={16} />
+              All Communities
+            </h2>
+            
+            <div className="relative mb-4">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search communities..."
+                placeholder="Filter communities..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-[1.25rem] text-brand-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold/30 transition-all shadow-sm"
+                className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/50"
               />
             </div>
+
+            <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200">
+              {filteredCommunities.map((community) => (
+                <button
+                  key={community.id}
+                  onClick={() => navigate(`/community/${community.id}`)}
+                  className="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-brand-gold/10 hover:text-brand-gold transition-colors text-left group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-gray-200 group-hover:border-brand-gold/30">
+                    {community.iconImage ? (
+                      <img src={community.iconImage} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-xs font-bold text-gray-500 group-hover:text-brand-gold">
+                        {community.name[0]}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-brand-dark truncate group-hover:text-brand-gold transition-colors">
+                      {community.name}
+                    </p>
+                    <p className="text-[10px] text-gray-400 font-medium">
+                      {community.memberCount} members
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+
             <button
               onClick={() => {
-                if (!currentUser) {
-                  navigate("/login");
-                  return;
-                }
+                if (!currentUser) { navigate("/login"); return; }
                 setShowCreateModal(true);
               }}
-              className="flex items-center gap-2 px-6 py-3.5 rounded-[1.25rem] bg-brand-gold hover:bg-brand-gold/90 text-brand-dark font-bold text-sm uppercase tracking-wider transition-all shrink-0 shadow-lg shadow-brand-gold/20"
+              className="w-full mt-4 flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 border-brand-gold/20 text-brand-gold hover:bg-brand-gold hover:text-brand-dark font-bold text-sm transition-all"
             >
-              <Plus size={18} />
-              Create Community
+              <Plus size={16} /> Create Community
             </button>
-          </motion.div>
+          </div>
+        </aside>
 
-          {/* Community Grid */}
+        {/* MAIN FEED */}
+        <main className="space-y-6 min-w-0">
+          {/* Feed Tabs */}
+          <div className="bg-white rounded-[1.25rem] p-2 shadow-sm border border-gray-100 flex items-center gap-2 overflow-x-auto scrollbar-hide">
+            <button
+              onClick={() => setActiveTab("trending")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shrink-0 ${
+                activeTab === "trending" 
+                  ? "bg-brand-gold/15 text-brand-gold shadow-sm" 
+                  : "text-gray-500 hover:bg-gray-50 hover:text-brand-dark"
+              }`}
+            >
+              <Flame size={18} className={activeTab === "trending" ? "text-orange-500" : ""} />
+              Trending
+            </button>
+            <button
+              onClick={() => setActiveTab("new")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shrink-0 ${
+                activeTab === "new" 
+                  ? "bg-brand-gold/15 text-brand-gold shadow-sm" 
+                  : "text-gray-500 hover:bg-gray-50 hover:text-brand-dark"
+              }`}
+            >
+              <Clock size={18} />
+              New
+            </button>
+            <button
+              onClick={() => setActiveTab("top")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shrink-0 ${
+                activeTab === "top" 
+                  ? "bg-brand-gold/15 text-brand-gold shadow-sm" 
+                  : "text-gray-500 hover:bg-gray-50 hover:text-brand-dark"
+              }`}
+            >
+              <TrendingUp size={18} />
+              Top Posts
+            </button>
+          </div>
+
+          {/* Posts List */}
           {loading ? (
             <div className="flex justify-center py-20">
-              <div className="w-10 h-10 border-4 border-gold border-t-transparent rounded-full animate-spin" />
+              <Loader2 className="w-10 h-10 text-brand-gold animate-spin" />
             </div>
-          ) : filtered.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-20"
-            >
-              <Users size={56} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-400 text-lg font-medium">
-                {searchTerm ? "No communities match your search." : "No communities yet. Be the first to create one!"}
-              </p>
-            </motion.div>
+          ) : sortedPosts.length === 0 ? (
+            <div className="text-center py-20 bg-white border border-gray-100 rounded-[1.5rem]">
+              <p className="text-gray-400 font-medium">No posts found in the network yet.</p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((community, i) => (
-                <motion.div
-                  key={community.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  onClick={() => navigate(`/community/${community.id}`)}
-                  className="group cursor-pointer bg-white rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_12px_30px_rgb(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-1"
-                >
-                  {/* Banner */}
-                  <div className="relative h-36 bg-gray-100 overflow-hidden">
-                    {community.bannerImage ? (
-                      <img
-                        src={community.bannerImage}
-                        alt=""
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/5" />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="relative px-6 pb-6 -mt-8">
-                    {/* Icon */}
-                    <div className="w-16 h-16 rounded-[1.25rem] bg-white border-[3px] border-white overflow-hidden mb-4 shadow-lg">
-                      {community.iconImage ? (
-                        <img src={community.iconImage} alt="" className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/10 flex items-center justify-center">
-                          <span className="text-2xl font-bold text-brand-gold">{community.name[0]}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="text-[19px] font-bold text-brand-dark group-hover:text-brand-gold transition-colors duration-300 mb-1.5 leading-tight">
-                      {community.name}
-                    </h3>
-                    <p className="text-gray-500 text-sm line-clamp-2 mb-5 leading-relaxed">
-                      {community.description}
-                    </p>
-
-                    <div className="flex items-center justify-between mt-auto">
-                      <div className="flex items-center gap-1.5 text-gray-400 text-xs font-semibold">
-                        <Users size={14} />
-                        {community.memberCount} {community.memberCount === 1 ? "member" : "members"}
-                      </div>
-                      <div className="flex items-center gap-1 text-brand-gold text-xs font-bold group-hover:translate-x-1 transition-transform duration-300">
-                        Enter <ArrowRight size={14} />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+            <div className="space-y-5">
+              {sortedPosts.map((post, i) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  index={i}
+                  currentUser={currentUser}
+                  onLike={handleLike}
+                  onDislike={handleDislike}
+                  onShare={handleShare}
+                  showCommunityBadge={true}
+                />
               ))}
             </div>
           )}
-        </div>
+        </main>
+
+        {/* RIGHT SIDEBAR: Trending Communities */}
+        <aside className="hidden lg:block space-y-6">
+          <div className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-gray-100 sticky top-24">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
+              <Flame size={16} className="text-orange-500" />
+              Popular Communities
+            </h2>
+            
+            <div className="space-y-4">
+              {trendingCommunities.map((community, index) => (
+                <div key={community.id} className="flex items-start gap-3">
+                  <span className="text-sm font-bold text-gray-300 w-4 mt-1">{index + 1}</span>
+                  <div
+                    onClick={() => navigate(`/community/${community.id}`)}
+                    className="flex-1 cursor-pointer group"
+                  >
+                    <div className="flex items-center gap-2">
+                       <div className="w-6 h-6 rounded-md bg-gray-100 overflow-hidden shrink-0 border border-gray-200">
+                        {community.iconImage ? (
+                          <img src={community.iconImage} alt="" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[10px] font-bold text-gray-500">
+                            {community.name[0]}
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-sm font-bold text-brand-dark group-hover:text-brand-gold transition-colors truncate">
+                        {community.name}
+                      </p>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1 pl-8">
+                      {community.memberCount} members
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                (document.querySelector('aside input') as HTMLInputElement)?.focus();
+              }}
+              className="w-full mt-6 py-2.5 rounded-xl bg-gray-50 text-brand-dark font-semibold text-sm hover:bg-gray-100 transition-colors"
+            >
+              View All
+            </button>
+          </div>
+        </aside>
       </div>
 
       {/* Create Community Modal */}
@@ -313,10 +483,10 @@ const Community = () => {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-2xl"
+              className="w-full max-w-lg bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 shrink-0">
                 <h2 className="text-xl font-bold text-brand-dark">Create a Community</h2>
                 <button
                   onClick={() => setShowCreateModal(false)}
@@ -343,8 +513,8 @@ const Community = () => {
                   </p>
                 </div>
               ) : (
-                <div className="px-6 py-6 space-y-5 max-h-[70vh] overflow-y-auto">
-                  {/* Community Name */}
+                <div className="px-6 py-6 space-y-5 overflow-y-auto">
+                  {/* Form fields identical to before... */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
                       Community Name *
@@ -354,11 +524,10 @@ const Community = () => {
                       value={formName}
                       onChange={(e) => setFormName(e.target.value)}
                       placeholder="e.g., Bihar History Enthusiasts"
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-brand-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-brand-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 transition-all"
                     />
                   </div>
 
-                  {/* Description */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
                       Description *
@@ -368,16 +537,15 @@ const Community = () => {
                       value={formDesc}
                       onChange={(e) => setFormDesc(e.target.value)}
                       placeholder="What is this community about?"
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-brand-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none transition-all"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-brand-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 resize-none transition-all"
                     />
                   </div>
 
-                  {/* Icon Upload */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
                       Community Icon
                     </label>
-                    <label className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-gold/30 transition-colors">
+                    <label className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 border-dashed rounded-xl cursor-pointer hover:border-brand-gold/30 transition-colors">
                       {iconPreview ? (
                         <img src={iconPreview} alt="" className="w-10 h-10 rounded-lg object-cover" />
                       ) : (
@@ -392,7 +560,6 @@ const Community = () => {
                     </label>
                   </div>
 
-                  {/* Banner Upload */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
                       Banner Image
@@ -401,8 +568,8 @@ const Community = () => {
                       {bannerPreview ? (
                         <img src={bannerPreview} alt="" className="w-full h-32 object-cover rounded-xl border border-gray-200" />
                       ) : (
-                        <div className="w-full h-32 bg-white border border-gray-200 border-dashed rounded-xl flex flex-col items-center justify-center gap-2 hover:border-gold/30 transition-colors">
-                          <ImageIcon size={24} className="text-brand-dark/20" />
+                        <div className="w-full h-32 bg-white border border-gray-200 border-dashed rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-gold/30 transition-colors">
+                          <ImageIcon size={24} className="text-gray-300" />
                           <span className="text-xs text-gray-400">Upload a banner (optional)</span>
                         </div>
                       )}
@@ -411,7 +578,7 @@ const Community = () => {
                   </div>
 
                   <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-3">
-                    <p className="text-amber-400/80 text-xs leading-relaxed">
+                    <p className="text-amber-600 text-xs leading-relaxed font-medium">
                       <strong>Note:</strong> Your community will be reviewed by an admin before it goes live. This usually takes a few hours.
                     </p>
                   </div>
@@ -420,17 +587,17 @@ const Community = () => {
 
               {/* Modal Footer */}
               {!submitSuccess && (
-                <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
+                <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 shrink-0">
                   <button
                     onClick={() => setShowCreateModal(false)}
-                    className="px-5 py-2.5 rounded-xl text-brand-dark/60 hover:text-brand-dark text-sm font-semibold transition-colors"
+                    className="px-5 py-2.5 rounded-xl text-gray-500 hover:text-brand-dark text-sm font-semibold transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleCreate}
                     disabled={submitting || !formName.trim() || !formDesc.trim()}
-                    className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gold hover:bg-gold-dark text-black text-sm font-bold uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-brand-gold hover:bg-brand-gold/90 text-brand-dark text-sm font-bold uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {submitting ? (
                       <>

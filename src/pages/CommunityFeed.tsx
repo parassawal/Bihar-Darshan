@@ -19,57 +19,24 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import PostCard from "../components/communities/PostCard";
+import type { CommunityGroup, PostData } from "../types/community";
 import {
   ArrowLeft,
   Users,
   Plus,
   X,
-  ThumbsUp,
-  ThumbsDown,
-  Share2,
   Image as ImageIcon,
   Loader2,
-  Clock,
   MoreVertical,
 } from "lucide-react";
-
-interface CommunityData {
-  id: string;
-  name: string;
-  description: string;
-  bannerImage: string;
-  iconImage: string;
-  createdBy: string;
-  creatorName: string;
-  status: string;
-  memberCount: number;
-  members?: string[];
-}
-
-interface PostData {
-  id: string;
-  communityId: string;
-  communityName: string;
-  title: string;
-  body: string;
-  imageUrl: string;
-  authorId: string;
-  authorName: string;
-  authorPhoto: string;
-  likes: number;
-  dislikes: number;
-  shares: number;
-  likedBy: string[];
-  dislikedBy: string[];
-  createdAt: { seconds: number } | null;
-}
 
 const CommunityFeed = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
-  const [community, setCommunity] = useState<CommunityData | null>(null);
+  const [community, setCommunity] = useState<CommunityGroup | null>(null);
   const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -93,7 +60,7 @@ const CommunityFeed = () => {
       const docSnap = await getDoc(doc(db, "communityGroups", id!));
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setCommunity({ id: docSnap.id, members: [], ...data } as unknown as CommunityData);
+        setCommunity({ id: docSnap.id, members: [], ...data } as unknown as CommunityGroup);
       }
     } catch (err) {
       console.error("Error fetching community:", err);
@@ -314,16 +281,6 @@ const CommunityFeed = () => {
     }
   };
 
-  const formatTime = (ts: { seconds: number } | null) => {
-    if (!ts) return "just now";
-    const diff = Math.floor(Date.now() / 1000 - ts.seconds);
-    if (diff < 60) return "just now";
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-    if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
-    return new Date(ts.seconds * 1000).toLocaleDateString();
-  };
-
   if (!community && !loading) {
     return (
       <div className="min-h-screen bg-brand-gray text-brand-dark">
@@ -440,91 +397,15 @@ const CommunityFeed = () => {
         ) : (
           <div className="space-y-4">
             {posts.map((post, i) => (
-              <motion.article
+              <PostCard
                 key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="bg-white rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 border border-gray-100"
-              >
-                {/* Post Header */}
-                <div className="flex items-center gap-3 px-6 pt-6 pb-4">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden shrink-0 border border-gray-200">
-                    {post.authorPhoto ? (
-                      <img src={post.authorPhoto} alt="" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/5 flex items-center justify-center">
-                        <span className="text-sm font-bold text-brand-gold">{post.authorName[0]}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-[15px] font-bold text-gray-900 truncate">{post.authorName}</p>
-                    <p className="text-xs text-gray-400 flex items-center gap-1 font-medium mt-0.5">
-                      <Clock size={11} />
-                      {formatTime(post.createdAt)}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Post Content */}
-                <div className="px-6 pb-4">
-                  <h2 className="text-[19px] font-bold text-brand-dark mb-2.5 leading-snug">{post.title}</h2>
-                  {post.body && (
-                    <p className="text-gray-600 text-[15px] leading-relaxed whitespace-pre-wrap">{post.body}</p>
-                  )}
-                </div>
-
-                {/* Post Image */}
-                {post.imageUrl && (
-                  <div className="px-6 pb-4">
-                    <img
-                      src={post.imageUrl}
-                      alt=""
-                      className="w-full max-h-[500px] object-cover rounded-2xl border border-gray-100"
-                    />
-                  </div>
-                )}
-
-                {/* Post Actions */}
-                <div className="flex items-center gap-1 px-5 pb-4 pt-1">
-                  {/* Like */}
-                  <button
-                    onClick={() => handleLike(post)}
-                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
-                      currentUser && post.likedBy.includes(currentUser.uid)
-                        ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
-                        : "bg-gray-50 text-gray-500 hover:bg-white/10 hover:text-brand-dark/80 border border-transparent"
-                    }`}
-                  >
-                    <ThumbsUp size={16} />
-                    {post.likes > 0 && post.likes}
-                  </button>
-
-                  {/* Dislike */}
-                  <button
-                    onClick={() => handleDislike(post)}
-                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
-                      currentUser && post.dislikedBy.includes(currentUser.uid)
-                        ? "bg-red-500/15 text-red-400 border border-red-500/20"
-                        : "bg-gray-50 text-gray-500 hover:bg-white/10 hover:text-brand-dark/80 border border-transparent"
-                    }`}
-                  >
-                    <ThumbsDown size={16} />
-                    {post.dislikes > 0 && post.dislikes}
-                  </button>
-
-                  {/* Share */}
-                  <button
-                    onClick={() => handleShare(post)}
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold bg-gray-50 text-gray-500 hover:bg-white/10 hover:text-brand-dark/80 transition-all ml-auto"
-                  >
-                    <Share2 size={16} />
-                    {post.shares > 0 && post.shares}
-                    <span className="hidden sm:inline">Share</span>
-                  </button>
-                </div>
-              </motion.article>
+                post={post}
+                index={i}
+                currentUser={currentUser}
+                onLike={handleLike}
+                onDislike={handleDislike}
+                onShare={handleShare}
+              />
             ))}
           </div>
         )}

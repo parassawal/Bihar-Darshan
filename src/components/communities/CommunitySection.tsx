@@ -31,7 +31,7 @@ const CommunitySection = () => {
           title={t('sections.communities_title')}
           subtitle={t('sections.communities_subtitle')}
           actionLabel={t('sections.communities_action')}
-          actionHref="#community"
+          actionHref="/community"
         >
           {communities.map((community, index) => (
             <CommunityCard

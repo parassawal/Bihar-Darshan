@@ -41,6 +41,7 @@ const Navbar = () => {
     if (item === "Home") return "/";
     if (item === "Culture") return "/culture";
     if (item === "Tribals") return "/tribals";
+    if (item === "Community") return "/community";
     if (item === "MarketPlace") return "/marketplace";
     return `/#${item.toLowerCase()}`;
   };
@@ -49,6 +50,7 @@ const Navbar = () => {
     if (item === "Home" && location.pathname === "/") return true;
     if (item === "Culture" && location.pathname === "/culture") return true;
     if (item === "Tribals" && location.pathname === "/tribals") return true;
+    if (item === "Community" && location.pathname.startsWith("/community")) return true;
     if (item === "MarketPlace" && location.pathname === "/marketplace") return true;
     return false;
   };

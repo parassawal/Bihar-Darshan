@@ -11,6 +11,8 @@ import ShopDashboard from '../../pages/ShopDashboard';
 import Storefront from '../../pages/Storefront';
 import Tribals from '../../pages/Tribals';
 import TribeDetail from '../../pages/TribeDetail';
+import Community from '../../pages/Community';
+import CommunityFeed from '../../pages/CommunityFeed';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -36,6 +38,8 @@ const AnimatedRoutes = () => {
         <Route path="/culture" element={<PageWrapper><Culture /></PageWrapper>} />
         <Route path="/tribals" element={<PageWrapper><Tribals /></PageWrapper>} />
         <Route path="/tribals/:id" element={<PageWrapper><TribeDetail /></PageWrapper>} />
+        <Route path="/community" element={<PageWrapper><Community /></PageWrapper>} />
+        <Route path="/community/:id" element={<PageWrapper><CommunityFeed /></PageWrapper>} />
         <Route path="/marketplace" element={<PageWrapper><Marketplace /></PageWrapper>} />
         <Route path="/store/:id" element={<PageWrapper><Storefront /></PageWrapper>} />
         <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />

@@ -26,6 +26,7 @@ import {
   Palette,
   ShieldCheck,
   ShoppingBag,
+  MessageSquare,
 } from "lucide-react";
 
 
@@ -124,6 +125,34 @@ const collections: CollectionConfig[] = [
       { key: "category", label: "Category", type: "text" },
       { key: "price", label: "Price (₹)", type: "text" },
       { key: "seller", label: "Seller Name", type: "text" },
+      { key: "imageUrl", label: "Image URL", type: "text" },
+    ],
+  },
+  {
+    name: "communityGroups",
+    label: "Community Groups",
+    icon: <Users size={18} />,
+    fields: [
+      { key: "name", label: "Community Name", type: "text" },
+      { key: "description", label: "Description", type: "textarea" },
+      { key: "creatorName", label: "Creator", type: "text" },
+      { key: "status", label: "Approval Status", type: "select", options: ["pending", "approved", "rejected"] },
+      { key: "memberCount", label: "Members", type: "text" },
+      { key: "iconImage", label: "Icon URL", type: "text" },
+      { key: "bannerImage", label: "Banner URL", type: "text" },
+    ],
+  },
+  {
+    name: "communityPosts",
+    label: "Community Posts",
+    icon: <MessageSquare size={18} />,
+    fields: [
+      { key: "title", label: "Post Title", type: "text" },
+      { key: "body", label: "Post Body", type: "textarea" },
+      { key: "communityName", label: "Community", type: "text" },
+      { key: "authorName", label: "Author", type: "text" },
+      { key: "likes", label: "Likes", type: "text" },
+      { key: "dislikes", label: "Dislikes", type: "text" },
       { key: "imageUrl", label: "Image URL", type: "text" },
     ],
   },

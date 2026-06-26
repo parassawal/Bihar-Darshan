@@ -34,6 +34,7 @@ const Navbar = () => {
     if (item === "Culture") return "/culture";
     if (item === "Tourism") return "/tourism";
     if (item === "Tribes") return "/tribals";
+    if (item === "Gallery") return "/gallery";
     return `/#${item.toLowerCase()}`;
   };
 
@@ -42,6 +43,7 @@ const Navbar = () => {
     if (item === "Culture" && location.pathname === "/culture") return true;
     if (item === "Tourism" && location.pathname === "/tourism") return true;
     if (item === "Tribes" && location.pathname === "/tribals") return true;
+    if (item === "Gallery" && location.pathname === "/gallery") return true;
     return false;
   };
 

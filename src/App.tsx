@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import Districts from './pages/Districts';
 import Culture from './pages/Culture';
 import Tourism from './pages/Tourism';
 import Tribals from './pages/Tribals';
@@ -11,6 +12,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/districts" element={<Districts />} />
         <Route path="/culture" element={<Culture />} />
         <Route path="/tourism" element={<Tourism />} />
         <Route path="/tribals" element={<Tribals />} />

@@ -20,35 +20,29 @@ const Tourism = () => {
           <div className="absolute inset-0 bg-brand-gold/10 mix-blend-overlay" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-brand-gold/20"></div>
         </div>
-
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-block px-4 py-1 mb-6 text-xs font-bold tracking-[0.3em] uppercase text-brand-gold border border-brand-gold/30 rounded-full"
-          >
-            Travel Experts
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight"
-          >
-            Explore <span className="text-brand-gold">Bihar</span>
-          </motion.h1>
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
           >
-            Connect with local experts to discover the hidden gems and rich history of the Land of Enlightenment.
-          </motion.p>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="h-px w-10 bg-brand-gold/40" />
+              <span className="text-xs font-bold tracking-[0.4em] uppercase text-brand-gold">
+                Exclusive Journeys
+              </span>
+              <div className="h-px w-10 bg-brand-gold/40" />
+            </div>
+            <h1 className="text-4xl md:text-6xl font-serif italic text-white mb-6">
+              Discover <span className="text-brand-gold underline decoration-brand-gold/20 underline-offset-8">Bihar</span> Like Never Before
+            </h1>
+            <p className="max-w-2xl mx-auto text-gray-300 text-lg font-medium leading-relaxed">
+              Curated travel experiences with our premium local partners.
+            </p>
+          </motion.div>
         </div>
       </section>
-
-      {/* Tourism Partners Section */}
       <TourismSection />
 
       <Footer />

@@ -9,7 +9,7 @@ const navItems = [
   "Culture",
   "Community",
   "Tourism",
-  "Tribals",
+  "Tribes",
   "MarketPlace",
   "Gallery"
 ];
@@ -33,6 +33,7 @@ const Navbar = () => {
     if (item === "Home") return "/";
     if (item === "Culture") return "/culture";
     if (item === "Tourism") return "/tourism";
+    if (item === "Tribes") return "/tribals";
     return `/#${item.toLowerCase()}`;
   };
 
@@ -40,6 +41,7 @@ const Navbar = () => {
     if (item === "Home" && location.pathname === "/") return true;
     if (item === "Culture" && location.pathname === "/culture") return true;
     if (item === "Tourism" && location.pathname === "/tourism") return true;
+    if (item === "Tribes" && location.pathname === "/tribals") return true;
     return false;
   };
 

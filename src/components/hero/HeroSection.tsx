@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
 import { Landmark, Map, Utensils, Sparkles, MessageSquare } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import heroImage from "../../assets/hero.png";
 
 const HeroSection = () => {
-  const { t } = useTranslation();
   return (
     <section id="home" className="relative h-screen overflow-hidden">
       {/* Hero Background */}
@@ -25,15 +23,10 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl text-white leading-[1.1] tracking-tight notranslate">
-            {t('home.hero_title_start').split('\n').map((line, i, arr) => (
-              <span key={i}>
-                {line}
-                {i < arr.length - 1 && <br />}
-              </span>
-            ))}
-            <span className="text-gold italic inline-block" style={{ fontFamily: 'var(--font-signature)', fontSize: '1.15em', lineHeight: '0.8' }}>{t('home.hero_title_highlight')}</span>
-            {t('home.hero_title_end')}
+          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl text-white leading-[1.1] tracking-tight">
+            Discover the
+            <br />
+            Soul of <span className="text-gold italic inline-block" style={{ fontFamily: 'var(--font-signature)', fontSize: '1.15em', lineHeight: '0.8' }}>Bihar</span>
           </h1>
 
           <motion.div
@@ -42,8 +35,9 @@ const HeroSection = () => {
             transition={{ delay: 1, duration: 0.8 }}
             className="mt-6 sm:mt-8"
           >
-            <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-3xl mx-auto font-light leading-relaxed notranslate">
-              {t('home.hero_subtitle')}
+            <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-3xl mx-auto font-light leading-relaxed">
+              Journey through ancient civilizations, sacred temples, breathtaking landscapes,
+              vibrant festivals, authentic cuisine, and modern stories waiting to be explored.
             </p>
           </motion.div>
 

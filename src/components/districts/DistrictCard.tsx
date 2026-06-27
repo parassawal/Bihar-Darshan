@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { Link } from 'react-router-dom';
 
 interface DistrictCardProps {
   image: string;
@@ -7,10 +7,8 @@ interface DistrictCardProps {
 }
 
 const DistrictCard = ({ image, name }: DistrictCardProps) => {
-  const { t } = useTranslation();
-
   return (
-    <div className="group flex-shrink-0 w-[260px] sm:w-[280px] cursor-pointer">
+    <Link to={`/districts/${name.toLowerCase()}`} className="group flex-shrink-0 w-[260px] sm:w-[280px] cursor-pointer">
       <div className="relative overflow-hidden rounded-2xl aspect-[3/4]">
         <img
           src={image}
@@ -26,11 +24,11 @@ const DistrictCard = ({ image, name }: DistrictCardProps) => {
             District
           </p>
           <h3 className="text-white font-semibold text-lg leading-tight">
-            {t(`districts.${name}`, name)}
+            {name}
           </h3>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

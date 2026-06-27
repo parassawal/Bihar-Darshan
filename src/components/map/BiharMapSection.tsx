@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import biharMapBg from "../../assets/bihar-mountains.png";
-import { useTranslation } from "react-i18next";
 
 /* ─── Types ─── */
 interface GeoFeature {
@@ -110,15 +109,10 @@ const DISTRICT_FILLS = [
 
 /* ─── Component ─── */
 const BiharMapSection = () => {
-  const { t } = useTranslation();
   const [geoData, setGeoData] = useState<GeoJSON | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
   const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
-  const [zoom, setZoom] = useState(1);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [isPanning, setIsPanning] = useState(false);
-  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -141,51 +135,7 @@ const BiharMapSection = () => {
     }));
   }, [geoData]);
 
-  /* ── Zoom ── */
-  const handleZoomIn = useCallback(() => {
-    setZoom((z) => Math.min(z + 0.3, 3));
-  }, []);
 
-  const handleZoomOut = useCallback(() => {
-    setZoom((z) => {
-      const newZ = Math.max(z - 0.3, 1);
-      if (newZ === 1) setPan({ x: 0, y: 0 });
-      return newZ;
-    });
-  }, []);
-
-  /* ── Mouse pan ── */
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      if (zoom <= 1) return;
-      setIsPanning(true);
-      setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
-    },
-    [zoom, pan]
-  );
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (!isPanning) return;
-      setPan({ x: e.clientX - panStart.x, y: e.clientY - panStart.y });
-    },
-    [isPanning, panStart]
-  );
-
-  const handleMouseUp = useCallback(() => {
-    setIsPanning(false);
-  }, []);
-
-  /* ── Wheel zoom ── */
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.15 : 0.15;
-    setZoom((z) => {
-      const newZ = Math.min(Math.max(z + delta, 1), 3);
-      if (newZ === 1) setPan({ x: 0, y: 0 });
-      return newZ;
-    });
-  }, []);
 
   /* ── Tooltip tracking ── */
   const handleDistrictHover = useCallback(
@@ -247,13 +197,13 @@ const BiharMapSection = () => {
             {/* Section Header */}
             <div className="mb-8 sm:mb-10 text-center">
               <p className="text-gold-light text-sm font-semibold uppercase tracking-widest mb-2">
-                {t('sections.map_subtitle')}
+                Interactive
               </p>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-bold leading-tight">
-                {t('sections.map_title')}
+                Bihar District Map
               </h2>
               <p className="text-white/60 mt-3 text-sm sm:text-base max-w-xl mx-auto">
-                {t('sections.map_desc')}
+                Hover to explore and click to select a district.
               </p>
             </div>
 
@@ -261,28 +211,11 @@ const BiharMapSection = () => {
             <div
               ref={containerRef}
               className="relative mx-auto max-w-[1000px] rounded-2xl overflow-hidden select-none"
-              style={{ cursor: isPanning ? "grabbing" : zoom > 1 ? "grab" : "default" }}
-              onMouseDown={handleMouseDown}
-              onMouseMove={(e) => {
-                handleMouseMove(e);
-                handleDistrictMouseMove(e);
-              }}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={() => {
-                handleMouseUp();
-                handleDistrictLeave();
-              }}
-              onWheel={handleWheel}
+              onMouseMove={handleDistrictMouseMove}
+              onMouseLeave={handleDistrictLeave}
             >
               {/* SVG Map */}
-              <div
-                className="bihar-svg-wrapper"
-                style={{
-                  transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
-                  transformOrigin: "center center",
-                  transition: isPanning ? "none" : "transform 0.3s ease",
-                }}
-              >
+              <div className="bihar-svg-wrapper">
                 <svg
                   ref={svgRef}
                   viewBox={`0 0 ${SVG_W} ${SVG_H}`}
@@ -322,29 +255,7 @@ const BiharMapSection = () => {
                 </div>
               )}
 
-              {/* Zoom Controls */}
-              <div className="map-zoom-controls">
-                <button
-                  className="map-zoom-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleZoomIn();
-                  }}
-                  aria-label="Zoom in"
-                >
-                  +
-                </button>
-                <button
-                  className="map-zoom-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleZoomOut();
-                  }}
-                  aria-label="Zoom out"
-                >
-                  −
-                </button>
-              </div>
+
             </div>
 
             {/* Selected District Info */}

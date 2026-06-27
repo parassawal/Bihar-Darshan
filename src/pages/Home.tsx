@@ -1,4 +1,3 @@
-
 import Navbar from "../components/layout/Navbar";
 import HeroSection from "../components/hero/HeroSection";
 import PopularPlaces from "../components/places/PopularPlaces";

@@ -1,36 +1,39 @@
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X, ZoomIn } from "lucide-react";
-import useCollection from "../../hooks/useCollection";
-import { useTranslation } from "react-i18next";
 
-interface GalleryItem {
-  image: string;
-  isVideo: boolean;
-}
+import heritageImg from "../../assets/bihar-heritage.png";
+import mountainsImg from "../../assets/bihar-mountains.png";
+import foodImg from "../../assets/bihar-food.png";
+import templeImg from "../../assets/bihar-temple.png";
+import monumentImg from "../../assets/bihar-monument.png";
+import folkDanceImg from "../../assets/bihar-folk-dance.png";
+
+const galleryItems = [
+  { id: 1, image: heritageImg, isVideo: false },
+  { id: 2, image: mountainsImg, isVideo: false },
+  { id: 3, image: foodImg, isVideo: false },
+  { id: 4, image: templeImg, isVideo: true },
+  { id: 5, image: monumentImg, isVideo: false },
+  { id: 6, image: folkDanceImg, isVideo: true },
+  { id: 7, image: heritageImg, isVideo: false },
+  { id: 8, image: mountainsImg, isVideo: false },
+  { id: 9, image: foodImg, isVideo: false },
+];
+
+type GalleryItem = (typeof galleryItems)[number];
 
 const GallerySection = () => {
-  const { t } = useTranslation();
-  const { data: galleryItems, loading } = useCollection<GalleryItem>("gallery");
-  const [lightboxItem, setLightboxItem] = useState<(GalleryItem & { id: string }) | null>(null);
+  const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
 
-  const openLightbox = (item: GalleryItem & { id: string }) => {
+  const openLightbox = (item: GalleryItem) => {
     setLightboxItem(item);
   };
 
   const closeLightbox = () => {
     setLightboxItem(null);
   };
-
-  if (loading) {
-    return (
-      <section id="gallery" className="py-16 sm:py-20 lg:py-24 bg-bg-section flex justify-center">
-        <div className="w-8 h-8 border-4 border-gold border-t-transparent rounded-full animate-spin" />
-      </section>
-    );
-  }
-
-  if (galleryItems.length === 0) return null;
 
   return (
     <section
@@ -40,14 +43,13 @@ const GallerySection = () => {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-end justify-between mb-8 sm:mb-10">
-          <div className="text-center sm:text-left">
-            <p className="text-gold font-bold tracking-[0.2em] text-sm uppercase mb-3 sm:mb-4 flex items-center justify-center sm:justify-start gap-2">
-              <span className="w-8 h-[1px] bg-gold hidden sm:block"></span>
-              {t('sections.gallery_subtitle')}
+          <div>
+            <p className="text-gold text-sm font-semibold uppercase tracking-widest mb-2">
+              Moments
             </p>
 
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-primary font-bold leading-tight">
-              {t('sections.gallery_title')}
+              Photo Gallery
             </h2>
           </div>
 
@@ -76,7 +78,7 @@ const GallerySection = () => {
             >
               <img
                 src={item.image}
-                alt={`Gallery ${index + 1}`}
+                alt={`Gallery ${item.id}`}
                 className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-[0.55]"
                 loading="lazy"
               />
@@ -215,3 +217,4 @@ const GallerySection = () => {
 };
 
 export default GallerySection;
+

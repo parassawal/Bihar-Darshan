@@ -2,6 +2,12 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const tribesData: Record<string, any> = {
   santhal: {
@@ -316,7 +322,7 @@ const tribesData: Record<string, any> = {
     hindiName: "आदिवासी",
     englishName: "Mal Pahariya Tribe",
     description: "The Mal Pahariya is officially recognized as one of the 32 Scheduled Tribes in Bihar. Further anthropological details and history will be documented in upcoming expeditions.",
-    image: "/images/tribals/generic_nobg.png",
+    image: "/images/tribals/malpahariya_nobg.png",
     leftTitle: "Cultural Heritage",
     leftDesc: "Like many indigenous communities, the Mal Pahariya have a rich oral tradition, unique customs, and a deep-rooted connection to the natural environment.",
     rightTitle: "Traditional Practices",
@@ -327,7 +333,7 @@ const tribesData: Record<string, any> = {
     hindiName: "आदिवासी",
     englishName: "Parhaiya Tribe",
     description: "The Parhaiya is officially recognized as one of the 32 Scheduled Tribes in Bihar. Further anthropological details and history will be documented in upcoming expeditions.",
-    image: "/images/tribals/generic_nobg.png",
+    image: "/images/tribals/parhaiya_nobg.png",
     leftTitle: "Cultural Heritage",
     leftDesc: "Like many indigenous communities, the Parhaiya have a rich oral tradition, unique customs, and a deep-rooted connection to the natural environment.",
     rightTitle: "Traditional Practices",
@@ -338,7 +344,7 @@ const tribesData: Record<string, any> = {
     hindiName: "आदिवासी",
     englishName: "Sauria Paharia Tribe",
     description: "The Sauria Paharia is officially recognized as one of the 32 Scheduled Tribes in Bihar. Further anthropological details and history will be documented in upcoming expeditions.",
-    image: "/images/tribals/generic_nobg.png",
+    image: "/images/tribals/sauriapaharia_nobg.png",
     leftTitle: "Cultural Heritage",
     leftDesc: "Like many indigenous communities, the Sauria Paharia have a rich oral tradition, unique customs, and a deep-rooted connection to the natural environment.",
     rightTitle: "Traditional Practices",
@@ -349,7 +355,7 @@ const tribesData: Record<string, any> = {
     hindiName: "आदिवासी",
     englishName: "Savar Tribe",
     description: "The Savar is officially recognized as one of the 32 Scheduled Tribes in Bihar. Further anthropological details and history will be documented in upcoming expeditions.",
-    image: "/images/tribals/generic_nobg.png",
+    image: "/images/tribals/savar_nobg.png",
     leftTitle: "Cultural Heritage",
     leftDesc: "Like many indigenous communities, the Savar have a rich oral tradition, unique customs, and a deep-rooted connection to the natural environment.",
     rightTitle: "Traditional Practices",
@@ -362,9 +368,23 @@ const TribeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const tribe = tribesData[id || ""];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   if (!tribe) {
     return <Navigate to="/tribals" />;
   }
+
+  // Combined Media for the slider
+  const mediaItems = [
+    { type: 'image', src: `/images/tribals/${id}.png` },
+    { type: 'image', src: `/images/tribals/${id}_nobg.png` },
+    { type: 'image', src: '/images/tribals/necklace_nobg.png' },
+    { type: 'video', src: `/images/tribals/${id}.png` },
+    { type: 'image', src: '/images/tribals/bow_nobg.png' },
+    { type: 'video', src: '/images/tribals/generic.png' },
+  ];
 
   return (
     <div className="min-h-screen bg-[#f4ebd0] text-[#3e2723] font-serif overflow-x-hidden relative">
@@ -487,6 +507,76 @@ const TribeDetail = () => {
               </div>
             </motion.div>
           </div>
+          {/* Media Slider Section */}
+          <div className="w-full max-w-6xl mx-auto mt-20 mb-20 px-4 lg:px-0 relative z-20">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="text-center mb-12"
+            >
+              <h3 className="text-3xl font-serif font-bold text-[#5d4037] mb-2 uppercase tracking-widest border-b border-[#D4A017]/30 inline-block pb-2">
+                Media & Artifacts
+              </h3>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6 }}
+              className="relative rounded-3xl overflow-hidden shadow-sm"
+            >
+              <Swiper
+                modules={[Navigation, Pagination, Autoplay]}
+                spaceBetween={20}
+                slidesPerView={1}
+                navigation
+                pagination={{ clickable: true }}
+                autoplay={{ delay: 3500, disableOnInteraction: false }}
+                breakpoints={{
+                  640: { slidesPerView: 2, spaceBetween: 20 },
+                  1024: { slidesPerView: 4, spaceBetween: 24 },
+                }}
+                className="w-full !pb-16"
+              >
+                {mediaItems.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="bg-[#e8dec0]/60 rounded-2xl overflow-hidden border border-[#3e2723]/10 shadow-sm relative group aspect-[4/5] flex items-center justify-center p-6 cursor-pointer hover:shadow-md transition-shadow">
+                      
+                      {/* Subdued Glow Background */}
+                      <div className="absolute inset-0 bg-[#D4A017]/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full scale-75 pointer-events-none" />
+                      
+                      {item.type === 'video' ? (
+                        <>
+                          <img 
+                            src={item.src} 
+                            alt={`${tribe.englishName} Video ${index + 1}`} 
+                            className="w-full h-full object-cover absolute inset-0 opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-700"
+                            onError={(e) => { e.currentTarget.src = "/images/tribals/generic.png"; }}
+                          />
+                          <div className="absolute inset-0 bg-[#3e2723]/30 group-hover:bg-[#3e2723]/10 transition-colors duration-500 pointer-events-none" />
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                              <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[14px] border-l-[#b71c1c] border-b-8 border-b-transparent ml-1" />
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <img 
+                          src={item.src} 
+                          alt={`${tribe.englishName} Image ${index + 1}`} 
+                          className="w-full h-full object-contain relative z-10 mix-blend-multiply group-hover:scale-110 transition-transform duration-700 drop-shadow-lg"
+                          onError={(e) => { e.currentTarget.src = "/images/tribals/generic_nobg.png"; }}
+                        />
+                      )}
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </motion.div>
+          </div>
+
         </div>
 
       </div>

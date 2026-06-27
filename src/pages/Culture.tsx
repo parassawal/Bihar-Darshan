@@ -1,32 +1,16 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useCollection from '../hooks/useCollection';
+import { cultureData } from '../data/cultureData';
 import Container from '../components/layout/Container';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { MapPin, Utensils, PartyPopper, Search } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-
-interface CultureItem {
-  type: string;
-  district: string;
-  image: string;
-  title: string;
-  title_hi?: string;
-  description: string;
-  description_hi?: string;
-  longDescription?: string;
-  longDescription_hi?: string;
-  featured?: boolean;
-}
 
 const Culture = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeDistrict, setActiveDistrict] = useState("All Districts");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { data: cultureData } = useCollection<CultureItem>("culture");
-  const { t, i18n } = useTranslation();
 
   const getUniqueDistricts = () => {
     const districts = cultureData.map(item => item.district);
@@ -54,10 +38,10 @@ const Culture = () => {
         <Container>
           <div className="relative z-10 text-center max-w-2xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-              {t('culture.title')} <span className="text-brand-gold">{t('culture.title_highlight')}</span>
+              Bihar's Rich <span className="text-brand-gold">Culture</span>
             </h1>
             <p className="text-gray-300 text-lg leading-relaxed">
-              {t('culture.subtitle')}
+              Dive into the vibrant festivals and mouth-watering culinary heritage that define the soul of Bihar. Use the filters below to explore by region or category.
             </p>
           </div>
         </Container>
@@ -151,9 +135,7 @@ const Culture = () => {
                             }`}
                         >
                           {activeDistrict === district && <div className="w-1.5 h-1.5 rounded-full bg-brand-gold"></div>}
-                          <span className={activeDistrict === district ? 'font-bold' : ''}>
-                            {district === "All Districts" ? t('culture.all_districts') : t(`districts.${district}`, district)}
-                          </span>
+                          <span className={activeDistrict === district ? 'font-bold' : ''}>{district}</span>
                         </button>
                       ))
                     ) : (
@@ -206,11 +188,11 @@ const Culture = () => {
                       {/* Header */}
                       <div className="mb-1">
                         <h3 className="text-[17px] font-bold text-white group-hover:text-gray-900 transition-colors duration-700 group-hover:delay-100 leading-tight mb-0.5 truncate">
-                          {i18n.language === 'hi' ? (item.title_hi || item.title) : item.title}
+                          {item.title}
                         </h3>
                         <div className="flex items-center gap-1 text-[11px] font-bold text-gray-300 group-hover:text-gray-500 transition-colors duration-700 group-hover:delay-100 truncate">
                           <MapPin size={12} />
-                          {t(`districts.${item.district}`, item.district)}
+                          {item.district}
                         </div>
                       </div>
 
@@ -219,8 +201,10 @@ const Culture = () => {
                         <div className="overflow-hidden">
                           <div className="pt-2 pb-1">
                             <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2 mb-2">
-                              {i18n.language === 'hi' ? (item.description_hi || item.description) : item.description}
-                            </p>                            {/* Button */}
+                              {item.description}
+                            </p>
+
+                            {/* Button */}
                             <div className="flex items-center gap-2">
                               <button className="flex-1 py-2.5 rounded-[1rem] bg-brand-gold text-brand-dark text-[12px] font-bold tracking-wide shadow-sm active:scale-[0.98] hover:bg-gold-light transition-colors">
                                 Learn More

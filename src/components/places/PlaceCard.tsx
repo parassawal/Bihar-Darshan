@@ -1,5 +1,4 @@
-import { useTranslation } from "react-i18next";
-import { MapPin } from "lucide-react";
+
 
 interface PlaceCardProps {
   image: string;
@@ -9,8 +8,6 @@ interface PlaceCardProps {
 }
 
 const PlaceCard = ({ image, name, district }: PlaceCardProps) => {
-  const { t } = useTranslation();
-
   return (
     <div className="group flex-shrink-0 w-[260px] sm:w-[280px] cursor-pointer">
       {/* Image Container */}
@@ -30,15 +27,12 @@ const PlaceCard = ({ image, name, district }: PlaceCardProps) => {
           <h3 className="text-white font-semibold text-lg leading-tight">
             {name}
           </h3>
-          <p className="flex items-center gap-1.5 text-white/80 text-[13px] font-medium tracking-wide mt-1">
-            <MapPin size={14} className="text-gold" />
-            {t(`districts.${district}`, district)}
-          </p>
+          <p className="text-white/70 text-sm mt-1">{district}</p>
         </div>
       </div>
     </div>
   );
 };
 
-
 export default PlaceCard;
+

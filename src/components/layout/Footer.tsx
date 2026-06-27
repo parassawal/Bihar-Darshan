@@ -1,5 +1,4 @@
 import { Facebook, Instagram, Youtube, ArrowUp } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import logo from "../../assets/logo.png";
 
 const quickLinks = [
@@ -11,9 +10,9 @@ const quickLinks = [
 ];
 
 const connectLinks = [
-  { label: "footer.about_us", href: "#" },
-  { label: "footer.contact_us", href: "#" },
-  { label: "footer.privacy", href: "#" },
+  { label: "About Us", href: "#" },
+  { label: "Contact Us", href: "#" },
+  { label: "Privacy Policy", href: "#" },
 ];
 
 const socialLinks = [
@@ -23,8 +22,6 @@ const socialLinks = [
 ];
 
 const Footer = () => {
-  const { t } = useTranslation();
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -46,19 +43,21 @@ const Footer = () => {
                   BIHAR DARSHAN
                 </h3>
                 <p className="text-white/40 text-xs italic">
-                  {t('footer.subtitle')}
+                  Discover the Soul of India
                 </p>
               </div>
             </div>
             <p className="text-white/45 text-sm leading-relaxed max-w-xs">
-              {t('footer.description')}
+              Your gateway to explore, experience
+              and contribute to the rich heritage
+              and culture of Bihar.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="text-white font-serif font-bold text-sm tracking-wide mb-5">
-              {t('footer.quick_links')}
+              Quick Links
             </h3>
             <ul className="space-y-2.5">
               {quickLinks.map((link) => (
@@ -67,7 +66,7 @@ const Footer = () => {
                     href={link.href}
                     className="text-white/45 hover:text-gold text-sm transition-colors duration-300"
                   >
-                    {t(`nav.${link.label}`)}
+                    {link.label}
                   </a>
                 </li>
               ))}
@@ -77,7 +76,7 @@ const Footer = () => {
           {/* Connect */}
           <div>
             <h3 className="text-white font-serif font-bold text-sm tracking-wide mb-5">
-              {t('footer.connect')}
+              Connect
             </h3>
             <ul className="space-y-2.5">
               {connectLinks.map((link) => (
@@ -86,7 +85,7 @@ const Footer = () => {
                     href={link.href}
                     className="text-white/45 hover:text-gold text-sm transition-colors duration-300"
                   >
-                    {t(link.label)}
+                    {link.label}
                   </a>
                 </li>
               ))}
@@ -96,7 +95,7 @@ const Footer = () => {
           {/* Social */}
           <div>
             <h3 className="text-white font-serif font-bold text-sm tracking-wide mb-5">
-              {t('footer.follow_us')}
+              Follow Us
             </h3>
             <div className="flex gap-3">
               {socialLinks.map((social) => (

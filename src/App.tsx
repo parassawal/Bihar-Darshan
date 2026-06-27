@@ -8,6 +8,7 @@ import TribeDetail from './pages/TribeDetail';
 import Gallery from './pages/Gallery';
 import DistrictsDetails from './pages/DistrictsDetails';
 import LoginPage from './pages/Login';
+import Community from './pages/Community';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/districts/:name" element={<DistrictsDetails />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
     </Router>
   );

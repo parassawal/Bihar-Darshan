@@ -5,6 +5,7 @@ import Container from '../components/layout/Container';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { MapPin, Utensils, PartyPopper, Search } from 'lucide-react';
+import bgImage from '../assets/culture-banner-custom.png';
 
 const Culture = () => {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -28,13 +29,15 @@ const Culture = () => {
   });
 
   return (
-    <div className="min-h-screen bg-brand-gray">
+    <div className="min-h-screen bg-[#F8F5EF] selection:bg-brand-gold selection:text-brand-dark font-sans">
       <Navbar />
 
       {/* Hero Banner */}
-      <div className="bg-brand-dark pt-32 pb-16 mb-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-brand-gold/15 opacity-50 mix-blend-overlay"></div>
-        <div className="absolute inset-x-0 bottom-0 h-px bg-brand-gold/20"></div>
+      <div className="relative min-h-[400px] flex items-center overflow-hidden pt-32 pb-16 mb-12">
+        <div className="absolute inset-0 z-0">
+          <img src={bgImage} alt="Bihar Culture" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
         <Container>
           <div className="relative z-10 text-center max-w-2xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
@@ -236,6 +239,11 @@ const Culture = () => {
         </div>
       </Container>
       <Footer />
+
+      {/* Global Aesthetics Overlay */}
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.02] mix-blend-multiply">
+        <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]" />
+      </div>
     </div>
   );
 };

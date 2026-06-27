@@ -14,7 +14,11 @@ const navItems = [
   "Gallery"
 ];
 
-const Navbar = () => {
+interface NavbarProps {
+  forceDarkText?: boolean;
+}
+
+const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [lang, setLang] = useState("English");
@@ -33,6 +37,7 @@ const Navbar = () => {
     if (item === "Home") return "/";
     if (item === "Districts") return "/districts";
     if (item === "Culture") return "/culture";
+    if (item === "Community") return "/community";
     if (item === "Tourism") return "/tourism";
     if (item === "Tribes") return "/tribals";
     if (item === "Gallery") return "/gallery";
@@ -43,11 +48,14 @@ const Navbar = () => {
     if (item === "Home" && location.pathname === "/") return true;
     if (item === "Districts" && location.pathname === "/districts") return true;
     if (item === "Culture" && location.pathname === "/culture") return true;
+    if (item === "Community" && location.pathname === "/community") return true;
     if (item === "Tourism" && location.pathname === "/tourism") return true;
     if (item === "Tribes" && location.pathname === "/tribals") return true;
     if (item === "Gallery" && location.pathname === "/gallery") return true;
     return false;
   };
+
+  const isDark = scrolled || forceDarkText;
 
   return (
     <header className={`fixed top-0 left-0 w-full z-[200] transition-all duration-500 ${scrolled
@@ -59,7 +67,7 @@ const Navbar = () => {
           <img
             src={logo}
             alt="Bihar Darshan"
-            className={`h-10 sm:h-12 w-auto object-contain transition-all duration-500 ${scrolled ? "brightness-0" : ""
+            className={`h-10 sm:h-12 w-auto object-contain transition-all duration-500 ${isDark ? "brightness-0" : ""
               }`}
           />
         </div>
@@ -70,10 +78,10 @@ const Navbar = () => {
             <Link
               key={item}
               to={getPath(item)}
-              className={`relative text-sm font-semibold transition-all duration-300 ${scrolled
+              className={`relative text-sm font-semibold transition-all duration-300 ${isDark
                 ? "text-black/70 hover:text-gold"
                 : "text-white/90 hover:text-gold"
-                } ${isActive(item) ? (scrolled ? "text-gold" : "text-gold") : ""}`}
+                } ${isActive(item) ? (isDark ? "text-gold" : "text-gold") : ""}`}
             >
               {item}
               {isActive(item) && (
@@ -89,7 +97,7 @@ const Navbar = () => {
           <div className="relative hidden lg:block">
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className={`flex items-center gap-2 px-4 h-9 rounded-xl border transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled
+              className={`flex items-center gap-2 px-4 h-9 rounded-xl border transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${isDark
                 ? "border-black/10 text-black hover:bg-black/5"
                 : "border-white/15 text-white hover:bg-white/5"
                 }`}
@@ -122,7 +130,7 @@ const Navbar = () => {
 
           <Link
             to="/login"
-            className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled
+            className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${isDark
               ? "text-black hover:bg-black/5"
               : "text-white hover:bg-white/5"
               }`}
@@ -136,7 +144,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Toggle */}
           <button
-            className={`xl:hidden p-1 transition-colors ${scrolled ? "text-black" : "text-white"
+            className={`xl:hidden p-1 transition-colors ${isDark ? "text-black" : "text-white"
               }`}
             onClick={() => setMobileOpen(!mobileOpen)}
           >

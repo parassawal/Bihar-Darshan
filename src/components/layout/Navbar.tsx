@@ -40,6 +40,7 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
     if (item === "Community") return "/community";
     if (item === "Tourism") return "/tourism";
     if (item === "Tribes") return "/tribals";
+    if (item === "MarketPlace") return "/marketplace";
     if (item === "Gallery") return "/gallery";
     return `/#${item.toLowerCase()}`;
   };
@@ -51,6 +52,7 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
     if (item === "Community" && location.pathname === "/community") return true;
     if (item === "Tourism" && location.pathname === "/tourism") return true;
     if (item === "Tribes" && location.pathname === "/tribals") return true;
+    if (item === "MarketPlace" && location.pathname === "/marketplace") return true;
     if (item === "Gallery" && location.pathname === "/gallery") return true;
     return false;
   };

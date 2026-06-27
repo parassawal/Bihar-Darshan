@@ -9,6 +9,7 @@ import Gallery from './pages/Gallery';
 import DistrictsDetails from './pages/DistrictsDetails';
 import LoginPage from './pages/Login';
 import Community from './pages/Community';
+import MarketPlace from './pages/MarketPlace';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/tribals" element={<Tribals />} />
         <Route path="/tribals/:id" element={<TribeDetail />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/marketplace" element={<MarketPlace />} />
         <Route path="/districts/:name" element={<DistrictsDetails />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/community" element={<Community />} />

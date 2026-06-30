@@ -15,12 +15,13 @@ import AttractionSlider from '../components/districts/AttractionSlider';
 
 import DistrictAbout from '../components/districts/DistrictAbout';
 
+import { cultureData } from '../data/cultureData';
+import { galleryData } from '../data/galleryData';
+import { featuredTrips } from '../data/tourismData';
+
 // Assets
 import patnaHero from '../assets/patna-district.png';
 import golgharImg from '../assets/hero.png'; // Using hero as Golghar placeholder if detailed image is missing
-import patnaSahib from '../assets/patna-sahib.png';
-import mahavirMandir from '../assets/bihar-temple.png';
-import patnaMuseum from '../assets/bihar-monument.png';
 
 const DistrictsDetails = () => {
   const { name } = useParams();
@@ -41,13 +42,70 @@ const DistrictsDetails = () => {
 
 
 
-  const attractions = [
-    { name: "Golghar", image: golgharImg, desc: "Iconic granary with panoramic views" },
-    { name: "Mahavir Mandir", image: mahavirMandir, desc: "Famous temple dedicated to Lord Hanuman" },
-    { name: "Patna Museum", image: patnaMuseum, desc: "Explore artifacts from Bihar's rich past" },
-    { name: "Takht Sri Harmandir Sahib", image: patnaSahib, desc: "One of the holiest Sikh shrines" },
-    { name: "Sanjay Gandhi Biological Park", image: patnaHero, desc: "A popular zoo and botanical garden" },
+  // Dynamically gather attractions for the current district based on our data sources
+  const districtCulture = cultureData.filter(c => c.district.toLowerCase() === districtName.toLowerCase());
+  const districtGallery = galleryData.filter(g => g.location.toLowerCase().includes(districtName.toLowerCase()));
+  const districtTrips = featuredTrips.filter(t => t.departureCity.toLowerCase() === districtName.toLowerCase() || t.places.some(p => p.toLowerCase().includes(districtName.toLowerCase())));
+
+  let dynamicAttractions = [
+    // 1. Map Culture Data (Food, Festivals)
+    ...districtCulture.map(c => ({
+      name: c.title,
+      image: c.image,
+      desc: c.description,
+      category: (c.type === "Food" ? "Food" : c.type === "Festival" ? "Festivals" : "Places") as any
+    })),
+
+    // 2. Map Gallery Data (Places, Politicians/Personalities, Heritage)
+    ...districtGallery.map(g => {
+      let mappedCategory = "Places";
+      if (g.category === "Politicians") mappedCategory = "Personalities";
+      else if (g.category === "Food") mappedCategory = "Food";
+      else if (g.category === "Festivals") mappedCategory = "Festivals";
+
+      return {
+        name: g.title,
+        image: g.image,
+        desc: `A stunning ${g.category.toLowerCase()} feature located in ${g.location}.`,
+        category: mappedCategory as any
+      };
+    }),
+
+    // 3. Map Tourism Trips
+    ...districtTrips.map(t => ({
+      name: t.title,
+      image: t.image,
+      desc: t.description,
+      category: "Places" as any
+    }))
   ];
+
+  // If we don't have enough data for the specific district, fetch some popular ones globally as a fallback
+  if (dynamicAttractions.length < 3) {
+    const fallback = [
+      ...galleryData.filter(g => g.category === "Politicians" || g.category === "Places").slice(0, 3).map(g => ({
+        name: g.title,
+        image: g.image,
+        desc: `A renowned ${g.category.toLowerCase()} feature.`,
+        category: (g.category === "Politicians" ? "Personalities" : "Places") as any
+      })),
+      ...cultureData.slice(0, 3).map(c => ({
+        name: c.title,
+        image: c.image,
+        desc: c.description,
+        category: (c.type === "Food" ? "Food" : c.type === "Festival" ? "Festivals" : "Places") as any
+      }))
+    ];
+
+    // De-duplicate items based on name before appending
+    const existingNames = new Set(dynamicAttractions.map(a => a.name));
+    fallback.forEach(f => {
+      if (!existingNames.has(f.name)) {
+        dynamicAttractions.push(f);
+        existingNames.add(f.name);
+      }
+    });
+  }
 
   return (
     <div className="min-h-screen bg-brand-gray">
@@ -121,7 +179,7 @@ to-black/20" />
       {/* Top Attractions Slider */}
       <AttractionSlider
         title={`Top Attractions in ${districtName}`}
-        attractions={attractions}
+        attractions={dynamicAttractions}
       />
 
       <Footer />

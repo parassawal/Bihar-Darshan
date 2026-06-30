@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
-  
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,19 +24,23 @@ const LoginPage: React.FC = () => {
       alert("Passwords do not match!");
       return;
     }
-    console.log('Form submitted:', formData);
+
+    // Simulate setting authentication token
+    localStorage.setItem('isAuthenticated', 'true');
+    // Redirect securely to profile
+    navigate('/profile');
   };
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden font-sans">
-      
+
       {/* HEADER SECTION */}
       <header className="absolute top-0 left-0 w-full p-6 md:p-10 z-20 flex justify-between items-center">
         <div className="flex items-center space-x-3">
           {/* LOGO REPLACEMENT */}
-          <img 
-            src="src/assets/logo.png" 
-            alt="Bihar Darshan Logo" 
+          <img
+            src="src/assets/logo.png"
+            alt="Bihar Darshan Logo"
             className="h-12 w-12 md:h-16 md:w-16 object-contain drop-shadow-xl"
             style={{ mixBlendMode: 'lighten' }} // Helps if background isn't perfectly transparent
           />
@@ -44,23 +51,23 @@ const LoginPage: React.FC = () => {
       </header>
 
       {/* BACKGROUND IMAGE */}
-      <div 
+      <div
         className="absolute inset-0 z-0 transition-all duration-700"
         style={{
           backgroundImage: `url('src/assets/background.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(10px)',
-          transform: 'scale(1.1)' 
+          transform: 'scale(1.1)'
         }}
       />
-      
+
       <div className="absolute inset-0 bg-black/40 z-1" />
 
       {/* MAIN INTERFACE CARD */}
       <div className="relative z-10 w-full max-w-md p-6 mx-4">
         <div className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[2.5rem] shadow-2xl px-6 py-10 md:px-8 md:py-12 text-white transition-all duration-500">
-          
+
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold tracking-tight">
               {isLogin ? 'Welcome Back' : 'Join the Journey'}
@@ -71,7 +78,7 @@ const LoginPage: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            
+
             {!isLogin && (
               <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div>
@@ -160,7 +167,7 @@ const LoginPage: React.FC = () => {
             <span className="text-gray-400">
               {isLogin ? "Don't have an account? " : "Already have an account? "}
             </span>
-            <button 
+            <button
               onClick={() => setIsLogin(!isLogin)}
               className="text-amber-400 font-bold hover:underline decoration-2 underline-offset-4 bg-transparent border-none cursor-pointer"
             >

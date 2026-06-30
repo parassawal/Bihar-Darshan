@@ -28,21 +28,24 @@ const Navbar = () => {
   const [langOpen, setLangOpen] = useState(false);
   const location = useLocation();
 
+  // Simple check for authentication mock
+  const isAuthenticated = typeof window !== 'undefined' && localStorage.getItem('isAuthenticated') === 'true';
+
   const handleLanguageChange = (l: string) => {
     setLang(l);
     setLangOpen(false);
-    
+
     const langMap: Record<string, string> = {
       "English": "en",
       "Hindi": "hi"
     };
     const langCode = langMap[l] || "en";
-    
+
     // Set the cookie used by Google Translate
     const cookieVal = langCode === "en" ? "/en/en" : `/en/${langCode}`;
     document.cookie = `googtrans=${cookieVal}; path=/`;
     document.cookie = `googtrans=${cookieVal}; domain=.${window.location.host}; path=/`;
-    
+
     // Reload the page to apply the translation natively
     window.location.reload();
   };
@@ -147,25 +150,27 @@ const Navbar = () => {
             )}
           </div>
 
-          <Link
-            to="/profile"
-            className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled
-              ? "text-black hover:bg-black/5"
-              : "text-white hover:bg-white/5"
-              }`}
-          >
-            Profile
-          </Link>
-
-          <Link
-            to="/login"
-            className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled
-              ? "text-black hover:bg-black/5"
-              : "text-white hover:bg-white/5"
-              }`}
-          >
-            Login
-          </Link>
+          {isAuthenticated ? (
+            <Link
+              to="/profile"
+              className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled
+                ? "text-black hover:bg-black/5"
+                : "text-white hover:bg-white/5"
+                }`}
+            >
+              Profile
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled
+                ? "text-black hover:bg-black/5"
+                : "text-white hover:bg-white/5"
+                }`}
+            >
+              Login
+            </Link>
+          )}
 
           <button className="hidden md:block px-5 h-9 rounded-xl bg-gold hover:bg-gold-dark text-black font-bold text-[11px] uppercase tracking-wider transition-all duration-300 shadow-md">
             Share Your Story
@@ -197,13 +202,23 @@ const Navbar = () => {
                 {item}
               </Link>
             ))}
-            <Link
-              to="/profile"
-              onClick={() => setMobileOpen(false)}
-              className={`text-lg font-bold transition-colors ${location.pathname === "/profile" ? "text-gold" : "text-black/80 dark:text-white/90"}`}
-            >
-              Profile
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                to="/profile"
+                onClick={() => setMobileOpen(false)}
+                className={`text-lg font-bold transition-colors ${location.pathname === "/profile" ? "text-gold" : "text-black/80 dark:text-white/90"}`}
+              >
+                Profile
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMobileOpen(false)}
+                className={`text-lg font-bold transition-colors ${location.pathname === "/login" ? "text-gold" : "text-black/80 dark:text-white/90"}`}
+              >
+                Login
+              </Link>
+            )}
             <div className="h-px bg-black/5 dark:bg-white/5 my-2" />
             <div className="flex gap-4">
               {["English", "Hindi"].map((l) => (

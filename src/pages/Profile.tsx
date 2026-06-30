@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Share2, Award, FileText, CheckCircle2, Clock, Edit3, X, Image as ImageIcon } from 'lucide-react';
+import { Share2, Award, FileText, CheckCircle2, Clock, Edit3, X, Image as ImageIcon, LogOut } from 'lucide-react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import Container from '../components/layout/Container';
 
 // Mock Posts Data
 const mockPosts = [
+  // ... (keeping mock data as is up to the component)
   { id: 1, title: "Exploring the Ruins of Nalanda", date: "2023-10-15", status: "posted", image: "/images/culture/rajgir-mahotsav.png", excerpt: "A mesmerizing journey through the ancient university and its profound historical significance." },
   { id: 2, title: "My experience at Sonepur Mela", date: "2023-11-20", status: "posted", image: "/images/culture/sonepur-mela.png", excerpt: "Witnessing the grandeur of Asia's largest cattle fair was an unforgettable cultural immersion." },
   { id: 3, title: "The Art of Madhubani Painting", date: "2024-01-05", status: "under verification", image: "/images/culture/hero-artwork.png", excerpt: "Learning the intricate details and rich storytelling from local artisans in the Mithila region." },
@@ -29,8 +31,12 @@ const PREDEFINED_BACKGROUNDS = [
 ];
 
 const Profile = () => {
+  const navigate = useNavigate();
+  // Check auth status synchronously before rendering 
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
   const [activeTab, setActiveTab] = useState<'posted' | 'verification'>('posted');
-  
+
   // Profile State
   const [profile, setProfile] = useState({
     name: "Paras Sawal",
@@ -48,6 +54,11 @@ const Profile = () => {
   const [customAvatarInput, setCustomAvatarInput] = useState("");
   const [isCustomAvatar, setIsCustomAvatar] = useState(false);
 
+  // If not authenticated, instantly redirect them to the login page without rendering the profile page
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -62,6 +73,11 @@ const Profile = () => {
       navigator.clipboard.writeText(window.location.href);
       alert("Profile URL copied to clipboard!");
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/login');
   };
 
   const openEditModal = () => {
@@ -97,22 +113,22 @@ const Profile = () => {
           {/* Profile Header Card */}
           <div className="bg-[#fdf9ef] rounded-[2rem] shadow-xl p-8 md:p-12 border-2 border-[#d4a017] relative overflow-hidden">
             {/* Background Pattern Overlay */}
-            <div 
-              className="absolute inset-0 opacity-10 pointer-events-none transition-all duration-500" 
-              style={{ 
-                backgroundImage: `url("${profile.background}")`, 
-                backgroundSize: 'cover', 
-                backgroundPosition: 'center', 
-                filter: 'sepia(100%) hue-rotate(5deg) saturate(200%)' 
+            <div
+              className="absolute inset-0 opacity-10 pointer-events-none transition-all duration-500"
+              style={{
+                backgroundImage: `url("${profile.background}")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'sepia(100%) hue-rotate(5deg) saturate(200%)'
               }}>
             </div>
-            
+
             <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
               {/* Avatar */}
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white ring-4 ring-[#d4a017] shadow-xl overflow-hidden bg-[#fdf9ef] relative z-20 shrink-0">
                 <img src={profile.avatar} alt={profile.name} className="w-full h-full object-cover" />
               </div>
-              
+
               {/* User Info */}
               <div className="flex-1 text-center md:text-left relative z-20">
                 <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
@@ -122,7 +138,7 @@ const Profile = () => {
                 </div>
                 <p className="text-[#d4a017] uppercase tracking-[0.2em] font-bold text-sm mb-4">{profile.title}</p>
                 <p className="text-[#5c3a21] text-sm mb-6 max-w-lg leading-relaxed font-medium">{profile.bio}</p>
-                
+
                 <div className="flex flex-wrap justify-center md:justify-start gap-4">
                   <div className="flex items-center gap-2 bg-[#fdf9ef] border border-[#e2d5b8] px-4 py-2 rounded-xl shadow-sm">
                     <FileText className="text-[#5c3a21] w-5 h-5" />
@@ -137,19 +153,26 @@ const Profile = () => {
 
               {/* Action Buttons */}
               <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-3">
-                <button 
+                <button
                   onClick={openEditModal}
                   className="bg-white border-2 border-[#5c3a21] text-[#5c3a21] hover:bg-[#fdf9ef] font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm group"
                 >
                   <Edit3 className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span>Edit Profile</span>
+                  <span className="hidden sm:inline">Edit</span>
                 </button>
-                <button 
+                <button
                   onClick={handleShare}
                   className="bg-[#5c3a21] hover:bg-[#4a2e1a] text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md group"
                 >
                   <Share2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span>Share</span>
+                  <span className="hidden sm:inline">Share</span>
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500/10 hover:bg-red-500/20 text-red-700 border-2 border-red-500/30 font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm group"
+                >
+                  <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="hidden sm:inline">Logout</span>
                 </button>
               </div>
             </div>
@@ -160,13 +183,13 @@ const Profile = () => {
       <Container>
         {/* Ornate Divider */}
         <div className="w-full pb-8 flex justify-center">
-           <img src="/images/culture/ornate-divider.png" alt="" className="h-4 opacity-50" onError={(e) => e.currentTarget.style.display = 'none'} />
+          <img src="/images/culture/ornate-divider.png" alt="" className="h-4 opacity-50" onError={(e) => e.currentTarget.style.display = 'none'} />
         </div>
 
         {/* Tabs */}
         <div className="flex justify-center mb-12">
           <div className="bg-[#fdf9ef] p-1.5 rounded-full shadow-md border-2 border-[#d4a017] inline-flex relative">
-            <button 
+            <button
               onClick={() => setActiveTab('posted')}
               className={`relative z-10 px-8 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors duration-300 ${activeTab === 'posted' ? 'text-white' : 'text-[#5c3a21] hover:bg-white/50'}`}
             >
@@ -179,7 +202,7 @@ const Profile = () => {
               )}
               Posted
             </button>
-            <button 
+            <button
               onClick={() => setActiveTab('verification')}
               className={`relative z-10 px-8 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors duration-300 ${activeTab === 'verification' ? 'text-white' : 'text-[#5c3a21] hover:bg-white/50'}`}
             >
@@ -199,7 +222,7 @@ const Profile = () => {
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-20">
           <AnimatePresence mode="popLayout">
             {filteredPosts.map((post) => (
-              <motion.div 
+              <motion.div
                 layout
                 key={post.id}
                 initial={{ opacity: 0, scale: 0.95, x: 50 }}
@@ -209,9 +232,9 @@ const Profile = () => {
                 className="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-[#e2d5b8] flex flex-col sm:flex-row group"
               >
                 <div className="sm:w-2/5 h-48 sm:h-auto overflow-hidden relative">
-                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-1.5 rounded-full shadow-sm">
-                    {post.status === 'posted' 
+                    {post.status === 'posted'
                       ? <CheckCircle2 className="w-5 h-5 text-green-600" />
                       : <Clock className="w-5 h-5 text-amber-500" />
                     }
@@ -230,11 +253,11 @@ const Profile = () => {
               </motion.div>
             ))}
           </AnimatePresence>
-          
+
           {filteredPosts.length === 0 && (
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="col-span-full py-12 text-center"
             >
@@ -243,20 +266,20 @@ const Profile = () => {
           )}
         </motion.div>
       </Container>
-      
+
       <Footer />
 
       {/* Edit Profile Modal Overlay */}
       <AnimatePresence>
         {isEditing && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-8 bg-black/60 backdrop-blur-sm"
             onClick={() => setIsEditing(false)}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -264,7 +287,7 @@ const Profile = () => {
               className="bg-[#fdf9ef] w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[2rem] shadow-2xl relative border-4 border-[#e2d5b8] p-8 md:p-10"
             >
               {/* Close Button */}
-              <button 
+              <button
                 onClick={() => setIsEditing(false)}
                 className="absolute top-6 right-6 z-10 w-10 h-10 bg-white/80 hover:bg-white text-[#5c3a21] rounded-full flex items-center justify-center shadow-md transition-colors"
               >
@@ -280,10 +303,10 @@ const Profile = () => {
                 {/* Name Input */}
                 <div>
                   <label className="block text-[#5c3a21] font-bold uppercase tracking-wider text-sm mb-2">Display Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={editForm.name}
-                    onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                    onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
                     className="w-full bg-white border-2 border-[#e2d5b8] rounded-xl px-4 py-3 text-[#5c3a21] font-bold focus:outline-none focus:border-[#d4a017] transition-colors shadow-sm"
                     placeholder="Enter your name"
                   />
@@ -293,10 +316,10 @@ const Profile = () => {
                   {/* Title Input */}
                   <div>
                     <label className="block text-[#5c3a21] font-bold uppercase tracking-wider text-sm mb-2">Title</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={editForm.title}
-                      onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                      onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
                       className="w-full bg-white border-2 border-[#e2d5b8] rounded-xl px-4 py-3 text-[#5c3a21] focus:outline-none focus:border-[#d4a017] transition-colors shadow-sm"
                       placeholder="e.g. Cultural Ambassador"
                     />
@@ -305,10 +328,10 @@ const Profile = () => {
                   {/* Bio Input */}
                   <div>
                     <label className="block text-[#5c3a21] font-bold uppercase tracking-wider text-sm mb-2">Short Bio</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={editForm.bio}
-                      onChange={(e) => setEditForm({...editForm, bio: e.target.value})}
+                      onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
                       className="w-full bg-white border-2 border-[#e2d5b8] rounded-xl px-4 py-3 text-[#5c3a21] focus:outline-none focus:border-[#d4a017] transition-colors shadow-sm"
                       placeholder="Write a short bio..."
                     />
@@ -324,26 +347,26 @@ const Profile = () => {
                         key={idx}
                         onClick={() => {
                           setIsCustomAvatar(false);
-                          setEditForm({...editForm, avatar});
+                          setEditForm({ ...editForm, avatar });
                         }}
                         className={`w-16 h-16 rounded-full overflow-hidden border-4 transition-all duration-300 ${!isCustomAvatar && editForm.avatar === avatar ? 'border-[#d4a017] scale-110 shadow-lg ring-2 ring-[#5c3a21]' : 'border-white shadow-sm opacity-70 hover:opacity-100'}`}
                       >
                         <img src={avatar} alt={`Avatar ${idx}`} className="w-full h-full object-cover" />
                       </button>
                     ))}
-                    
+
                     <button
-                        onClick={() => setIsCustomAvatar(true)}
-                        className={`w-16 h-16 rounded-full overflow-hidden border-4 transition-all duration-300 flex items-center justify-center bg-white ${isCustomAvatar ? 'border-[#d4a017] scale-110 shadow-lg ring-2 ring-[#5c3a21]' : 'border-white shadow-sm opacity-70 hover:opacity-100'}`}
-                      >
-                        <ImageIcon className="w-6 h-6 text-[#5c3a21]" />
+                      onClick={() => setIsCustomAvatar(true)}
+                      className={`w-16 h-16 rounded-full overflow-hidden border-4 transition-all duration-300 flex items-center justify-center bg-white ${isCustomAvatar ? 'border-[#d4a017] scale-110 shadow-lg ring-2 ring-[#5c3a21]' : 'border-white shadow-sm opacity-70 hover:opacity-100'}`}
+                    >
+                      <ImageIcon className="w-6 h-6 text-[#5c3a21]" />
                     </button>
                   </div>
-                  
+
                   {isCustomAvatar && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         value={customAvatarInput}
                         onChange={(e) => setCustomAvatarInput(e.target.value)}
                         className="w-full bg-white border-2 border-[#e2d5b8] rounded-xl px-4 py-3 text-[#5c3a21] text-sm focus:outline-none focus:border-[#d4a017] transition-colors shadow-sm"
@@ -360,7 +383,7 @@ const Profile = () => {
                     {PREDEFINED_BACKGROUNDS.map((bg, idx) => (
                       <button
                         key={idx}
-                        onClick={() => setEditForm({...editForm, background: bg})}
+                        onClick={() => setEditForm({ ...editForm, background: bg })}
                         className={`h-20 rounded-xl overflow-hidden border-4 transition-all duration-300 relative ${editForm.background === bg ? 'border-[#d4a017] shadow-lg ring-2 ring-[#5c3a21]' : 'border-white shadow-sm opacity-70 hover:opacity-100'}`}
                       >
                         <img src={bg} alt={`Background ${idx}`} className="w-full h-full object-cover" />
@@ -371,13 +394,13 @@ const Profile = () => {
                 </div>
 
                 <div className="pt-6 border-t border-[#e2d5b8] flex justify-end gap-4">
-                  <button 
+                  <button
                     onClick={() => setIsEditing(false)}
                     className="border-2 border-[#5c3a21] text-[#5c3a21] hover:bg-[#5c3a21] hover:text-white font-bold py-3 px-8 rounded-full tracking-widest uppercase transition-colors"
                   >
                     Cancel
                   </button>
-                  <button 
+                  <button
                     onClick={handleSave}
                     className="bg-[#d4a017] hover:bg-[#c29112] text-[#5c3a21] font-bold py-3 px-8 rounded-full tracking-widest uppercase transition-colors shadow-lg"
                   >

@@ -109,7 +109,7 @@ const DistrictAbout: React.FC<DistrictAboutProps> = ({ districtName, image, stat
             </motion.button>
 
             {/* Fact Row */}
-            {/* <div className="mt-20 pt-10 border-t border-[#1A1A1A]/10 grid grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="mt-20 pt-10 border-t border-[#1A1A1A]/10 grid grid-cols-2 lg:grid-cols-4 gap-8">
               {stats.map((stat, idx) => (
                 <div key={idx} className="flex flex-col sm:flex-row items-center gap-8">
                   <Fact icon={stat.icon} label={stat.label} value={stat.value} />
@@ -118,7 +118,7 @@ const DistrictAbout: React.FC<DistrictAboutProps> = ({ districtName, image, stat
                   )}
                 </div>
               ))}
-            </div> */}
+            </div>
           </motion.div>
 
           {/* Right Column - Image */}

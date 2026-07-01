@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Districts from './pages/Districts';
 import Culture from './pages/Culture';
 import Tourism from './pages/Tourism';
+import JourneyDetails from './pages/JourneyDetails';
 import Tribals from './pages/Tribals';
 import TribeDetail from './pages/TribeDetail';
 import Gallery from './pages/Gallery';
@@ -28,12 +29,11 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <div 
-        className={`fixed inset-0 z-[9999] bg-[#1a1a1a] flex flex-col items-center justify-center pointer-events-none ${
-          isTranslating 
-            ? 'opacity-100 transition-none' 
-            : 'opacity-0 transition-opacity duration-500'
-        }`}
+      <div
+        className={`fixed inset-0 z-[9999] bg-[#1a1a1a] flex flex-col items-center justify-center pointer-events-none ${isTranslating
+          ? 'opacity-100 transition-none'
+          : 'opacity-0 transition-opacity duration-500'
+          }`}
       >
         <div className="w-12 h-12 border-4 border-[#D4A017]/20 border-t-[#D4A017] rounded-full animate-spin" />
         <p className="text-[#D4A017] mt-4 text-sm font-semibold tracking-wider animate-pulse uppercase">Translating...</p>
@@ -56,6 +56,7 @@ function App() {
           <Route path="/marketplace" element={<MarketPlace />} />
           <Route path="/Marketplace" element={<MarketPlace />} />
           <Route path="/tourism" element={<Tourism />} />
+          <Route path="/tourism/:id" element={<JourneyDetails />} />
           <Route path="/tribals" element={<Tribals />} />
           <Route path="/tribals/:id" element={<TribeDetail />} />
           <Route path="/gallery" element={<Gallery />} />

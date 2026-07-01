@@ -57,27 +57,9 @@ const FeatureStrip = () => (
 
 // ─── Main Section ────────────────────────────────────────────────────────────
 const FeaturedJourneys = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const total = featuredTrips.length;
-
-  const next = useCallback(() => setActiveIndex((p) => (p + 1) % total), [total]);
-  const prev = useCallback(() => setActiveIndex((p) => (p - 1 + total) % total), [total]);
-
-  useEffect(() => {
-    const t = setInterval(next, 6000);
-    return () => clearInterval(t);
-  }, [next]);
-
-  // Compute the 3 trip indices: left, center, right
-  const leftIdx = (activeIndex - 1 + total) % total;
-  const centerIdx = activeIndex;
-  const rightIdx = (activeIndex + 1) % total;
-
-  const visibleTrips = [
-    { trip: featuredTrips[leftIdx], isCenter: false },
-    { trip: featuredTrips[centerIdx], isCenter: true },
-    { trip: featuredTrips[rightIdx], isCenter: false },
-  ];
+  // Prepare 12 cards by repeating available featuredTrips if necessary
+  const totalToShow = 12;
+  const cards = Array.from({ length: totalToShow }).map((_, i) => featuredTrips[i % featuredTrips.length]);
 
   return (
     <section className="py-24 bg-[#F8F5EF] overflow-hidden">
@@ -125,49 +107,22 @@ const FeaturedJourneys = () => {
           </motion.button>
         </div>
 
-        {/* ── Slider ─────────────────────────────────────────────────────────── */}
-        <div className="relative flex items-center justify-center gap-8">
-          {/* Prev arrow */}
-          <button
-            onClick={prev}
-            className="absolute left-0 md:-left-6 z-30 w-14 h-14 rounded-full bg-white border border-[#E8E0D4] shadow-lg flex items-center justify-center text-brand-dark hover:bg-brand-gold hover:text-white hover:border-brand-gold transition-all duration-300"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
-          {/* Cards */}
-          <div className="flex items-center gap-8 py-8">
-            {visibleTrips.map(({ trip, isCenter }, i) => (
+        {/* ── Grid of Cards (4 per row) ───────────────────────────────────────── */}
+        <div className="py-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+            {cards.map((trip, i) => (
               <motion.div
-                key={`${trip.id}-${i}`}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
+                key={`journey-${i}-${trip.id}`}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: (i % 4) * 0.05, duration: 0.35 }}
+                className="flex justify-center"
               >
-                <JourneyCard trip={trip} isCenter={isCenter} />
+                <JourneyCard trip={trip} />
               </motion.div>
             ))}
           </div>
-
-          {/* Next arrow */}
-          <button
-            onClick={next}
-            className="absolute right-0 md:-right-6 z-30 w-14 h-14 rounded-full bg-white border border-[#E8E0D4] shadow-lg flex items-center justify-center text-brand-dark hover:bg-brand-gold hover:text-white hover:border-brand-gold transition-all duration-300"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Progress dots */}
-        <div className="flex justify-center gap-2.5 mt-8">
-          {featuredTrips.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIndex(i)}
-              className={`transition-all duration-500 rounded-full h-1.5 ${activeIndex === i ? "w-10 bg-brand-gold" : "w-3 bg-brand-gold/25"
-                }`}
-            />
-          ))}
         </div>
 
         {/* ── Why Travel With Us ──────────────────────────────────────────────── */}

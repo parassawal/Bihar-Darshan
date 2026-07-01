@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Newspaper, PenLine } from 'lucide-react';
-import { getArticlesByTribe } from '../../data/tribalArticlesData';
 import type { TribalArticle } from '../../data/tribalArticlesData';
 import { useArticles } from '../../data/ArticlesContext';
 import ShareStoryModal from './ShareStoryModal';
@@ -84,9 +83,8 @@ const ArticleCard = ({
         <img
           src={article.image}
           alt={article.headline}
-          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
-            imgLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${imgLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
           onLoad={() => setImgLoaded(true)}
           onError={(e) => {
             e.currentTarget.src = '/images/tribals/generic.png';

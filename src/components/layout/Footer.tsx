@@ -1,5 +1,5 @@
 import { Facebook, Instagram, Youtube, ArrowUp } from "lucide-react";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/new-logo.png";
 
 const quickLinks = [
   { label: "Home", href: "#home" },
@@ -36,16 +36,8 @@ const Footer = () => {
               <img
                 src={logo}
                 alt="Bihar Darshan"
-                className="h-12 w-auto object-contain"
+                className="h-16 w-auto object-contain brightness-0 invert"
               />
-              <div>
-                <h3 className="text-white font-serif font-bold text-base tracking-wide leading-tight">
-                  BIHAR DARSHAN
-                </h3>
-                <p className="text-white/40 text-xs italic">
-                  Discover the Soul of India
-                </p>
-              </div>
             </div>
             <p className="text-white/45 text-sm leading-relaxed max-w-xs">
               Your gateway to explore, experience

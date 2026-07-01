@@ -3,6 +3,7 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import LatestArticlesSection from '../components/tribals/LatestArticlesSection';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -391,7 +392,7 @@ const TribeDetail = () => {
       <Navbar />
 
       {/* Global Parchment Background Texture */}
-      <div 
+      <div
         className="fixed inset-0 z-0 opacity-100 mix-blend-multiply pointer-events-none"
         style={{
           backgroundImage: "url('/images/tribals/parchment_bg.png')",
@@ -403,7 +404,7 @@ const TribeDetail = () => {
 
       {/* Main Content Wrapper */}
       <div className="relative z-10 pt-32 pb-20 max-w-[1400px] mx-auto px-4 sm:px-8">
-        
+
         {/* Back Button */}
         <div className="mb-12">
           <Link to="/tribals" className="inline-flex items-center text-[#5d4037] hover:text-[#3e2723] font-bold tracking-widest uppercase transition-colors">
@@ -412,20 +413,20 @@ const TribeDetail = () => {
         </div>
 
         {/* Decorative Elements */}
-        <motion.img 
+        <motion.img
           initial={{ opacity: 0, rotate: -20 }} animate={{ opacity: 0.6, rotate: -10 }} transition={{ duration: 1 }}
-          src="/images/tribals/bow_nobg.png" className="absolute top-40 right-4 lg:right-20 w-32 lg:w-48 object-contain z-0 mix-blend-multiply pointer-events-none" alt="" 
+          src="/images/tribals/bow_nobg.png" className="absolute top-40 right-4 lg:right-20 w-32 lg:w-48 object-contain z-0 mix-blend-multiply pointer-events-none" alt=""
         />
-        <motion.img 
+        <motion.img
           initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 0.5, scale: 1 }} transition={{ duration: 1, delay: 0.3 }}
-          src="/images/tribals/fish_nobg.png" className="absolute top-[80vh] left-4 lg:left-12 w-24 lg:w-36 object-contain z-0 mix-blend-multiply pointer-events-none" alt="" 
+          src="/images/tribals/fish_nobg.png" className="absolute top-[80vh] left-4 lg:left-12 w-24 lg:w-36 object-contain z-0 mix-blend-multiply pointer-events-none" alt=""
         />
-        
+
         {/* Tribe Section */}
         <div className="relative flex flex-col items-center mb-16 mt-8">
-          
+
           {/* Header Title */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
@@ -442,9 +443,9 @@ const TribeDetail = () => {
           {/* Infographic Layout */}
           <div className="w-full max-w-6xl mx-auto mt-6 mb-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center">
-              
+
               {/* Left Info Column */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
@@ -461,21 +462,21 @@ const TribeDetail = () => {
               </motion.div>
 
               {/* Central Illustration */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
                 className="lg:col-span-4 flex justify-center order-1 lg:order-2 px-0 lg:-mx-12 z-10"
               >
-                <img 
-                  src={tribe.image} 
-                  alt={tribe.englishName} 
+                <img
+                  src={tribe.image}
+                  alt={tribe.englishName}
                   className="w-full max-w-[20rem] lg:max-w-[32rem] h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700 scale-110 lg:scale-125 my-8 lg:my-0"
                 />
               </motion.div>
 
               {/* Right Info Column */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
@@ -490,11 +491,11 @@ const TribeDetail = () => {
                   </p>
                 </div>
               </motion.div>
-              
+
             </div>
 
             {/* Bottom Info Block */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -509,7 +510,7 @@ const TribeDetail = () => {
           </div>
           {/* Media Slider Section */}
           <div className="w-full max-w-6xl mx-auto mt-20 mb-20 px-4 lg:px-0 relative z-20">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -519,7 +520,7 @@ const TribeDetail = () => {
                 Media & Artifacts
               </h3>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -543,15 +544,15 @@ const TribeDetail = () => {
                 {mediaItems.map((item, index) => (
                   <SwiperSlide key={index}>
                     <div className="bg-[#e8dec0]/60 rounded-2xl overflow-hidden border border-[#3e2723]/10 shadow-sm relative group aspect-[4/5] flex items-center justify-center p-6 cursor-pointer hover:shadow-md transition-shadow">
-                      
+
                       {/* Subdued Glow Background */}
                       <div className="absolute inset-0 bg-[#D4A017]/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full scale-75 pointer-events-none" />
-                      
+
                       {item.type === 'video' ? (
                         <>
-                          <img 
-                            src={item.src} 
-                            alt={`${tribe.englishName} Video ${index + 1}`} 
+                          <img
+                            src={item.src}
+                            alt={`${tribe.englishName} Video ${index + 1}`}
                             className="w-full h-full object-cover absolute inset-0 opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-700"
                             onError={(e) => { e.currentTarget.src = "/images/tribals/generic.png"; }}
                           />
@@ -563,9 +564,9 @@ const TribeDetail = () => {
                           </div>
                         </>
                       ) : (
-                        <img 
-                          src={item.src} 
-                          alt={`${tribe.englishName} Image ${index + 1}`} 
+                        <img
+                          src={item.src}
+                          alt={`${tribe.englishName} Image ${index + 1}`}
                           className="w-full h-full object-contain relative z-10 mix-blend-multiply group-hover:scale-110 transition-transform duration-700 drop-shadow-lg"
                           onError={(e) => { e.currentTarget.src = "/images/tribals/generic_nobg.png"; }}
                         />
@@ -576,6 +577,9 @@ const TribeDetail = () => {
               </Swiper>
             </motion.div>
           </div>
+
+          {/* Latest Articles Section */}
+          <LatestArticlesSection tribeName={tribe.englishName} />
 
         </div>
 

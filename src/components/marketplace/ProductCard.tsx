@@ -1,4 +1,5 @@
 import { Phone, Mail } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ProductCardProps {
   id: number;
@@ -20,85 +21,68 @@ const ProductCard = ({
   onMoreInfo,
 }: ProductCardProps) => {
   return (
-    <div className="relative h-[420px] rounded-[24px] overflow-hidden bg-white shadow-lg group cursor-pointer">
-
+    <motion.div
+      whileHover={{ y: -12 }}
+      transition={{ duration: 0.35 }}
+      className="group relative rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-2xl"
+    >
       {/* Image */}
-      <div
-        className="
-          absolute top-0 left-0 right-0 h-full
-          group-hover:h-[48%]
-          transition-all duration-700
-          ease-[cubic-bezier(0.25,1,0.5,1)]
-          overflow-hidden
-        "
-      >
-        <img
+      <div className="relative h-72 overflow-hidden">
+        <motion.img
           src={image}
           alt={productName}
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+          className="w-full h-full object-cover"
+          whileHover={{ scale: 1.12 }}
+          transition={{ duration: 0.7 }}
         />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:opacity-0 transition-opacity duration-700" />
-      </div>
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
-      {/* Content */}
-      <div
-        className="
-          absolute left-0 right-0 bottom-0
-          bg-white rounded-t-3xl
-          p-5
-          translate-y-[72%]
-          group-hover:translate-y-0
-          transition-all duration-700
-          ease-[cubic-bezier(0.25,1,0.5,1)]
-        "
-      >
-        {/* Always Visible */}
-        <h3 className="text-2xl font-bold text-gray-900">
-          {productName}
-        </h3>
+        {/* Product Name on Image */}
+        <div className="absolute bottom-6 left-6 right-6 transition-all duration-500 group-hover:translate-y-[-20px]">
+          <h2 className="text-2xl font-bold text-white">
+            {productName}
+          </h2>
 
-        {/* Hidden on normal, visible on hover */}
-        <div
-          className="
-            opacity-0
-            max-h-0
-            overflow-hidden
-            group-hover:opacity-100
-            group-hover:max-h-[300px]
-            transition-all
-            duration-500
-            delay-150
-          "
-        >
-          {/* Business Name */}
-          <p className="text-orange-500 font-semibold mt-2">
+          <p className="text-white/80 mt-1">
             {businessName}
           </p>
+        </div>
+      </div>
 
-          {/* Contact */}
-          <div className="flex items-center gap-2 mt-4 text-gray-600">
-            <Phone size={18} />
+      {/* Bottom Content */}
+      <div className="bg-white p-6 transition-all duration-500">
+
+        <div className="space-y-4">
+
+          <div className="flex items-center gap-3 text-gray-700">
+            <Phone size={18} className="text-orange-500" />
             <span>{contact}</span>
           </div>
 
-          {/* Email */}
-          <div className="flex items-center gap-2 mt-3 text-gray-600">
-            <Mail size={18} />
+          <div className="flex items-center gap-3 text-gray-700">
+            <Mail size={18} className="text-orange-500" />
             <span className="truncate">{email}</span>
           </div>
 
-          {/* Button */}
-          <button
-            onClick={() => onMoreInfo(id)}
-            className="mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold transition"
-          >
-            More Info
-          </button>
         </div>
+
+        {/* Learn More Button */}
+        <motion.button
+          whileHover={{
+            scale: 1.05,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
+          onClick={() => onMoreInfo(id)}
+          className="mt-6 w-full py-3 rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-600 transition-all duration-300 shadow-lg"
+        >
+          Learn More →
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

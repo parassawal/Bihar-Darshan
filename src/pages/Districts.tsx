@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, ChevronDown } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -15,7 +16,7 @@ type SortOption = "a-z" | "z-a";
 
 const Districts = () => {
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(
-    "Nalanda"
+    null
   );
   const [hoveredCardDistrict, setHoveredCardDistrict] = useState<string | null>(
     null
@@ -23,6 +24,7 @@ const Districts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("a-z");
   const [sortOpen, setSortOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Scroll to top on mount
   useEffect(() => {
@@ -65,7 +67,7 @@ const Districts = () => {
       return;
     }
     const displayName = geoNameToDisplayName[geoName] ?? geoName;
-    setSelectedDistrict(displayName);
+    navigate(`/districts/${displayName.toLowerCase()}`);
   };
 
   const handleMapHover = (geoName: string | null) => {
@@ -202,9 +204,8 @@ const Districts = () => {
                   <span>{sortBy === "a-z" ? "A to Z" : "Z to A"}</span>
                   <ChevronDown
                     size={14}
-                    className={`text-gray-400 transition-transform duration-200 ${
-                      sortOpen ? "rotate-180" : ""
-                    }`}
+                    className={`text-gray-400 transition-transform duration-200 ${sortOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
@@ -222,11 +223,10 @@ const Districts = () => {
                             setSortBy(opt);
                             setSortOpen(false);
                           }}
-                          className={`w-full text-left px-4 py-2.5 text-sm font-semibold transition-colors cursor-pointer ${
-                            sortBy === opt
+                          className={`w-full text-left px-4 py-2.5 text-sm font-semibold transition-colors cursor-pointer ${sortBy === opt
                               ? "bg-gold/10 text-gold"
                               : "text-gray-600 hover:bg-gray-50"
-                          }`}
+                            }`}
                         >
                           {opt === "a-z" ? "A to Z" : "Z to A"}
                         </button>

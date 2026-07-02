@@ -13,7 +13,7 @@ import LoginPage from './pages/Login';
 import Profile from './pages/Profile';
 import Community from './pages/Community';
 import MarketPlace from './pages/MarketPlace';
-
+import ScrollToTop from "./components/ScrollToTop";
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const [isTranslating, setIsTranslating] = useState(false);
@@ -46,6 +46,8 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
+
       <PageTransition>
         <Routes>
           <Route path="/" element={<Home />} />

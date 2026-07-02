@@ -29,9 +29,13 @@ const DistrictsDetails = () => {
   // Format the name for display (e.g., "patna" -> "Patna")
   const districtName = name ? name.charAt(0).toUpperCase() + name.slice(1) : "Patna";
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+ useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "auto",
+  });
+}, [name]);
 
   const stats = [
     { icon: <Globe size={20} />, label: "Division", value: districtName },

@@ -16,6 +16,8 @@ import MarketPlace from './pages/MarketPlace';
 import ScrollToTop from "./components/ScrollToTop";
 import ProductDetails from './pages/ProductDetails';
 import CultureDetails from './pages/CultureDetails';
+import ShareStory from './pages/ShareStory';
+import Personalities from './pages/Personalities';
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const [isTranslating, setIsTranslating] = useState(false);
@@ -65,10 +67,12 @@ function App() {
           <Route path="/tribals" element={<Tribals />} />
           <Route path="/tribals/:id" element={<TribeDetail />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/personalities" element={<Personalities />} />
           <Route path="/districts/:name" element={<DistrictsDetails />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/marketplace/:id" element={<ProductDetails />} />
+          <Route path="/share-story" element={<ShareStory />} />
         </Routes>
       </PageTransition>
     </Router>

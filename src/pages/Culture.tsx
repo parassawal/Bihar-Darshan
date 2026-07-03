@@ -1,21 +1,61 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cultureData } from '../data/cultureData';
 import Container from '../components/layout/Container';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
-import { MapPin, Utensils, PartyPopper, Search } from 'lucide-react';
+import { MapPin, Utensils, PartyPopper, Search, Sparkles, User, MessageSquare } from 'lucide-react';
+import { useContributions } from '../data/ContributionContext';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Culture = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { cultureSubmissions } = useContributions();
+  const location = useLocation();
+  const [activeCategory, setActiveCategory] = useState(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const cat = searchParams.get('category');
+    if (cat === 'food' || cat === 'Food') return 'Food';
+    if (cat === 'festival' || cat === 'Festival') return 'Festival';
+    if (location.state && (location.state as any).activeCategory) {
+      return (location.state as any).activeCategory;
+    }
+    return 'All';
+  });
   const [activeDistrict, setActiveDistrict] = useState("All Districts");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const cat = searchParams.get('category');
+    let targetCategory = 'All';
+    if (cat === 'food' || cat === 'Food') targetCategory = 'Food';
+    else if (cat === 'festival' || cat === 'Festival') targetCategory = 'Festival';
+    else if (location.state && (location.state as any).activeCategory) {
+      targetCategory = (location.state as any).activeCategory;
+    }
+
+    if (targetCategory !== 'All') {
+      setActiveCategory(targetCategory);
+      // Wait for rendering to complete before scrolling
+      setTimeout(() => {
+        const element = document.getElementById('culture-explore-section');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
+  // Combine static and dynamic submissions
+  const combinedCultureData = [...cultureSubmissions, ...cultureData];
+
+  // Selected item for modal details
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
+
   const getUniqueDistricts = () => {
-    const districts = cultureData.map(item => item.district);
+    const districts = combinedCultureData.map(item => item.district);
     return ["All Districts", ...new Set(districts)];
   };
 
@@ -23,7 +63,7 @@ const Culture = () => {
   const categories = ["All", "Festival", "Food"];
 
   // Filter Logic
-  const filteredData = cultureData.filter(item => {
+  const filteredData = combinedCultureData.filter(item => {
     const matchCategory = activeCategory === "All" || item.type === activeCategory;
     const matchDistrict = activeDistrict === "All Districts" || item.district === activeDistrict;
     return matchCategory && matchDistrict;
@@ -44,10 +84,10 @@ const Culture = () => {
         <Container>
           <div className="relative z-10 text-center max-w-2xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-              Bihar's Rich <span className="text-brand-gold">Culture</span>
+              Discover Bihar's <span className="text-brand-gold">Heritage</span>
             </h1>
             <p className="text-gray-300 text-lg leading-relaxed">
-              Dive into the vibrant festivals and mouth-watering culinary heritage that define the soul of Bihar. Use the filters below to explore by region or category.
+              Dive into the vibrant festivals and mouth-watering culinary heritage that define the soul of Bihar. Use the filters below to explore by region.
             </p>
           </div>
         </Container>
@@ -55,23 +95,7 @@ const Culture = () => {
 
       <Container>
         {/* Filters Section */}
-        <div className="bg-white p-3 rounded-[1.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 justify-between items-center mb-12">
-
-          {/* Category Pills */}
-          <div className="flex gap-1.5 p-1 bg-gray-50 rounded-[1.25rem] w-full md:w-auto overflow-x-auto scrollbar-hide">
-            {categories.map(category => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 shrink-0 ${activeCategory === category
-                  ? "bg-brand-gold text-brand-dark shadow-md"
-                  : "text-gray-500 hover:text-brand-dark hover:bg-gray-200"
-                  }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+        <div id="culture-explore-section" className="bg-white p-3 rounded-[1.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 justify-end items-center mb-12">
 
           {/* Custom District Dropdown */}
           <div className="relative w-full md:w-56 shrink-0 z-40">
@@ -171,7 +195,13 @@ const Culture = () => {
                 filteredData.map((item) => (
                   <Link
                     key={item.id}
-                    to={`/culture/${item.id}`}
+                    to={item.submittedBy ? "#" : `/culture/${item.id}`}
+                    onClick={(e) => {
+                      if (item.submittedBy) {
+                        e.preventDefault();
+                        setSelectedItem(item);
+                      }
+                    }}
                     className="relative block flex-none h-[400px] rounded-[1.5rem] overflow-hidden group bg-white shadow-[0_4px_20px_rgb(0,0,0,0.04)] cursor-pointer hover:shadow-xl transition-shadow"
                   >
                     {/* Shrinking Image Background */}
@@ -190,6 +220,14 @@ const Culture = () => {
                       {item.type}
                     </div>
 
+                    {/* Community Indicator Badge */}
+                    {item.submittedBy && (
+                      <div className="absolute top-3 right-3 bg-brand-dark/80 backdrop-blur-sm border border-brand-gold/30 text-brand-gold px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md z-20">
+                        <Sparkles size={10} />
+                        Community
+                      </div>
+                    )}
+
                     {/* Content Panel */}
                     <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col justify-end z-10">
                       {/* Header */}
@@ -197,6 +235,14 @@ const Culture = () => {
                         <h3 className="text-[17px] font-bold text-white group-hover:text-gray-900 transition-colors duration-700 group-hover:delay-100 leading-tight mb-0.5 truncate">
                           {item.title}
                         </h3>
+                        
+                        {item.submittedBy && (
+                          <div className="text-[10px] font-bold text-brand-gold group-hover:text-amber-700 flex items-center gap-1 mb-0.5 transition-colors duration-700 group-hover:delay-100">
+                            <User size={10} />
+                            <span>By {item.submittedBy}</span>
+                          </div>
+                        )}
+
                         <div className="flex items-center gap-1 text-[11px] font-bold text-gray-300 group-hover:text-gray-500 transition-colors duration-700 group-hover:delay-100 truncate">
                           <MapPin size={12} />
                           {item.district}
@@ -208,7 +254,7 @@ const Culture = () => {
                         <div className="overflow-hidden">
                           <div className="pt-2 pb-1">
                             <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2 mb-2">
-                              {item.description}
+                              {item.caption || item.description}
                             </p>
 
                             {/* Button */}
@@ -243,7 +289,221 @@ const Culture = () => {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        {/* ── RELATED COMMUNITY STORIES SECTION ── */}
+        <div className="border-t border-gray-200/50 pt-16 pb-24 mt-16">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
+            <div>
+              <span className="px-3 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/20 text-brand-gold text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 mb-2">
+                <Sparkles size={11} />
+                User Contributions
+              </span>
+              <h2 className="text-3xl font-bold text-brand-dark tracking-tight">
+                Related Community Stories
+              </h2>
+            </div>
+            
+            <Link
+              to="/share-story"
+              className="px-5 py-2.5 rounded-xl bg-brand-dark hover:bg-brand-dark/95 text-white font-bold text-sm shadow-md transition-colors flex items-center gap-2 shrink-0"
+            >
+              <Sparkles size={14} className="text-brand-gold" />
+              <span>Share Your Story</span>
+            </Link>
+          </div>
+
+          {cultureSubmissions.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {cultureSubmissions.map((story) => (
+                <div
+                  key={story.id}
+                  onClick={() => setSelectedItem(story)}
+                  className="bg-white rounded-[1.5rem] border border-gray-100 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.05)] transition-all duration-300 flex flex-col justify-between group cursor-pointer"
+                >
+                  <div>
+                    {/* Image Area */}
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <img
+                        src={story.image}
+                        alt={story.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute top-3 left-3 bg-brand-gold text-brand-dark px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
+                        {story.type === "Festival" ? <PartyPopper size={10} /> : <Utensils size={10} />}
+                        {story.type}
+                      </div>
+                      <div className="absolute top-3 right-3 bg-brand-dark text-white px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
+                        <MapPin size={10} className="text-brand-gold" />
+                        {story.district}
+                      </div>
+                    </div>
+
+                    {/* Content Area */}
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-6 h-6 rounded-full bg-brand-gold/15 text-brand-dark flex items-center justify-center text-[10px] font-bold">
+                          {story.submittedBy?.charAt(0) || "U"}
+                        </div>
+                        <span className="text-[11px] font-semibold text-gray-500">
+                          Shared by <span className="text-brand-dark font-bold">{story.submittedBy}</span>
+                        </span>
+                      </div>
+
+                      <h3 className="text-lg font-bold text-brand-dark mb-1 group-hover:text-brand-gold transition-colors duration-300">
+                        {story.title}
+                      </h3>
+
+                      {story.caption && (
+                        <p className="text-xs italic text-gray-400 mb-3 border-l border-gray-200 pl-2 leading-relaxed line-clamp-1">
+                          "{story.caption}"
+                        </p>
+                      )}
+
+                      <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
+                        {story.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="px-6 pb-6 pt-2">
+                    <button className="w-full py-2.5 rounded-xl border border-gray-100 hover:border-brand-gold text-xs font-bold text-brand-dark hover:bg-brand-gold/5 transition-all duration-300">
+                      Read Full Story
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-[#121620] border border-white/5 rounded-3xl p-10 text-center max-w-xl mx-auto shadow-xl">
+              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto text-gray-400 mb-4">
+                <MessageSquare size={20} />
+              </div>
+              <h4 className="text-lg font-bold text-white mb-2">No community stories yet</h4>
+              <p className="text-gray-400 text-xs leading-relaxed mb-6">
+                Be the first to share a food recipe or local festival story from your district! Your submission will appear here.
+              </p>
+              <Link
+                to="/share-story"
+                className="px-6 py-2.5 rounded-xl bg-brand-gold text-brand-dark font-bold text-xs hover:bg-gold-light transition-all duration-300 inline-flex items-center gap-1.5"
+              >
+                <span>Write a Story</span>
+              </Link>
+            </div>
+          )}
+        </div>
       </Container>
+
+      {/* Lightbox / Details Modal */}
+      <AnimatePresence>
+        {selectedItem && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setSelectedItem(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              className="bg-[#121620] border border-white/10 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedItem(null)}
+                className="absolute top-4 right-4 z-50 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors border border-white/10"
+              >
+                ✕
+              </button>
+
+              {/* Left Column: Image */}
+              <div className="md:w-1/2 relative h-64 md:h-auto min-h-[300px]">
+                <img
+                  src={selectedItem.image}
+                  alt={selectedItem.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#121620] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#121620]" />
+                <div className="absolute top-4 left-4 bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-md">
+                  {selectedItem.type}
+                </div>
+              </div>
+
+              {/* Right Column: Content */}
+              <div className="md:w-1/2 p-6 md:p-10 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-1.5 mb-2 text-xs font-bold text-brand-gold tracking-wide uppercase">
+                    <MapPin size={14} />
+                    <span>{selectedItem.district}</span>
+                  </div>
+
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
+                    {selectedItem.title}
+                  </h2>
+
+                  {selectedItem.caption && (
+                    <p className="text-gray-400 italic text-sm mb-4 leading-relaxed border-l-2 border-brand-gold pl-3">
+                      "{selectedItem.caption}"
+                    </p>
+                  )}
+
+                  {selectedItem.submittedBy && (
+                    <div className="flex items-center gap-1.5 text-xs text-brand-gold font-bold mb-6">
+                      <User size={14} />
+                      <span>Shared by: {selectedItem.submittedBy}</span>
+                    </div>
+                  )}
+
+                  <p className="text-gray-300 text-sm leading-relaxed mb-6 whitespace-pre-line">
+                    {selectedItem.longDescription || selectedItem.description}
+                  </p>
+
+                  {/* Extended details if present */}
+                  {selectedItem.extendedDetails && selectedItem.extendedDetails.length > 0 && (
+                    <div className="space-y-2 mt-4">
+                      <h4 className="text-xs font-bold uppercase text-white/50 tracking-wider">Key Details</h4>
+                      <ul className="space-y-1.5">
+                        {selectedItem.extendedDetails.map((detail: string, idx: number) => (
+                          <li key={idx} className="text-xs text-gray-400 flex items-start gap-1.5">
+                            <span className="text-brand-gold mt-0.5">•</span>
+                            <span>{detail}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Video link if present */}
+                  {selectedItem.videoUrl && (
+                    <div className="mt-6">
+                      <a
+                        href={selectedItem.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-bold text-brand-gold hover:underline"
+                      >
+                        🎥 Watch Documentary Video
+                      </a>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-6 border-t border-white/5 flex gap-3 mt-6">
+                  <button
+                    onClick={() => setSelectedItem(null)}
+                    className="flex-1 py-3 bg-brand-gold text-brand-dark hover:bg-gold-light font-bold text-xs rounded-xl tracking-wider uppercase transition-colors"
+                  >
+                    Close Details
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Footer />
     </div>
   );

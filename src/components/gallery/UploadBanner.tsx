@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Upload, Camera, Video } from "lucide-react";
+import { Link } from "react-router-dom";
 import ctaBg from "../../assets/cta-bg.png";
 
 const UploadBanner = () => {
@@ -63,14 +64,14 @@ const UploadBanner = () => {
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <button className="inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-xl bg-gold hover:bg-gold-dark text-black font-bold text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-gold/20">
+            <Link to="/share-story" className="inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-xl bg-gold hover:bg-gold-dark text-black font-bold text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-gold/20">
               <Camera size={16} />
               Upload Photos
-            </button>
-            <button className="inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-xl border border-white/20 text-white font-semibold text-sm tracking-wide hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
+            </Link>
+            <Link to="/share-story" className="inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-xl border border-white/20 text-white font-semibold text-sm tracking-wide hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
               <Video size={16} />
               Upload Videos
-            </button>
+            </Link>
           </div>
         </div>
       </motion.div>

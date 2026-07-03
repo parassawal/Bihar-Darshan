@@ -8,6 +8,7 @@ import GalleryLightbox from "../components/gallery/GalleryLightbox";
 import UploadBanner from "../components/gallery/UploadBanner";
 import { galleryData } from "../data/galleryData";
 import type { GalleryItem } from "../data/galleryData";
+import { useContributions } from "../data/ContributionContext";
 import type {
   MediaFilter,
   SortOption,
@@ -15,6 +16,7 @@ import type {
 } from "../components/gallery/GalleryFilters";
 
 const Gallery = () => {
+  const { gallerySubmissions } = useContributions();
   const [mediaFilter, setMediaFilter] = useState<MediaFilter>("all");
   const [categoryFilter, setCategoryFilter] = useState("All Categories");
   const [sortBy, setSortBy] = useState<SortOption>("latest");
@@ -28,7 +30,7 @@ const Gallery = () => {
 
   // Filter + Sort logic
   const filteredItems = useMemo(() => {
-    let result = [...galleryData];
+    let result = [...gallerySubmissions, ...galleryData];
 
     // Media filter
     if (mediaFilter !== "all") {

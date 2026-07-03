@@ -176,9 +176,7 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
             </Link>
           )}
 
-          <button className="hidden md:block px-5 h-9 rounded-xl bg-gold hover:bg-gold-dark text-black font-bold text-[11px] uppercase tracking-wider transition-all duration-300 shadow-md">
-            Share Your Story
-          </button>
+          {/* Removed Share Your Story button as requested */}
 
           {/* Mobile Menu Toggle */}
           <button

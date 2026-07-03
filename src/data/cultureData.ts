@@ -10,6 +10,8 @@ export interface CultureItem {
   videoUrl?: string;
   galleryImages?: string[];
   extendedDetails?: string[];
+  submittedBy?: string;
+  caption?: string;
 }
 
 export const cultureData: CultureItem[] = [

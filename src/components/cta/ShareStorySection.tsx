@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Upload, PenLine } from "lucide-react";
+import { Link } from "react-router-dom";
 import bgImg from "../../assets/cta-bg.png";
 
 const ShareStorySection = () => {
@@ -39,14 +40,14 @@ const ShareStorySection = () => {
               With the World
             </h2>
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md bg-gold hover:bg-gold-dark text-black font-semibold text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-gold/20 cursor-pointer shadow-md">
+              <Link to="/share-story" className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md bg-gold hover:bg-gold-dark text-black font-semibold text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-gold/20 cursor-pointer shadow-md">
                 <PenLine size={15} />
                 Share Your Story
-              </button>
-              <button className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md border border-white/80 text-white font-medium text-sm tracking-wide hover:bg-white/20 transition-all duration-300 cursor-pointer shadow-md backdrop-blur-sm">
+              </Link>
+              <Link to="/share-story" className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md border border-white/80 text-white font-medium text-sm tracking-wide hover:bg-white/20 transition-all duration-300 cursor-pointer shadow-md backdrop-blur-sm">
                 <Upload size={15} />
                 Upload Photos
-              </button>
+              </Link>
             </div>
           </div>
         </div>

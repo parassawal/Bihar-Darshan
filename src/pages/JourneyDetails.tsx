@@ -433,7 +433,7 @@ const JourneyDetails = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
             {relatedTrips.slice(0, 3).map((trip) => (
-              <JourneyCard key={trip.id} trip={trip} isCenter={false} />
+              <JourneyCard key={trip.id} trip={trip} />
             ))}
           </div>
         </div>

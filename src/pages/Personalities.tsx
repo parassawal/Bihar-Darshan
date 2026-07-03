@@ -1,5 +1,17 @@
 import React, { useState, useMemo } from 'react';
-import { Search, MapPin, ChevronDown, User, Star, Quote } from 'lucide-react';
+// import { Search, MapPin } from 'lucide-react';
+import {
+  Search,
+  MapPin,
+  Star,
+  ChevronDown,
+  Quote
+} from "lucide-react";
+// import { motion, AnimatePresence } from 'framer-motion';
+// import React, { useMemo, useState } from "react";
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
+import Container from '../components/layout/Container';
 
 interface Personality {
   id: number;
@@ -107,25 +119,48 @@ const personalities: Personality[] = [
   }
 ];
 
-const categories = ['All', 'Politician', 'Arts & Cinema', 'Historical', 'Literature', 'Sports'];
-const districts = ['All Districts', 'Patna', 'Gopalganj', 'Nalanda', 'West Champaran', 'Bhojpur', 'Begusarai', 'Siwan', 'Saran', 'Araria', 'Supaul', 'Vaishali', 'Samastipur'];
-
-export default function BiharDarshan() {
+export default function Personalities() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCat, setSelectedCat] = useState('All');
   const [selectedDist, setSelectedDist] = useState('All Districts');
 
-  const filteredData = useMemo(() => {
-    return personalities.filter(p => {
-      const matchSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchCat = selectedCat === 'All' || p.category === selectedCat;
-      const matchDist = selectedDist === 'All Districts' || p.district === selectedDist;
-      return matchSearch && matchCat && matchDist;
-    });
-  }, [searchTerm, selectedCat, selectedDist]);
+  const getUniqueDistricts = () => {
+    const dists = personalities.map(p => p.district);
+    return ['All Districts', ...new Set(dists)];
+  };
+const categories = [
+  "All",
+  "Historical",
+  "Politician",
+  "Arts & Cinema",
+  "Literature",
+  "Sports",
+];
+
+const [selectedCat, setSelectedCat] = useState("All");
+
+  const districts = getUniqueDistricts();
+
+ const filteredData = useMemo(() => {
+  return personalities.filter((p) => {
+    const matchSearch =
+      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchDistrict =
+      selectedDist === "All Districts" ||
+      p.district === selectedDist;
+
+    const matchCategory =
+      selectedCat === "All" ||
+      p.category === selectedCat;
+
+    return matchSearch && matchDistrict && matchCategory;
+  });
+}, [searchTerm, selectedDist, selectedCat]);
 
   return (
     <div className="min-h-screen bg-[#fcfcfc] font-sans pb-24">
+      <Navbar />
       {/* HEADER SECTION */}
       <div className="bg-[#0f172a] text-white pt-24 pb-32 px-6 text-center">
         <div className="inline-flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full text-orange-400 text-sm font-bold mb-6 backdrop-blur-md">
@@ -243,9 +278,7 @@ export default function BiharDarshan() {
         )}
       </div>
 
-      <footer className="text-center py-16 opacity-40">
-        <p className="text-slate-900 font-bold tracking-[0.2em] text-xs uppercase">Bihar Darshan • Cultural Portal</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

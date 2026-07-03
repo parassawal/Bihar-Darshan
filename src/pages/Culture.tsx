@@ -83,10 +83,10 @@ const Culture = () => {
         <Container>
           <div className="relative z-10 text-center max-w-2xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-              Bihar's Rich <span className="text-brand-gold">Culture</span>
+              Discover Bihar's <span className="text-brand-gold">Heritage</span>
             </h1>
             <p className="text-gray-300 text-lg leading-relaxed">
-              Dive into the vibrant festivals and mouth-watering culinary heritage that define the soul of Bihar. Use the filters below to explore by region or category.
+              Dive into the vibrant festivals and mouth-watering culinary heritage that define the soul of Bihar. Use the filters below to explore by region.
             </p>
           </div>
         </Container>
@@ -94,23 +94,7 @@ const Culture = () => {
 
       <Container>
         {/* Filters Section */}
-        <div id="culture-explore-section" className="bg-white p-3 rounded-[1.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 justify-between items-center mb-12">
-
-          {/* Category Pills */}
-          <div className="flex gap-1.5 p-1 bg-gray-50 rounded-[1.25rem] w-full md:w-auto overflow-x-auto scrollbar-hide">
-            {categories.map(category => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 shrink-0 ${activeCategory === category
-                  ? "bg-brand-gold text-brand-dark shadow-md"
-                  : "text-gray-500 hover:text-brand-dark hover:bg-gray-200"
-                  }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+        <div id="culture-explore-section" className="bg-white p-3 rounded-[1.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 justify-end items-center mb-12">
 
           {/* Custom District Dropdown */}
           <div className="relative w-full md:w-56 shrink-0 z-40">

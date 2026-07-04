@@ -15,6 +15,7 @@ import Community from './pages/Community';
 import MarketPlace from './pages/MarketPlace';
 import ScrollToTop from "./components/ScrollToTop";
 import ProductDetails from './pages/ProductDetails';
+import CultureDetails from './pages/CultureDetails';
 import ShareStory from './pages/ShareStory';
 import Personalities from './pages/Personalities';
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
@@ -56,6 +57,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/districts" element={<Districts />} />
           <Route path="/culture" element={<Culture />} />
+          <Route path="/culture/:id" element={<CultureDetails />} />
           <Route path="/community" element={<Community />} />
           <Route path="/Community" element={<Community />} />
           <Route path="/marketplace" element={<MarketPlace />} />

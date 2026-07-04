@@ -6,7 +6,7 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { MapPin, Utensils, PartyPopper, Search, Sparkles, User, MessageSquare } from 'lucide-react';
 import { useContributions } from '../data/ContributionContext';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Culture = () => {
   const { cultureSubmissions } = useContributions();
@@ -24,6 +24,7 @@ const Culture = () => {
   const [activeDistrict, setActiveDistrict] = useState("All Districts");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -192,10 +193,16 @@ const Culture = () => {
             >
               {filteredData.length > 0 ? (
                 filteredData.map((item) => (
-                  <div
+                  <Link
                     key={item.id}
-                    onClick={() => setSelectedItem(item)}
-                    className="relative flex-none h-[400px] rounded-[1.5rem] overflow-hidden group bg-white shadow-[0_4px_20px_rgb(0,0,0,0.04)] cursor-pointer"
+                    to={item.submittedBy ? "#" : `/culture/${item.id}`}
+                    onClick={(e) => {
+                      if (item.submittedBy) {
+                        e.preventDefault();
+                        setSelectedItem(item);
+                      }
+                    }}
+                    className="relative block flex-none h-[400px] rounded-[1.5rem] overflow-hidden group bg-white shadow-[0_4px_20px_rgb(0,0,0,0.04)] cursor-pointer hover:shadow-xl transition-shadow"
                   >
                     {/* Shrinking Image Background */}
                     <div className="absolute top-0 left-0 right-0 h-full group-hover:h-[50%] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:delay-100 group-hover:rounded-b-2xl overflow-hidden z-0">
@@ -252,15 +259,17 @@ const Culture = () => {
 
                             {/* Button */}
                             <div className="flex items-center gap-2">
-                              <button className="flex-1 py-2.5 rounded-[1rem] bg-brand-gold text-brand-dark text-[12px] font-bold tracking-wide shadow-sm active:scale-[0.98] hover:bg-gold-light transition-colors">
+                              <span 
+                                className="flex-1 py-2.5 rounded-[1rem] bg-brand-gold text-brand-dark text-[12px] font-bold tracking-wide shadow-sm active:scale-[0.98] hover:bg-gold-light transition-colors text-center block"
+                              >
                                 Learn More
-                              </button>
+                              </span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))
               ) : (
                 <div className="col-span-full py-20 text-center flex flex-col items-center">

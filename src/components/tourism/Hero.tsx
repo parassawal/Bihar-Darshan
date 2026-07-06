@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Star, ShieldCheck, Headphones } from "lucide-react";
-import SearchBar from "./SearchBar";
+// import SearchBar from "./SearchBar";
 import tourismMain from "../../assets/tourism main.png";
 
 const Hero = () => {
@@ -107,7 +107,7 @@ const Hero = () => {
 
       {/* Bottom: Search Bar Container */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-6xl px-6 z-20">
-        <SearchBar />
+        {/* <SearchBar /> */}
       </div>
     </section>
   );

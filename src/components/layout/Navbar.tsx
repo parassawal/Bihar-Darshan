@@ -1,31 +1,17 @@
 import { useState, useEffect } from "react";
-import { Globe, Menu, X, ChevronDown } from "lucide-react";
+import { Globe, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/new-logo.png";
 
-type SubNavItem = {
-  label: string;
-  path: string;
-};
-
 type NavItem = {
   label: string;
-  path?: string;
-  subItems?: SubNavItem[];
+  path: string;
 };
 
 const navItems: NavItem[] = [
   { label: "Home", path: "/" },
   { label: "Districts", path: "/districts" },
-  {
-    label: "Discover",
-    path: "/culture",
-    subItems: [
-      { label: "Food", path: "/culture?category=food" },
-      { label: "Festival", path: "/culture?category=festival" },
-      { label: "Personalities", path: "/personalities" }
-    ]
-  },
+  { label: "Discover", path: "/discover" },
   { label: "Community", path: "/community" },
   { label: "Tourism", path: "/tourism" },
   { label: "Tribes", path: "/tribals" },
@@ -40,8 +26,6 @@ interface NavbarProps {
 const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [discoverOpen, setDiscoverOpen] = useState(false);
-  const [mobileDiscoverOpen, setMobileDiscoverOpen] = useState(false);
   const getInitialLang = () => {
     const match = document.cookie.match(/googtrans=\/en\/([a-z]{2})/);
     if (match && match[1]) {
@@ -86,19 +70,12 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
   const isActive = (item: NavItem) => {
     if (item.label === "Home" && location.pathname === "/") return true;
     if (item.label === "Districts" && location.pathname === "/districts") return true;
-    if (item.label === "Discover" && (location.pathname === "/culture" || location.pathname === "/personalities")) return true;
+    if (item.label === "Discover" && (location.pathname === "/discover" || location.pathname === "/culture" || location.pathname === "/personalities")) return true;
     if (item.label === "Community" && (location.pathname === "/community" || location.pathname === "/Community")) return true;
     if (item.label === "MarketPlace" && (location.pathname === "/marketplace" || location.pathname === "/Marketplace")) return true;
     if (item.label === "Tourism" && location.pathname === "/tourism") return true;
     if (item.label === "Tribes" && location.pathname === "/tribals") return true;
     if (item.label === "Gallery" && location.pathname === "/gallery") return true;
-    return false;
-  };
-
-  const isSubItemActive = (path: string) => {
-    if (path.includes("category=food")) return location.pathname === "/culture" && location.search.includes("food");
-    if (path.includes("category=festival")) return location.pathname === "/culture" && location.search.includes("festival");
-    if (path === "/personalities") return location.pathname === "/personalities";
     return false;
   };
 
@@ -122,49 +99,17 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
           {navItems.map((item) => (
             <div key={item.label} className="relative">
               <Link
-                to={item.path || "#"}
-                onMouseEnter={() => item.subItems && setDiscoverOpen(true)}
-                onMouseLeave={() => item.subItems && setDiscoverOpen(false)}
+                to={item.path}
                 className={`relative flex items-center gap-1.5 text-sm font-semibold transition-all duration-300 ${scrolled || forceDarkText
                   ? "text-black/70 hover:text-gold"
                   : "text-white/90 hover:text-gold"
                   } ${isActive(item) ? "text-gold" : ""}`}
               >
                 {item.label}
-                {item.subItems && (
-                  <ChevronDown
-                    size={14}
-                    className={`transition-transform duration-300 ${
-                      discoverOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                )}
                 {isActive(item) && (
                   <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-gold rounded-full" />
                 )}
               </Link>
-
-              {item.subItems && discoverOpen && (
-                <div
-                  onMouseEnter={() => setDiscoverOpen(true)}
-                  onMouseLeave={() => setDiscoverOpen(false)}
-                  className="absolute top-full left-0 mt-2 w-48 rounded-xl bg-white shadow-lg border border-black/5 overflow-hidden animate-in fade-in zoom-in-95 duration-200"
-                >
-                  {item.subItems.map((subItem) => (
-                    <Link
-                      key={subItem.label}
-                      to={subItem.path}
-                      className={`block px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${
-                        isSubItemActive(subItem.path)
-                          ? "bg-gold/10 text-gold"
-                          : "text-black/70 hover:bg-black/5 hover:text-black"
-                      }`}
-                    >
-                      {subItem.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
             </div>
           ))}
         </nav>
@@ -244,55 +189,14 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
           <nav className="flex flex-col gap-6">
             {navItems.map((item) => (
               <div key={item.label} className="flex flex-col gap-2">
-                {item.subItems ? (
-                  <>
-                    <button
-                      onClick={() => setMobileDiscoverOpen(!mobileDiscoverOpen)}
-                      className={`text-lg font-bold transition-colors flex items-center justify-between ${
-                        isActive(item) ? "text-gold" : "text-black/80 dark:text-white/90"
-                      }`}
-                    >
-                      {item.label}
-                      <ChevronDown
-                        size={18}
-                        className={`transition-transform duration-300 ${
-                          mobileDiscoverOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                    {mobileDiscoverOpen && (
-                      <div className="ml-4 flex flex-col gap-2 border-l border-black/10 pl-4 animate-in slide-in-from-left duration-200">
-                        {item.subItems.map((subItem) => (
-                          <Link
-                            key={subItem.label}
-                            to={subItem.path}
-                            onClick={() => {
-                              setMobileOpen(false);
-                              setMobileDiscoverOpen(false);
-                            }}
-                            className={`text-sm font-semibold transition-colors ${
-                              isSubItemActive(subItem.path)
-                                ? "text-gold"
-                                : "text-black/60 dark:text-white/70"
-                            }`}
-                          >
-                            {subItem.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    to={item.path || "#"}
-                    onClick={() => setMobileOpen(false)}
-                    className={`text-lg font-bold transition-colors ${
-                      isActive(item) ? "text-gold" : "text-black/80 dark:text-white/90"
+                <Link
+                  to={item.path}
+                  onClick={() => setMobileOpen(false)}
+                  className={`text-lg font-bold transition-colors ${isActive(item) ? "text-gold" : "text-black/80 dark:text-white/90"
                     }`}
-                  >
-                    {item.label}
-                  </Link>
-                )}
+                >
+                  {item.label}
+                </Link>
               </div>
             ))}
             {isAuthenticated ? (

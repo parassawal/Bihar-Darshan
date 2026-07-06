@@ -44,7 +44,7 @@ const ProductDetails = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar forceDarkText={true} />
 
       <div className="bg-brand-gray min-h-screen pt-32 pb-20">
         <Container>
@@ -108,13 +108,13 @@ const ProductDetails = () => {
               </h1>
 
               {/* Business Name */}
-              <h2 className="text-2xl font-semibold text-orange-500 mt-3">
+              <h2 className="text-2xl font-semibold text-brand-gold mt-3">
                 {selectedProduct.businessName}
               </h2>
 
               {/* District */}
               <div className="flex items-center gap-3 mt-5 text-lg text-gray-700">
-                <MapPin size={20} className="text-red-500" />
+                <MapPin size={20} className="text-brand-gold" />
                 <span>
                   <strong>District:</strong> {(selectedProduct as any).district ?? ""}
 
@@ -132,7 +132,7 @@ const ProductDetails = () => {
               {/* Contact Details */}
               <div className="mt-10 bg-white rounded-3xl shadow-lg p-6 space-y-5">
                 <div className="flex items-center gap-4">
-                  <Phone className="text-orange-500" />
+                  <Phone className="text-brand-gold" />
                   <div>
                     <p className="font-semibold">Contact</p>
                     <p>{selectedProduct.contact}</p>
@@ -142,7 +142,7 @@ const ProductDetails = () => {
                 <div className="border-b" />
 
                 <div className="flex items-center gap-4">
-                  <Mail className="text-orange-500" />
+                  <Mail className="text-brand-gold" />
                   <div>
                     <p className="font-semibold">Email</p>
                     <p>{selectedProduct.email}</p>
@@ -152,7 +152,7 @@ const ProductDetails = () => {
                 <div className="border-b" />
 
                 <div className="flex items-center gap-4">
-                  <MapPin className="text-orange-500" />
+                  <MapPin className="text-brand-gold" />
                   <div>
                     <p className="font-semibold">Address</p>
                     <p>{selectedProduct.address}</p>
@@ -162,14 +162,14 @@ const ProductDetails = () => {
                 <div className="border-b" />
 
                 <div className="flex items-center gap-4">
-                  <Globe className="text-orange-500" />
+                  <Globe className="text-brand-gold" />
                   <div>
                     <p className="font-semibold">Website</p>
                     <a
                       href={selectedProduct.website}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-blue-600 hover:underline break-all"
+                      className="text-brand-gold hover:underline break-all font-medium"
                     >
                       {selectedProduct.website}
                     </a>
@@ -177,10 +177,22 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              
+              <div className="pt-2">
+  <a
+    href={selectedProduct.mapLink}
+    target="_blank"
+    rel="noreferrer"
+    className="w-full flex items-center justify-center gap-2 bg-brand-gold text-brand-dark font-semibold py-3 rounded-xl hover:brightness-110 transition-all duration-300 shadow-md"
+  >
+    <MapPin size={20} />
+    View on Map
+  </a>
+</div>
 
-                
-              
+
+
+
+
             </motion.div>
           </motion.div>
         </Container>

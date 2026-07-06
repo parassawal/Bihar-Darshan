@@ -13,7 +13,7 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import Container from '../components/layout/Container';
 
-interface Personality {
+export interface Personality {
   id: number;
   name: string;
   category: 'Politician' | 'Arts & Cinema' | 'Historical' | 'Literature' | 'Sports';
@@ -22,7 +22,7 @@ interface Personality {
   imageUrl: string;
 }
 
-const personalities: Personality[] = [
+export const personalities: Personality[] = [
   // --- HISTORICAL ---
   { 
     id: 1, name: "Samrat Ashoka", category: "Historical", district: "Patna", 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Districts from './pages/Districts';
-import Culture from './pages/Culture';
+import Discover from './pages/Discover';
 import Tourism from './pages/Tourism';
 import JourneyDetails from './pages/JourneyDetails';
 import Tribals from './pages/Tribals';
@@ -10,6 +10,7 @@ import TribeDetail from './pages/TribeDetail';
 import Gallery from './pages/Gallery';
 import DistrictsDetails from './pages/DistrictsDetails';
 import LoginPage from './pages/Login';
+import ForgotPasswordPage from './pages/ForgotPassword';
 import Profile from './pages/Profile';
 import Community from './pages/Community';
 import MarketPlace from './pages/MarketPlace';
@@ -56,7 +57,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/districts" element={<Districts />} />
-          <Route path="/culture" element={<Culture />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/culture" element={<Discover />} />
           <Route path="/culture/:id" element={<CultureDetails />} />
           <Route path="/community" element={<Community />} />
           <Route path="/Community" element={<Community />} />
@@ -70,6 +72,7 @@ function App() {
           <Route path="/personalities" element={<Personalities />} />
           <Route path="/districts/:name" element={<DistrictsDetails />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/marketplace/:id" element={<ProductDetails />} />
           <Route path="/share-story" element={<ShareStory />} />

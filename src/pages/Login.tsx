@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Navbar from '../components/layout/Navbar';
+import { Eye, EyeOff } from 'lucide-react';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -33,22 +36,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden font-sans">
-
-      {/* HEADER SECTION */}
-      <header className="absolute top-0 left-0 w-full p-6 md:p-10 z-20 flex justify-between items-center">
-        <div className="flex items-center space-x-3">
-          {/* LOGO REPLACEMENT */}
-          <img
-            src="src/assets/logo.png"
-            alt="Bihar Darshan Logo"
-            className="h-12 w-12 md:h-16 md:w-16 object-contain drop-shadow-xl"
-            style={{ mixBlendMode: 'lighten' }} // Helps if background isn't perfectly transparent
-          />
-          <h1 className="text-white text-2xl md:text-3xl font-bold tracking-[0.2em] uppercase drop-shadow-lg">
-            Bihar <span className="font-light opacity-80">Darshan</span>
-          </h1>
-        </div>
-      </header>
+      <Navbar />
 
       {/* BACKGROUND IMAGE */}
       <div
@@ -87,7 +75,7 @@ const LoginPage: React.FC = () => {
                     type="text"
                     name="firstName"
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500"
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
                     placeholder="Rahul"
                     required
                   />
@@ -98,7 +86,7 @@ const LoginPage: React.FC = () => {
                     type="text"
                     name="lastName"
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500"
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
                     placeholder="Kumar"
                     required
                   />
@@ -112,7 +100,7 @@ const LoginPage: React.FC = () => {
                 type="email"
                 name="email"
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500"
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
                 placeholder="name@example.com"
                 required
               />
@@ -120,44 +108,62 @@ const LoginPage: React.FC = () => {
 
             {/* NEW PASSWORD FIELDS */}
             <div className={`${!isLogin ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'space-y-4'}`}>
-              <div className="w-full">
+              <div className="w-full relative">
                 <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">
                   {isLogin ? 'Password' : 'New Password'}
                 </label>
-                <input
-                  type="password"
-                  name="newPassword"
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-
-              {!isLogin && (
-                <div className="w-full animate-in fade-in slide-in-from-right-2 duration-300">
-                  <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">Confirm Password</label>
+                <div className="relative">
                   <input
-                    type="password"
-                    name="confirmPassword"
+                    type={showPassword ? "text" : "password"}
+                    name="newPassword"
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500"
+                    className="w-full px-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
                     placeholder="••••••••"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/90 hover:bg-white text-black transition-all focus:outline-none cursor-pointer shadow-sm"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+
+              {!isLogin && (
+                <div className="w-full relative animate-in fade-in slide-in-from-right-2 duration-300">
+                  <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">Confirm Password</label>
+                  <div className="relative">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="confirmPassword"
+                      onChange={handleInputChange}
+                      className="w-full px-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
+                      placeholder="••••••••"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/90 hover:bg-white text-black transition-all focus:outline-none cursor-pointer shadow-sm"
+                    >
+                      {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
 
             {isLogin && (
               <div className="flex items-center justify-end text-xs">
-                <a href="#" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">Forgot password?</a>
+                <Link to="/forgot-password" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">Forgot password?</Link>
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full py-4 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow-xl shadow-amber-950/40 transition-all active:scale-[0.97] mt-4 uppercase tracking-widest text-sm"
+              className="w-full py-4 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow-xl shadow-amber-950/40 transition-all active:scale-[0.97] mt-4 uppercase tracking-widest text-sm cursor-pointer"
             >
               {isLogin ? 'Sign In' : 'Create Account'}
             </button>
@@ -179,5 +185,4 @@ const LoginPage: React.FC = () => {
     </div>
   );
 };
-
 export default LoginPage;

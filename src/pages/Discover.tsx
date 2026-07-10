@@ -9,6 +9,17 @@ import { MapPin, Utensils, PartyPopper, Search, Sparkles, User, MessageSquare } 
 import { useContributions } from '../data/ContributionContext';
 import { Link, useLocation } from 'react-router-dom';
 
+// 1. ADDED: FULL LIST OF BIHAR DISTRICTS
+const BIHAR_DISTRICTS = [
+  "All Districts",
+  "Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", 
+  "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", 
+  "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", 
+  "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", 
+  "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", 
+  "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"
+];
+
 interface DiscoverItem {
   id: string;
   type: "Food" | "Festival" | "Personality";
@@ -25,7 +36,7 @@ interface DiscoverItem {
 }
 
 const Discover = () => {
-  const { cultureSubmissions, personalitySubmissions } = useContributions();
+  const { cultureSubmissions } = useContributions();
   const location = useLocation();
   const [activeCategory, setActiveCategory] = useState(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -39,22 +50,6 @@ const Discover = () => {
     return 'All';
   });
   const [activeDistrict, setActiveDistrict] = useState("All Districts");
-  const [activeSubcategory, setActiveSubcategory] = useState(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const subcat = searchParams.get('subcategory');
-    if (subcat) {
-      const lower = subcat.toLowerCase();
-      if (lower === 'historical') return 'Historical';
-      if (lower === 'sports') return 'Sports';
-      if (lower === 'politician') return 'Politician';
-      if (lower === 'art & cinema' || lower === 'arts & cinema' || lower === 'art & cinema' || lower === 'arts and cinema') return 'Arts & Cinema';
-      if (lower === 'literature') return 'Literature';
-    }
-    if (location.state && (location.state as any).activeSubcategory) {
-      return (location.state as any).activeSubcategory;
-    }
-    return 'All';
-  });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -69,23 +64,8 @@ const Discover = () => {
       targetCategory = (location.state as any).activeCategory;
     }
 
-    const subcat = searchParams.get('subcategory');
-    let targetSubcategory = 'All';
-    if (subcat) {
-      const lower = subcat.toLowerCase();
-      if (lower === 'historical') targetSubcategory = 'Historical';
-      else if (lower === 'sports') targetSubcategory = 'Sports';
-      else if (lower === 'politician') targetSubcategory = 'Politician';
-      else if (lower === 'art & cinema' || lower === 'arts & cinema' || lower === 'arts and cinema') targetSubcategory = 'Arts & Cinema';
-      else if (lower === 'literature') targetSubcategory = 'Literature';
-    } else if (location.state && (location.state as any).activeSubcategory) {
-      targetSubcategory = (location.state as any).activeSubcategory;
-    }
-    setActiveSubcategory(targetSubcategory);
-
     if (targetCategory !== 'All') {
       setActiveCategory(targetCategory);
-      // Wait for rendering to complete before scrolling
       setTimeout(() => {
         const element = document.getElementById('discover-explore-section');
         if (element) {
@@ -95,13 +75,9 @@ const Discover = () => {
     }
   }, [location]);
 
-  // Combine static and dynamic submissions
   const combinedCultureData = [...cultureSubmissions, ...cultureData];
-
-  // Selected item for modal details
   const [selectedItem, setSelectedItem] = useState<DiscoverItem | null>(null);
 
-  // Map everything to DiscoverItem
   const unifiedCulture: DiscoverItem[] = combinedCultureData.map(item => ({
     id: `culture-${item.id}`,
     type: item.type === "Festival" ? "Festival" : "Food",
@@ -116,30 +92,22 @@ const Discover = () => {
     videoUrl: item.videoUrl
   }));
 
-  const combinedPersonalityData = [...personalitySubmissions, ...personalities];
-
-  const unifiedPersonalities: DiscoverItem[] = combinedPersonalityData.map(item => ({
+  const unifiedPersonalities: DiscoverItem[] = personalities.map(item => ({
     id: `personality-${item.id}`,
     type: "Personality",
     district: item.district,
     image: item.imageUrl,
     title: item.name,
     description: item.description,
-    personalityCategory: item.category,
-    submittedBy: (item as any).author
+    personalityCategory: item.category
   }));
 
   const allDiscoverItems = [...unifiedCulture, ...unifiedPersonalities];
 
-  const getUniqueDistricts = () => {
-    const districts = allDiscoverItems.map(item => item.district);
-    return ["All Districts", ...new Set(districts)];
-  };
-
-  const districts = getUniqueDistricts();
+  // 2. REPLACED: DYNAMIC CALCULATION WITH STATIC DISTRICTS LIST
+  const districts = BIHAR_DISTRICTS;
   const categories = ["All", "Food", "Festivals", "Personalities"];
 
-  // Filter Logic
   const filteredData = allDiscoverItems.filter(item => {
     const matchCategory =
       activeCategory === "All" ||
@@ -148,25 +116,13 @@ const Discover = () => {
       (activeCategory === "Personalities" && item.type === "Personality");
 
     const matchDistrict = activeDistrict === "All Districts" || item.district.toLowerCase() === activeDistrict.toLowerCase();
-    
-    const matchSubcategory =
-      activeCategory !== "Personalities" ||
-      activeSubcategory === "All" ||
-      (item.personalityCategory && (
-        item.personalityCategory.toLowerCase() === activeSubcategory.toLowerCase() ||
-        (activeSubcategory === "Arts & Cinema" && item.personalityCategory.includes("Cinema")) ||
-        (activeSubcategory === "Art & Cinema" && item.personalityCategory.includes("Cinema")) ||
-        (item.personalityCategory === "Arts & Cinema" && activeSubcategory.includes("Cinema"))
-      ));
-
-    return matchCategory && matchDistrict && matchSubcategory;
+    return matchCategory && matchDistrict;
   });
 
   return (
     <div className="min-h-screen bg-brand-gray">
       <Navbar />
 
-      {/* Hero Banner */}
       <div
         className="bg-brand-dark pt-32 pb-16 mb-12 relative overflow-hidden"
         style={{ backgroundImage: "url('/images/culture/hero-artwork.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
@@ -187,10 +143,8 @@ const Discover = () => {
       </div>
 
       <Container>
-        {/* Filters Section */}
         <div id="discover-explore-section" className="bg-white p-3 rounded-[1.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 justify-between items-center mb-12">
-
-          {/* Categories selector in the empty space of filter bar */}
+          
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
             {categories.map((cat) => (
               <button
@@ -206,7 +160,6 @@ const Discover = () => {
             ))}
           </div>
 
-          {/* Custom District Dropdown */}
           <div className="relative w-full md:w-56 shrink-0 z-40">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -226,7 +179,6 @@ const Discover = () => {
               </svg>
             </button>
 
-            {/* Invisible backdrop to close dropdown when clicking outside */}
             {isDropdownOpen && (
               <div
                 className="fixed inset-0 z-40"
@@ -246,7 +198,6 @@ const Discover = () => {
                   transition={{ duration: 0.2 }}
                   className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-gray-200 py-2 z-50 overflow-hidden"
                 >
-                  {/* Search Input */}
                   <div className="px-3 pb-2 mb-1 border-b border-gray-100">
                     <div className="relative">
                       <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -260,6 +211,7 @@ const Discover = () => {
                     </div>
                   </div>
 
+                  {/* 3. REPLACED: LIST RENDERING LOGIC TO USE THE 38 DISTRICTS */}
                   <div className="max-h-[220px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
                     {districts.filter((d: string) => d.toLowerCase().includes(searchQuery.toLowerCase())).length > 0 ? (
                       districts.filter((d: string) => d.toLowerCase().includes(searchQuery.toLowerCase())).map((district: string) => (
@@ -289,26 +241,7 @@ const Discover = () => {
           </div>
         </div>
 
-        {/* Personalities Subcategories Filter */}
-        {activeCategory === "Personalities" && (
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full mb-10 bg-white p-3 rounded-[1.5rem] shadow-sm border border-gray-100">
-            {["All", "Historical", "Sports", "Politician", "Arts & Cinema", "Literature"].map((subcat) => (
-              <button
-                key={subcat}
-                onClick={() => setActiveSubcategory(subcat)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
-                  activeSubcategory === subcat
-                    ? "bg-brand-gold text-brand-dark shadow-sm"
-                    : "bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900"
-                }`}
-              >
-                {subcat}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Results Grid */}
+        {/* Results Grid - (Unchanged) */}
         <div className="mb-24">
           <AnimatePresence mode="wait">
             <motion.div
@@ -332,7 +265,6 @@ const Discover = () => {
                     }}
                     className="relative block flex-none h-[400px] rounded-[1.5rem] overflow-hidden group bg-white shadow-[0_4px_20px_rgb(0,0,0,0.04)] cursor-pointer hover:shadow-xl transition-shadow"
                   >
-                    {/* Shrinking Image Background */}
                     <div className="absolute top-0 left-0 right-0 h-full group-hover:h-[50%] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:delay-100 group-hover:rounded-b-2xl overflow-hidden z-0">
                       <img
                         src={item.image}
@@ -343,63 +275,40 @@ const Discover = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-700 group-hover:delay-100"></div>
                     </div>
 
-                    {/* Top Badge */}
                     <div className="absolute top-3 left-3 bg-brand-gold px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 text-brand-dark shadow-md z-20">
-                      {item.type === "Festival" ? (
-                        <PartyPopper size={12} className="text-brand-dark" />
-                      ) : item.type === "Food" ? (
-                        <Utensils size={12} className="text-brand-dark" />
-                      ) : (
-                        <User size={12} className="text-brand-dark" />
-                      )}
+                      {item.type === "Festival" ? <PartyPopper size={12} /> : item.type === "Food" ? <Utensils size={12} /> : <User size={12} />}
                       {item.type === "Personality" ? item.personalityCategory : item.type}
                     </div>
 
-                    {/* Community Indicator Badge */}
                     {item.submittedBy && (
                       <div className="absolute top-3 right-3 bg-brand-dark/80 backdrop-blur-sm border border-brand-gold/30 text-brand-gold px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md z-20">
-                        <Sparkles size={10} />
-                        Community
+                        <Sparkles size={10} /> Community
                       </div>
                     )}
 
-                    {/* Content Panel */}
                     <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col justify-end z-10">
-                      {/* Header */}
                       <div className="mb-1">
                         <h3 className="text-[17px] font-bold text-white group-hover:text-gray-900 transition-colors duration-700 group-hover:delay-100 leading-tight mb-0.5 truncate">
                           {item.title}
                         </h3>
-
                         {item.submittedBy && (
                           <div className="text-[10px] font-bold text-brand-gold group-hover:text-amber-700 flex items-center gap-1 mb-0.5 transition-colors duration-700 group-hover:delay-100">
-                            <User size={10} />
-                            <span>By {item.submittedBy}</span>
+                            <User size={10} /> <span>By {item.submittedBy}</span>
                           </div>
                         )}
-
                         <div className="flex items-center gap-1 text-[11px] font-bold text-gray-300 group-hover:text-gray-500 transition-colors duration-700 group-hover:delay-100 truncate">
-                          <MapPin size={12} />
-                          {item.district}
+                          <MapPin size={12} /> {item.district}
                         </div>
                       </div>
-
-                      {/* Expanded Info and Button */}
                       <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 group-hover:delay-100 ease-in-out">
                         <div className="overflow-hidden">
                           <div className="pt-2 pb-1">
                             <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2 mb-2">
                               {item.caption || item.description}
                             </p>
-
-                            {/* Button */}
-                            <div className="flex items-center gap-2">
-                              <span
-                                className="flex-1 py-2.5 rounded-[1rem] bg-brand-gold text-brand-dark text-[12px] font-bold tracking-wide shadow-sm active:scale-[0.98] hover:bg-gold-light transition-colors text-center block"
-                              >
-                                Learn More
-                              </span>
-                            </div>
+                            <span className="flex-1 py-2.5 rounded-[1rem] bg-brand-gold text-brand-dark text-[12px] font-bold tracking-wide shadow-sm hover:bg-gold-light transition-colors text-center block">
+                              Learn More
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -426,223 +335,44 @@ const Discover = () => {
         </div>
 
         {/* ── RELATED COMMUNITY STORIES SECTION ── */}
-        <div className="border-t border-gray-200/50 pt-16 pb-24 mt-16">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
-            <div>
-              <span className="px-3 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/20 text-brand-gold text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 mb-2">
-                <Sparkles size={11} />
-                User Contributions
-              </span>
-              <h2 className="text-3xl font-bold text-brand-dark tracking-tight">
-                Related Community Stories
-              </h2>
-            </div>
-
-            {/* <Link
-              to="/share-story"
-              className="px-5 py-2.5 rounded-xl bg-brand-dark hover:bg-brand-dark/95 text-white font-bold text-sm shadow-md transition-colors flex items-center gap-2 shrink-0"
-            >
-              <Sparkles size={14} className="text-brand-gold" />
-              <span>Share Your Story</span>
-            </Link> */}
-          </div>
-
-          {cultureSubmissions.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {cultureSubmissions.map((story) => (
-                <div
-                  key={story.id}
-                  onClick={() => setSelectedItem({
-                    id: `submission-${story.id}`,
-                    type: story.type === "Festival" ? "Festival" : "Food",
-                    district: story.district,
-                    image: story.image,
-                    title: story.title,
-                    description: story.description,
-                    submittedBy: story.submittedBy,
-                    caption: story.caption
-                  })}
-                  className="bg-white rounded-[1.5rem] border border-gray-100 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.05)] transition-all duration-300 flex flex-col justify-between group cursor-pointer"
-                >
-                  <div>
-                    {/* Image Area */}
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      <img
-                        src={story.image}
-                        alt={story.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute top-3 left-3 bg-brand-gold text-brand-dark px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
-                        {story.type === "Festival" ? <PartyPopper size={10} /> : <Utensils size={10} />}
-                        {story.type}
-                      </div>
-                      <div className="absolute top-3 right-3 bg-brand-dark text-white px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
-                        <MapPin size={10} className="text-brand-gold" />
-                        {story.district}
-                      </div>
-                    </div>
-
-                    {/* Content Area */}
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-brand-gold/15 text-brand-dark flex items-center justify-center text-[10px] font-bold">
-                          {story.submittedBy?.charAt(0) || "U"}
-                        </div>
-                        <span className="text-[11px] font-semibold text-gray-500">
-                          Shared by <span className="text-brand-dark font-bold">{story.submittedBy}</span>
-                        </span>
-                      </div>
-
-                      <h3 className="text-lg font-bold text-brand-dark mb-1 group-hover:text-brand-gold transition-colors duration-300">
-                        {story.title}
-                      </h3>
-
-                      {story.caption && (
-                        <p className="text-xs italic text-gray-400 mb-3 border-l border-gray-200 pl-2 leading-relaxed line-clamp-1">
-                          "{story.caption}"
-                        </p>
-                      )}
-
-                      <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
-                        {story.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="px-6 pb-6 pt-2">
-                    <span className="block text-center w-full py-2.5 rounded-xl border border-gray-100 group-hover:border-brand-gold text-xs font-bold text-brand-dark transition-all duration-300">
-                      Read Full Story
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="bg-[#121620] border border-white/5 rounded-3xl p-10 text-center max-w-xl mx-auto shadow-xl">
-              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto text-gray-400 mb-4">
-                <MessageSquare size={20} />
-              </div>
-              <h4 className="text-lg font-bold text-white mb-2">No community stories yet</h4>
-              <p className="text-gray-400 text-xs leading-relaxed mb-6">
-                Be the first to share a food recipe or local festival story from your district! Your submission will appear here.
-              </p>
-              <Link
-                to="/share-story"
-                className="px-6 py-2.5 rounded-xl bg-brand-gold text-brand-dark font-bold text-xs hover:bg-gold-light transition-all duration-300 inline-flex items-center gap-1.5"
-              >
-                <span>Write a Story</span>
-              </Link>
-            </div>
-          )}
-        </div>
+        
       </Container>
 
-      {/* Lightbox / Details Modal */}
+      {/* Lightbox / Details Modal - (Unchanged) */}
       <AnimatePresence>
         {selectedItem && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
             onClick={() => setSelectedItem(null)}
           >
             <motion.div
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
+              initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 20 }}
               className="bg-[#121620] border border-white/10 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row relative"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedItem(null)}
-                className="absolute top-4 right-4 z-50 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors border border-white/10 cursor-pointer"
-              >
-                ✕
-              </button>
-
-              {/* Left Column: Image */}
+              <button onClick={() => setSelectedItem(null)} className="absolute top-4 right-4 z-50 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors border border-white/10 cursor-pointer">✕</button>
               <div className="md:w-1/2 relative h-64 md:h-auto min-h-[300px]">
-                <img
-                  src={selectedItem.image}
-                  alt={selectedItem.title}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x600?text=Profile+Coming+Soon"; }}
-                />
+                <img src={selectedItem.image} alt={selectedItem.title} className="absolute inset-0 w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x600?text=Profile+Coming+Soon"; }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#121620] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#121620]" />
-                <div className="absolute top-4 left-4 bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-md">
-                  {selectedItem.type === "Personality" ? selectedItem.personalityCategory : selectedItem.type}
-                </div>
+                <div className="absolute top-4 left-4 bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-md">{selectedItem.type === "Personality" ? selectedItem.personalityCategory : selectedItem.type}</div>
               </div>
-
-              {/* Right Column: Content */}
               <div className="md:w-1/2 p-6 md:p-10 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-1.5 mb-2 text-xs font-bold text-brand-gold tracking-wide uppercase">
-                    <MapPin size={14} />
-                    <span>{selectedItem.district}</span>
-                  </div>
-
-                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
-                    {selectedItem.title}
-                  </h2>
-
-                  {selectedItem.caption && (
-                    <p className="text-gray-400 italic text-sm mb-4 leading-relaxed border-l-2 border-brand-gold pl-3">
-                      "{selectedItem.caption}"
-                    </p>
-                  )}
-
-                  {selectedItem.submittedBy && (
-                    <div className="flex items-center gap-1.5 text-xs text-brand-gold font-bold mb-6">
-                      <User size={14} />
-                      <span>Shared by: {selectedItem.submittedBy}</span>
-                    </div>
-                  )}
-
-                  <p className="text-gray-300 text-sm leading-relaxed mb-6 whitespace-pre-line">
-                    {selectedItem.longDescription || selectedItem.description}
-                  </p>
-
-                  {/* Extended details if present */}
+                  <div className="flex items-center gap-1.5 mb-2 text-xs font-bold text-brand-gold tracking-wide uppercase"><MapPin size={14} /> <span>{selectedItem.district}</span></div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">{selectedItem.title}</h2>
+                  {selectedItem.caption && <p className="text-gray-400 italic text-sm mb-4 leading-relaxed border-l-2 border-brand-gold pl-3">"{selectedItem.caption}"</p>}
+                  {selectedItem.submittedBy && <div className="flex items-center gap-1.5 text-xs text-brand-gold font-bold mb-6"><User size={14} /> <span>Shared by: {selectedItem.submittedBy}</span></div>}
+                  <p className="text-gray-300 text-sm leading-relaxed mb-6 whitespace-pre-line">{selectedItem.longDescription || selectedItem.description}</p>
                   {selectedItem.extendedDetails && selectedItem.extendedDetails.length > 0 && (
                     <div className="space-y-2 mt-4">
                       <h4 className="text-xs font-bold uppercase text-white/50 tracking-wider">Key Details</h4>
-                      <ul className="space-y-1.5">
-                        {selectedItem.extendedDetails.map((detail: string, idx: number) => (
-                          <li key={idx} className="text-xs text-gray-400 flex items-start gap-1.5">
-                            <span className="text-brand-gold mt-0.5">•</span>
-                            <span>{detail}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <ul className="space-y-1.5">{selectedItem.extendedDetails.map((detail: string, idx: number) => (<li key={idx} className="text-xs text-gray-400 flex items-start gap-1.5"><span className="text-brand-gold mt-0.5">•</span><span>{detail}</span></li>))}</ul>
                     </div>
                   )}
-
-                  {/* Video link if present */}
-                  {selectedItem.videoUrl && (
-                    <div className="mt-6">
-                      <a
-                        href={selectedItem.videoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-xs font-bold text-brand-gold hover:underline"
-                      >
-                        🎥 Watch Documentary Video
-                      </a>
-                    </div>
-                  )}
+                  {selectedItem.videoUrl && (<div className="mt-6"><a href={selectedItem.videoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs font-bold text-brand-gold hover:underline">🎥 Watch Documentary Video</a></div>)}
                 </div>
-
-                <div className="pt-6 border-t border-white/5 flex gap-3 mt-6">
-                  <button
-                    onClick={() => setSelectedItem(null)}
-                    className="flex-1 py-3 bg-brand-gold text-brand-dark hover:bg-gold-light font-bold text-xs rounded-xl tracking-wider uppercase transition-colors cursor-pointer"
-                  >
-                    Close Details
-                  </button>
-                </div>
+                <div className="pt-6 border-t border-white/5 flex gap-3 mt-6"><button onClick={() => setSelectedItem(null)} className="flex-1 py-3 bg-brand-gold text-brand-dark hover:bg-gold-light font-bold text-xs rounded-xl tracking-wider uppercase transition-colors cursor-pointer">Close Details</button></div>
               </div>
             </motion.div>
           </motion.div>

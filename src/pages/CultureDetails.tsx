@@ -76,36 +76,27 @@ const CultureDetails = () => {
           </motion.div>
 
           {/* Right: Featured Image/Video */}
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-7 relative"
-          >
-            {cultureItem.videoUrl ? (
-              <div className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black">
-                <iframe 
-                  src={cultureItem.videoUrl} 
-                  title={`${cultureItem.title} Video`}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen 
-                />
-              </div>
-            ) : (
-              <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100 group">
-                <img 
-                  src={cultureItem.image} 
-                  alt={cultureItem.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                />
-              </div>
-            )}
-            
-            {/* Decorative background blob */}
-            <div className="absolute -z-10 -bottom-8 -right-8 w-64 h-64 bg-brand-gold/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -z-10 -top-8 -left-8 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-          </motion.div>
+          {/* Right: Featured Image (Video Removed) */}
+<motion.div 
+  initial={{ opacity: 0, x: 30 }}
+  animate={{ opacity: 1, x: 0 }}
+  transition={{ duration: 0.6 }}
+  className="lg:col-span-7 relative"
+>
+  <div className="relative w-full aspect-[4/3] md:aspect-video lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100 group">
+    <img 
+      src={cultureItem.image} 
+      alt={cultureItem.title} 
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+    />
+    {/* Subtle overlay for depth */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+  </div>
+  
+  {/* Decorative background blobs - kept these for the style */}
+  <div className="absolute -z-10 -bottom-8 -right-8 w-64 h-64 bg-brand-gold/20 rounded-full blur-3xl pointer-events-none" />
+  <div className="absolute -z-10 -top-8 -left-8 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+</motion.div>
         </div>
 
         {/* Gallery Section */}

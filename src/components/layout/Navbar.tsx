@@ -116,6 +116,14 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
 
         {/* Right Side */}
         <div className="flex items-center gap-3">
+          {/* Share Your Story Button */}
+          <Link
+            to="/share-story"
+            className="hidden lg:block px-5 py-2.5 rounded-xl bg-brand-gold hover:bg-brand-gold/90 text-brand-dark font-bold text-[11px] uppercase tracking-wider shadow-md transition-all active:scale-95 duration-200"
+          >
+            Share your story
+          </Link>
+
           {/* Language Selector */}
           <div className="relative hidden lg:block">
             <button
@@ -170,8 +178,6 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
             </Link>
           )}
 
-          {/* Removed Share Your Story button as requested */}
-
           {/* Mobile Menu Toggle */}
           <button
             className={`xl:hidden p-1 transition-colors ${scrolled || forceDarkText ? "text-black" : "text-white"
@@ -216,6 +222,15 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
                 Login
               </Link>
             )}
+
+            <Link
+              to="/share-story"
+              onClick={() => setMobileOpen(false)}
+              className="px-6 py-3 rounded-2xl bg-brand-gold hover:bg-brand-gold/90 text-brand-dark font-bold text-center text-[15px] uppercase tracking-wider shadow-md transition-all active:scale-[0.98] mt-2 block"
+            >
+              Share your story
+            </Link>
+
             <div className="h-px bg-black/5 dark:bg-white/5 my-2" />
             <div className="flex gap-4">
               {["English", "Hindi"].map((l) => (

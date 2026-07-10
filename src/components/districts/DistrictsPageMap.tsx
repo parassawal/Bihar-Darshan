@@ -30,9 +30,9 @@ const BOUNDS = {
   maxLat: 27.6,
 };
 
-const SVG_W = 900;
-const SVG_H = 700;
-const PADDING = 30;
+const SVG_W = 1000;
+const SVG_H = 760;
+const PADDING = 40;
 
 function projectLng(lng: number): number {
   return (
@@ -134,13 +134,38 @@ const DistrictsPageMap = ({
     }));
   }, [geoData]);
 
+  // Manual pixel offsets (in SVG units) for crowded / small districts
+  const LABEL_OFFSETS: Record<string, [number, number]> = {
+    Sheohar: [-18, -8],
+    Sitamarhi: [18, -8],
+    Arwal: [-8, 8],
+    Sheikhpura: [-22, 0],
+    Lakhisarai: [22, 0],
+    Vaishali: [-6, -6],
+    Saran: [-6, 0],
+    Patna: [0, -6],
+    Nalanda: [0, 6],
+    Jehanabad: [-4, 4],
+    Bhojpur: [4, -4],
+    Buxar: [-8, 0],
+    "East Champaran": [0, 10],
+    "West Champaran": [0, -10],
+    Samastipur: [0, 4],
+    Muzaffarpur: [0, -4],
+    Darbhanga: [0, -4],
+    Gopalganj: [0, 4],
+  };
+
   // Compute label positions (using centroids projected to SVG coords)
   const labelPositions = useMemo(() => {
-    return districtPaths.map((d) => ({
-      name: d.name,
-      x: projectLng(d.centroid[0]),
-      y: projectLat(d.centroid[1]),
-    }));
+    return districtPaths.map((d) => {
+      const [ox, oy] = LABEL_OFFSETS[d.name] ?? [0, 0];
+      return {
+        name: d.name,
+        x: projectLng(d.centroid[0]) + ox,
+        y: projectLat(d.centroid[1]) + oy,
+      };
+    });
   }, [districtPaths]);
 
   const handleDistrictHover = useCallback(
@@ -231,28 +256,43 @@ const DistrictsPageMap = ({
         })}
 
         {/* District name labels */}
-        {labelPositions.map((lp) => (
-          <text
-            key={lp.name}
-            x={lp.x}
-            y={lp.y}
-            textAnchor="middle"
-            dominantBaseline="central"
-            className="pointer-events-none select-none"
-            style={{
-              fontSize: "9px",
-              fontFamily: "Inter, sans-serif",
-              fontWeight: selectedDistrict === lp.name ? 700 : 500,
-              fill:
-                selectedDistrict === lp.name
-                  ? "#FFFFFF"
-                  : "#4A4035",
-              letterSpacing: "0.02em",
-            }}
-          >
-            {lp.name}
-          </text>
-        ))}
+        {labelPositions.map((lp) => {
+          const isSelected = selectedDistrict === lp.name;
+          const words = lp.name.split(" ");
+          const twoLine = words.length >= 2;
+          const line1 = twoLine ? words.slice(0, Math.ceil(words.length / 2)).join(" ") : lp.name;
+          const line2 = twoLine ? words.slice(Math.ceil(words.length / 2)).join(" ") : null;
+          const labelFill = isSelected ? "#FFFFFF" : "#3A3028";
+          const commonStyle: React.CSSProperties = {
+            fontSize: "8.5px",
+            fontFamily: "Inter, sans-serif",
+            fontWeight: isSelected ? 700 : 600,
+            fill: labelFill,
+            letterSpacing: "0.03em",
+            paintOrder: "stroke",
+            stroke: isSelected ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.92)",
+            strokeWidth: "3px",
+            strokeLinejoin: "round" as const,
+          };
+          return (
+            <text
+              key={lp.name}
+              x={lp.x}
+              y={lp.y}
+              textAnchor="middle"
+              dominantBaseline="central"
+              className="pointer-events-none select-none"
+              style={commonStyle}
+            >
+              {twoLine ? (
+                <>
+                  <tspan x={lp.x} dy="-5">{line1}</tspan>
+                  <tspan x={lp.x} dy="11">{line2}</tspan>
+                </>
+              ) : lp.name}
+            </text>
+          );
+        })}
       </svg>
 
       {/* Tooltip */}

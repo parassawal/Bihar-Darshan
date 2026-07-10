@@ -26,28 +26,58 @@ export const TabMembers = ({ contributors }: { contributors: Contributor[] }) =>
   );
 };
 
-// ── Media Tab ─────────────────────────────────────────────────────────────
-const MOCK_MEDIA = [
-  'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&q=80',
-  'https://images.unsplash.com/photo-1567336273898-ebbf9eb3c3bf?w=800&q=80',
-  'https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=800&q=80',
-  'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80',
-  'https://images.unsplash.com/photo-1577979749830-f1d742b96791?w=800&q=80',
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80'
-];
+import { galleryData } from '../../data/galleryData';
 
-export const TabMedia = () => {
+export const TabMedia = ({ community }: { community: Community }) => {
+  // Map community id to relevant gallery categories
+  const categoryMap: Record<string, string[]> = {
+    'bihar-travel': ['Tourism', 'Places', 'Heritage'],
+    'bihar-culture': ['Culture', 'Art & Craft', 'Religion'],
+    'bihari-food': ['Food'],
+    'bihar-festivals': ['Festivals'],
+    'bihar-photography': ['Tourism', 'Places', 'Wildlife', 'Heritage'],
+    'bihar-history': ['Heritage', 'Architecture'],
+    'bihar-tribes': ['Culture', 'Community'],
+    'students-bihar': ['Community'],
+    'bihar-agriculture': ['Agriculture'],
+  };
+
+  const targetedCategories = categoryMap[community.id] || [];
+
+  // Filter photos from galleryData matching the search categories
+  const matchingMedia = galleryData.filter(
+    (item) => item.mediaType === 'photo' && targetedCategories.includes(item.category)
+  );
+
+  // Fallback to top general gallery photos if none matched
+  const displayPhotos = matchingMedia.length > 0
+    ? matchingMedia
+    : galleryData.filter((item) => item.mediaType === 'photo');
+
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
       <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
         <ImageIcon className="text-amber-500" size={20} />
-        Shared Media
+        Shared Media ({displayPhotos.length})
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {MOCK_MEDIA.map((url, idx) => (
-          <div key={idx} className="aspect-square rounded-xl overflow-hidden group relative cursor-pointer shadow-sm">
-            <img src={url} alt={`Media ${idx}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+        {displayPhotos.map((item) => (
+          <div key={item.id} className="aspect-square rounded-xl overflow-hidden group relative cursor-pointer shadow-sm">
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              loading="lazy"
+            />
+            {/* Visual overlay with details on hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+              <span className="text-white font-semibold text-sm line-clamp-1">
+                {item.title}
+              </span>
+              <span className="text-white/70 text-xs mt-0.5">
+                by {item.photographer} • {item.location}
+              </span>
+            </div>
           </div>
         ))}
       </div>
@@ -152,7 +182,7 @@ export const TabAbout = ({ community }: { community: Community }) => {
           </div>
         </div>
       </div>
-      
+
       {/* Rules Box */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">

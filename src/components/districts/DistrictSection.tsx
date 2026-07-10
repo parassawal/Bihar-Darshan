@@ -24,7 +24,7 @@ const DistrictSection = () => {
         title="Districts of Bihar"
         subtitle="Discover"
         actionLabel="View All Districts"
-        actionHref="#districts"
+        actionHref="/districts"
       >
         {districts.map((district, index) => (
           <DistrictCard

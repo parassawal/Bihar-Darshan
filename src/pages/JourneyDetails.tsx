@@ -2,20 +2,16 @@ import { useState, useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Star,
-  MapPin,
   Compass,
-  Phone,
-  Mail,
-  MessageSquare,
-  Check,
   X,
-  AlertCircle,
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
   Globe,
-  Maximize2
+  Phone,
+  Mail,
+  MessageSquare,
+  Maximize2,
 } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import PremiumFooter from "../components/tourism/PremiumFooter";
@@ -24,37 +20,19 @@ import JourneyCard from "../components/tourism/JourneyCard";
 
 const JourneyDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const currentTrip = featuredTrips.find(t => t.id === id);
+  const currentTrip = featuredTrips.find((t) => t.id === id);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [inquiryName, setInquiryName] = useState("");
-  const [inquiryEmail, setInquiryEmail] = useState("");
-  const [inquiryDate, setInquiryDate] = useState("");
-  const [inquiryMessage, setInquiryMessage] = useState("");
-  const [inquirySuccess, setInquirySuccess] = useState(false);
 
-  const relatedTrips = featuredTrips.filter(t => t.id !== id);
+  const relatedTrips = featuredTrips.filter((t) => t.id !== id);
 
   if (!currentTrip) {
     return <Navigate to="/tourism" replace />;
   }
-
-  const handleInquirySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inquiryName || !inquiryEmail || !inquiryDate) return;
-    setInquirySuccess(true);
-    setTimeout(() => {
-      setInquirySuccess(false);
-      setInquiryName("");
-      setInquiryEmail("");
-      setInquiryDate("");
-      setInquiryMessage("");
-    }, 4000);
-  };
 
   return (
     <div className="min-h-screen bg-[#F8F5EF] text-brand-dark selection:bg-brand-gold selection:text-brand-dark font-sans relative overflow-x-hidden">
@@ -78,7 +56,7 @@ const JourneyDetails = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/75 via-transparent to-transparent hidden md:block" />
         </div>
 
-        {/* Back Button — pinned top-left corner below navbar */}
+        {/* Back Button */}
         <Link
           to="/tourism"
           className="absolute top-20 left-6 z-20 inline-flex items-center gap-2 text-white/80 hover:text-brand-gold font-bold text-xs uppercase tracking-widest transition-colors duration-300 bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/15"
@@ -88,64 +66,14 @@ const JourneyDetails = () => {
         </Link>
 
         <div className="container mx-auto px-6 max-w-7xl relative z-10 pb-16 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-8 text-left space-y-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="px-3.5 py-1.5 bg-brand-gold text-brand-dark text-[10px] font-extrabold uppercase tracking-widest rounded-md">
-                  {currentTrip.duration}
-                </span>
-                <span className="px-3.5 py-1.5 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest rounded-md border border-white/10 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-brand-gold" />
-                  Starts in {currentTrip.departureCity}
-                </span>
-                {currentTrip.rating && (
-                  <span className="px-3.5 py-1.5 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold rounded-md border border-white/10 flex items-center gap-1">
-                    <Star className="w-3.5 h-3.5 fill-brand-gold text-brand-gold" />
-                    {currentTrip.rating} / 5.0
-                  </span>
-                )}
-              </div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="text-4xl md:text-6xl font-serif text-white leading-tight font-light"
-              >
-                {currentTrip.title}
-              </motion.h1>
-            </div>
-
-            <div className="lg:col-span-4 flex flex-col md:flex-row lg:flex-col lg:items-end justify-between gap-4 w-full">
-              <div className="text-left lg:text-right">
-                <p className="text-white/50 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
-                  Guaranteed Best Pricing
-                </p>
-                <div className="flex items-baseline md:justify-end gap-1.5">
-                  <span className="text-3xl md:text-4xl font-extrabold text-brand-gold font-mono">{currentTrip.price}</span>
-                  <span className="text-white/40 text-xs font-semibold">/ person</span>
-                </div>
-              </div>
-
-              <div className="flex gap-3 w-full md:w-auto lg:w-full">
-                <a
-                  href="#booking-inquiry"
-                  className="flex-1 text-center py-4 bg-brand-gold hover:bg-brand-gold/90 text-brand-dark rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_12px_24px_rgba(212,160,23,0.3)]"
-                >
-                  Book Journey
-                </a>
-                <a
-                  href={`https://wa.me/${currentTrip.whatsapp.replace(/[^0-9]/g, "")}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-5 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-xl border border-white/20 transition-all duration-300 flex items-center justify-center"
-                  title="Contact Guide via WhatsApp"
-                >
-                  <MessageSquare className="w-4 h-4 text-green-400 fill-green-400/20" />
-                </a>
-              </div>
-            </div>
-          </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-6xl font-serif text-white leading-tight font-light"
+          >
+            {currentTrip.title}
+          </motion.h1>
         </div>
       </section>
 
@@ -267,151 +195,7 @@ const JourneyDetails = () => {
         </div>
       </section>
 
-      {/* ── 4. CONTACT & BOOKING FORM SECTION ── */}
-      <section id="booking-inquiry" className="py-20 container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-
-          <div className="lg:col-span-5 space-y-8">
-            <div className="space-y-4">
-              <span className="text-xs font-bold text-brand-gold uppercase tracking-[0.25em] block">
-                Direct Helpdesk
-              </span>
-              <h2 className="text-3xl md:text-5xl font-serif font-light text-brand-dark leading-tight">
-                Secure Booking Inquiry
-              </h2>
-              <p className="text-brand-dark/70 text-sm leading-relaxed">
-                Connect with our local experts, customize the duration matrix, query lodging standards, and handle emergency contingencies.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="bg-white p-5 rounded-2xl border border-[#E8E0D4] flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-brand-gold/10 flex items-center justify-center shrink-0 text-brand-gold">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[9px] font-bold text-brand-dark/40 uppercase tracking-widest block">Service Hotline</span>
-                  <a href={`tel:${currentTrip.phone}`} className="text-sm font-semibold text-brand-dark hover:text-brand-gold transition-colors font-mono">
-                    {currentTrip.phone}
-                  </a>
-                </div>
-              </div>
-
-              <div className="bg-white p-5 rounded-2xl border border-[#E8E0D4] flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-brand-gold/10 flex items-center justify-center shrink-0 text-brand-gold">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[9px] font-bold text-brand-dark/40 uppercase tracking-widest block">Email Office</span>
-                  <a href={`mailto:${currentTrip.email}`} className="text-sm font-semibold text-brand-dark hover:text-brand-gold transition-colors">
-                    {currentTrip.email}
-                  </a>
-                </div>
-              </div>
-
-              <div className="bg-white p-5 rounded-2xl border border-red-200 bg-red-50/50 flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center shrink-0 text-red-600">
-                  <AlertCircle className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[9px] font-bold text-red-400 uppercase tracking-widest block">24/7 Backline Support</span>
-                  <span className="text-sm font-semibold text-brand-dark font-mono">
-                    {currentTrip.emergencyContact}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-7 bg-white rounded-[32px] p-8 md:p-10 border border-[#E8E0D4] shadow-xl">
-            <h3 className="font-serif text-2xl font-light text-brand-dark mb-8 pb-3 border-b border-[#E8E0D4]/80">
-              Submit Travel Application
-            </h3>
-
-            <form onSubmit={handleInquirySubmit} className="space-y-6">
-              {inquirySuccess ? (
-                <div className="bg-green-50 text-green-800 p-6 rounded-2xl border border-green-200 flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-                  <div className="text-xs leading-relaxed">
-                    <span className="font-bold block mb-1 text-sm">Application Sent Successfully!</span>
-                    Our lead guide, {currentTrip.guide.name}, has been briefed automatically. A response package will be dispatched to your email within 6 hours.
-                  </div>
-                </div>
-              ) : null}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="name-input" className="text-[10px] font-bold text-brand-dark/60 uppercase tracking-wider block">
-                    Full Name
-                  </label>
-                  <input
-                    id="name-input"
-                    type="text"
-                    required
-                    value={inquiryName}
-                    onChange={(e) => setInquiryName(e.target.value)}
-                    placeholder="Enter your name"
-                    className="w-full h-12 px-4 rounded-xl border border-[#E8E0D4] bg-[#F8F5EF]/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40 text-sm transition-all duration-300"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="email-input" className="text-[10px] font-bold text-brand-dark/60 uppercase tracking-wider block">
-                    Email Address
-                  </label>
-                  <input
-                    id="email-input"
-                    type="email"
-                    required
-                    value={inquiryEmail}
-                    onChange={(e) => setInquiryEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="w-full h-12 px-4 rounded-xl border border-[#E8E0D4] bg-[#F8F5EF]/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40 text-sm transition-all duration-300"
-                  />
-                </div>
-
-                <div className="space-y-2 md:col-span-2">
-                  <label htmlFor="date-input" className="text-[10px] font-bold text-brand-dark/60 uppercase tracking-wider block">
-                    Target Departure Date
-                  </label>
-                  <input
-                    id="date-input"
-                    type="date"
-                    required
-                    value={inquiryDate}
-                    onChange={(e) => setInquiryDate(e.target.value)}
-                    className="w-full h-12 px-4 rounded-xl border border-[#E8E0D4] bg-[#F8F5EF]/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40 text-sm transition-all duration-300"
-                  />
-                </div>
-
-                <div className="space-y-2 md:col-span-2">
-                  <label htmlFor="msg-input" className="text-[10px] font-bold text-brand-dark/60 uppercase tracking-wider block">
-                    Special Inquiries (Optional)
-                  </label>
-                  <textarea
-                    id="msg-input"
-                    rows={4}
-                    value={inquiryMessage}
-                    onChange={(e) => setInquiryMessage(e.target.value)}
-                    placeholder="Enter custom requests, group configurations, lodgment standards..."
-                    className="w-full p-4 rounded-xl border border-[#E8E0D4] bg-[#F8F5EF]/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40 text-sm transition-all duration-300 resize-none"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full h-14 bg-brand-gold hover:bg-brand-gold/90 text-brand-dark font-extrabold text-xs uppercase tracking-widest rounded-xl transition-all duration-300 shadow-md flex items-center justify-center gap-2"
-              >
-                Send Inquiry Package
-              </button>
-            </form>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── 5. RELATED JOURNEYS SECTION ── */}
+      {/* ── 4. RELATED JOURNEYS SECTION ── */}
       <section className="py-20 bg-[#F0EBE0]/50 border-t border-[#E8E0D4] relative z-10">
         <div className="container mx-auto px-6 max-w-7xl space-y-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -459,7 +243,7 @@ const JourneyDetails = () => {
             <button
               onClick={() => {
                 const len = currentTrip.galleryImages.length;
-                setLightboxIndex(p => (p !== null ? (p - 1 + len) % len : null));
+                setLightboxIndex((p) => (p !== null ? (p - 1 + len) % len : null));
               }}
               className="absolute left-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/20 z-[100]"
               title="Previous"
@@ -470,7 +254,7 @@ const JourneyDetails = () => {
             <button
               onClick={() => {
                 const len = currentTrip.galleryImages.length;
-                setLightboxIndex(p => (p !== null ? (p + 1) % len : null));
+                setLightboxIndex((p) => (p !== null ? (p + 1) % len : null));
               }}
               className="absolute right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/20 z-[100]"
               title="Next"

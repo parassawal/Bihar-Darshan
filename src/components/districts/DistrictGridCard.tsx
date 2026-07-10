@@ -4,20 +4,13 @@ import { MapPin, ArrowRight } from "lucide-react";
 interface DistrictGridCardProps {
   name: string;
   image: string;
-  isSelected: boolean;
-  onClick: () => void;
 }
 
-const DistrictGridCard = ({
-  name,
-  image,
-  isSelected,
-  onClick,
-}: DistrictGridCardProps) => {
+const DistrictGridCard = ({ name, image }: DistrictGridCardProps) => {
   return (
-    <div
-      className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 cursor-pointer"
-      onClick={onClick}
+    <Link
+      to={`/districts/${name.toLowerCase()}`}
+      className="group block bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 cursor-pointer"
     >
       {/* Image */}
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -27,12 +20,6 @@ const DistrictGridCard = ({
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
-        {/* Selected badge */}
-        {isSelected && (
-          <div className="absolute top-3 right-3 bg-gold text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-md shadow-md">
-            Selected
-          </div>
-        )}
       </div>
 
       {/* Content */}
@@ -48,15 +35,11 @@ const DistrictGridCard = ({
         </div>
 
         {/* Arrow button */}
-        <Link
-          to={`/districts/${name.toLowerCase()}`}
-          className="flex-shrink-0 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-gold group-hover:border-gold group-hover:text-white transition-all duration-300"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="flex-shrink-0 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-gold group-hover:border-gold group-hover:text-white transition-all duration-300">
           <ArrowRight size={14} strokeWidth={2.5} />
-        </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

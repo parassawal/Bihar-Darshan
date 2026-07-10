@@ -37,12 +37,7 @@ const DistrictsDetails = () => {
   });
 }, [name]);
 
-  const stats = [
-    { icon: <Globe size={20} />, label: "Division", value: districtName },
-    { icon: <Maximize size={20} />, label: "Area", value: "3202 km²" },
-    { icon: <Users size={20} />, label: "Population", value: "58,38,000+" },
-    { icon: <BookOpen size={20} />, label: "Language", value: "Hindi, Urdu, English" },
-  ];
+
 
 
 
@@ -154,19 +149,7 @@ to-black/20" />
               Explore the heritage, culture, and vibrant life of Patna.
             </p>
 
-            <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 max-w-5xl shadow-2xl">
-              {stats.map((stat, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full border border-brand-gold/30 bg-brand-gold/5 flex items-center justify-center text-brand-gold shrink-0">
-                    {stat.icon}
-                  </div>
-                  <div>
-                    <p className="text-white/50 text-[10px] uppercase tracking-[0.15em] font-medium mb-0.5">{stat.label}</p>
-                    <p className="text-white font-bold text-base tracking-wide">{stat.value}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+           
           </motion.div>
         </Container>
       </section>
@@ -175,7 +158,6 @@ to-black/20" />
       <DistrictAbout
         districtName={districtName}
         image={golgharImg}
-        stats={stats}
       />
 
 

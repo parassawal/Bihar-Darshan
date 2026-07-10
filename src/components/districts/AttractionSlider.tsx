@@ -64,9 +64,9 @@ const AttractionSlider: React.FC<AttractionSliderProps> = ({ attractions, title 
             </h2>
             <div className="w-24 h-1 bg-[#D4A017] rounded-full" />
           </div>
-          <button className="group flex items-center gap-2 text-[#D4A017] font-bold text-lg hover:text-[#B8860B] transition-colors">
+          {/* <button className="group flex items-center gap-2 text-[#D4A017] font-bold text-lg hover:text-[#B8860B] transition-colors">
             View All Attractions <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-          </button>
+          </button> */}
         </div>
 
         {/* Filter Pills */}

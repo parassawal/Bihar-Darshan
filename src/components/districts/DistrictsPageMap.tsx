@@ -38,7 +38,7 @@ function projectLng(lng: number): number {
   return (
     PADDING +
     ((lng - BOUNDS.minLng) / (BOUNDS.maxLng - BOUNDS.minLng)) *
-      (SVG_W - 2 * PADDING)
+    (SVG_W - 2 * PADDING)
   );
 }
 
@@ -46,7 +46,7 @@ function projectLat(lat: number): number {
   return (
     PADDING +
     ((BOUNDS.maxLat - lat) / (BOUNDS.maxLat - BOUNDS.minLat)) *
-      (SVG_H - 2 * PADDING)
+    (SVG_H - 2 * PADDING)
   );
 }
 
@@ -96,17 +96,8 @@ function getCentroid(geometry: GeoFeature["geometry"]): [number, number] {
   return [sumX / coords.length, sumY / coords.length];
 }
 
-/* ─── Light beige fills for the districts page ─── */
-const LIGHT_FILLS = [
-  "#F5F0E8",
-  "#EDE8DF",
-  "#F0EBE2",
-  "#E8E3DA",
-  "#F2ECE3",
-  "#EBE5DC",
-  "#EFEAD1",
-  "#E9E4DB",
-];
+/* ─── Light beige fill for the districts page ─── */
+const DEFAULT_FILL = "#F5F0E8";
 
 const HOVER_FILL = "#F5E6C8";
 const SELECTED_FILL = "#D4A017";
@@ -139,7 +130,7 @@ const DistrictsPageMap = ({
       name: feature.properties.district,
       path: geometryToPath(feature.geometry),
       centroid: getCentroid(feature.geometry),
-      fill: LIGHT_FILLS[i % LIGHT_FILLS.length],
+      fill: DEFAULT_FILL,
     }));
   }, [geoData]);
 

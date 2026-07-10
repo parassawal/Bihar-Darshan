@@ -82,7 +82,7 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.3 }}
           className="hidden lg:block"
         >
-          <div className="w-[190px] p-8 rounded-[32px] bg-white shadow-[0_32px_64px_rgba(0,0,0,0.15)] flex flex-col items-center text-center gap-8">
+          {/* <div className="w-[190px] p-8 rounded-[32px] bg-white shadow-[0_32px_64px_rgba(0,0,0,0.15)] flex flex-col items-center text-center gap-8">
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-1 mb-1">
                 <Star className="w-6 h-6 text-brand-gold fill-brand-gold" />
@@ -101,7 +101,7 @@ const Hero = () => {
               <h4 className="text-2xl font-bold text-brand-dark mb-1 leading-none">50+</h4>
               <p className="text-[10px] font-bold text-brand-dark/40 uppercase tracking-widest leading-none">Curated Trips</p>
             </div>
-          </div>
+          </div> */}
         </motion.div>
       </div>
 

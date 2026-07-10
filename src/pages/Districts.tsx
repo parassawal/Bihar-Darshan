@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ChevronDown } from "lucide-react";
+import { Search } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import DistrictsPageMap from "../components/districts/DistrictsPageMap";
@@ -12,18 +12,11 @@ import {
 } from "../data/districtsData";
 import biharHeritage from "../assets/bihar-heritage.png";
 
-type SortOption = "a-z" | "z-a";
-
 const Districts = () => {
-  const [selectedDistrict, setSelectedDistrict] = useState<string | null>(
-    null
-  );
   const [hoveredCardDistrict, setHoveredCardDistrict] = useState<string | null>(
     null
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<SortOption>("a-z");
-  const [sortOpen, setSortOpen] = useState(false);
   const navigate = useNavigate();
 
   // Scroll to top on mount
@@ -40,20 +33,10 @@ const Districts = () => {
       result = result.filter((d) => d.name.toLowerCase().includes(q));
     }
 
-    result.sort((a, b) =>
-      sortBy === "a-z"
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
-    );
+    result.sort((a, b) => a.name.localeCompare(b.name));
 
     return result;
-  }, [searchQuery, sortBy]);
-
-  // Convert display name to geo name for map highlighting
-  const selectedGeoName = useMemo(() => {
-    if (!selectedDistrict) return null;
-    return displayNameToGeoName[selectedDistrict] ?? selectedDistrict;
-  }, [selectedDistrict]);
+  }, [searchQuery]);
 
   const hoveredGeoName = useMemo(() => {
     if (!hoveredCardDistrict) return null;
@@ -62,10 +45,7 @@ const Districts = () => {
 
   // Handlers
   const handleMapSelect = (geoName: string | null) => {
-    if (!geoName) {
-      setSelectedDistrict(null);
-      return;
-    }
+    if (!geoName) return;
     const displayName = geoNameToDisplayName[geoName] ?? geoName;
     navigate(`/districts/${displayName.toLowerCase()}`);
   };
@@ -79,11 +59,6 @@ const Districts = () => {
     setHoveredCardDistrict(displayName);
   };
 
-  const handleCardClick = (districtName: string) => {
-    setSelectedDistrict(
-      selectedDistrict === districtName ? null : districtName
-    );
-  };
 
   return (
     <div className="min-h-screen bg-[#FAFAF8]">
@@ -164,7 +139,7 @@ const Districts = () => {
 
               {/* Map */}
               <DistrictsPageMap
-                selectedDistrict={selectedGeoName}
+                selectedDistrict={null}
                 hoveredCardDistrict={hoveredGeoName}
                 onSelectDistrict={handleMapSelect}
                 onHoverDistrict={handleMapHover}
@@ -192,49 +167,6 @@ const Districts = () => {
                 </span>
               </div>
 
-              {/* Right - Sort dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setSortOpen(!sortOpen)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:border-gray-300 transition-colors cursor-pointer"
-                >
-                  <span className="text-gray-400 text-xs font-medium">
-                    Sort by:
-                  </span>
-                  <span>{sortBy === "a-z" ? "A to Z" : "Z to A"}</span>
-                  <ChevronDown
-                    size={14}
-                    className={`text-gray-400 transition-transform duration-200 ${sortOpen ? "rotate-180" : ""
-                      }`}
-                  />
-                </button>
-
-                {sortOpen && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-30"
-                      onClick={() => setSortOpen(false)}
-                    />
-                    <div className="absolute top-full right-0 mt-2 bg-white rounded-xl border border-gray-100 shadow-xl z-40 min-w-[140px] overflow-hidden">
-                      {(["a-z", "z-a"] as SortOption[]).map((opt) => (
-                        <button
-                          key={opt}
-                          onClick={() => {
-                            setSortBy(opt);
-                            setSortOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2.5 text-sm font-semibold transition-colors cursor-pointer ${sortBy === opt
-                              ? "bg-gold/10 text-gold"
-                              : "text-gray-600 hover:bg-gray-50"
-                            }`}
-                        >
-                          {opt === "a-z" ? "A to Z" : "Z to A"}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
             </div>
 
             {/* District grid */}
@@ -245,8 +177,6 @@ const Districts = () => {
                     key={district.name}
                     name={district.name}
                     image={district.image}
-                    isSelected={selectedDistrict === district.name}
-                    onClick={() => handleCardClick(district.name)}
                   />
                 ))}
               </div>

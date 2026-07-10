@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowRight, CheckCircle2, ShieldCheck, Heart, Tag } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle2, ShieldCheck, Heart, Tag } from "lucide-react";
 import { featuredTrips } from "../../data/tourismData";
 import JourneyCard from "./JourneyCard";
 
@@ -97,14 +97,6 @@ const FeaturedJourneys = () => {
             </p>
           </div>
 
-          {/* Right: View All */}
-          <motion.button
-            whileHover={{ x: 4 }}
-            className="flex items-center gap-2 text-brand-gold font-bold text-sm border border-brand-gold/40 rounded-full px-7 py-3 hover:bg-brand-gold hover:text-white transition-all duration-300 self-start md:self-auto"
-          >
-            View All Trips
-            <ArrowRight className="w-4 h-4" />
-          </motion.button>
         </div>
 
         {/* ── Grid of Cards (4 per row) ───────────────────────────────────────── */}

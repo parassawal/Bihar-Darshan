@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {
   Users,
   Maximize,
@@ -138,6 +138,12 @@ to-black/20" />
           >
 
 
+            <Link
+              to="/districts"
+              className="inline-flex items-center gap-2 mb-6 text-white/80 hover:text-white font-bold uppercase tracking-widest text-xs transition-colors"
+            >
+              <span>←</span> Back to Districts
+            </Link>
             <h1 className="text-7xl md:text-8xl font-serif text-white font-bold mb-4">
               {districtName}
             </h1>

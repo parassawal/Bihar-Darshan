@@ -29,11 +29,10 @@ const CategoryFilter = ({ active, onChange }: CategoryFilterProps) => {
           <button
             key={label}
             onClick={() => onChange(label)}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
-              isActive
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap ${isActive
                 ? 'bg-amber-400 text-black shadow-md shadow-amber-400/30'
                 : 'bg-white border border-gray-200 text-gray-600 hover:border-amber-400 hover:text-amber-600'
-            }`}
+              }`}
           >
             {label}
           </button>

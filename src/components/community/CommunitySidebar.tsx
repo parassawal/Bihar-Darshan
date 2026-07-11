@@ -16,6 +16,30 @@ const medalColors = ['text-yellow-500', 'text-gray-400', 'text-amber-600'];
 const CommunitySidebar = ({ community, contributors, onCreatePost, isJoined, onJoinClick, onViewGuidelines }: CommunitySidebarProps) => {
   return (
     <aside className="flex flex-col gap-4">
+      {/* Action Button */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex flex-col">
+        <button
+          onClick={onJoinClick}
+          className={`w-full px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 shadow-sm flex items-center justify-center gap-2 ${
+            isJoined 
+              ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200' 
+              : 'bg-amber-400 hover:bg-amber-500 text-black hover:shadow-lg hover:shadow-amber-400/30 active:scale-95'
+          }`}
+        >
+          {isJoined ? (
+            <>
+              <CheckCircle size={18} className="text-emerald-500" />
+              Joined
+            </>
+          ) : 'Join Community'}
+        </button>
+        {!isJoined && (
+          <p className="text-xs text-gray-500 text-center mt-3">
+            Join to share posts, ask questions, and interact with others.
+          </p>
+        )}
+      </div>
+
       {/* About */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
         <h3 className="font-bold text-gray-800 text-sm mb-2">About this Community</h3>

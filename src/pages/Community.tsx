@@ -31,7 +31,13 @@ const CommunityPage = () => {
   const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(null);
   const [activeTab, setActiveTab] = useState<DetailTab>('Discussions');
   const [customDiscussions, setCustomDiscussions] = useState<Discussion[]>([]);
+  const [joinedCommunityIds, setJoinedCommunityIds] = useState<string[]>([]);
 
+  const toggleJoinCommunity = (id: string) => {
+    setJoinedCommunityIds(prev => 
+      prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
+    );
+  };
   // Scroll to top on mount
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -96,6 +102,8 @@ const CommunityPage = () => {
           <CommunityDetailHeader
             community={selectedCommunity}
             onBack={() => setSelectedCommunity(null)}
+            isJoined={joinedCommunityIds.includes(selectedCommunity.id)}
+            onJoinClick={() => toggleJoinCommunity(selectedCommunity.id)}
           />
 
           {/* Tab bar */}
@@ -108,11 +116,11 @@ const CommunityPage = () => {
             <div className="mt-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_320px] gap-5">
               {/* Left: composer + feed */}
               <div className="flex flex-col gap-4 min-w-0">
-                <DiscussionComposer 
-                  onPost={handlePost} 
-                />
-                <DiscussionFeed 
-                  discussions={communityDiscussions} 
+                {joinedCommunityIds.includes(selectedCommunity.id) && (
+                  <DiscussionComposer onPost={handlePost} />
+                )}
+                <DiscussionFeed
+                  discussions={communityDiscussions}
                 />
               </div>
 
@@ -121,6 +129,8 @@ const CommunityPage = () => {
                 community={selectedCommunity}
                 contributors={contributors}
                 onViewGuidelines={() => setActiveTab('About')}
+                isJoined={joinedCommunityIds.includes(selectedCommunity.id)}
+                onJoinClick={() => toggleJoinCommunity(selectedCommunity.id)}
               />
             </div>
           )}

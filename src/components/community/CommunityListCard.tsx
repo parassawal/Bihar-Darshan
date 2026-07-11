@@ -42,7 +42,7 @@ const CommunityListCard = ({ community, onSelect }: CommunityListCardProps) => {
             onClick={() => onSelect(community)}
             className="flex-1 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-black font-bold text-sm transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-amber-400/30 active:scale-95"
           >
-            Join Community
+            View Community
           </button>
         </div>
       </div>

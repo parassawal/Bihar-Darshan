@@ -4,9 +4,11 @@ import type { Community } from '../../data/communityData';
 interface CommunityDetailHeaderProps {
   community: Community;
   onBack: () => void;
+  isJoined?: boolean;
+  onJoinClick?: () => void;
 }
 
-const CommunityDetailHeader = ({ community, onBack }: CommunityDetailHeaderProps) => {
+const CommunityDetailHeader = ({ community, onBack, isJoined, onJoinClick }: CommunityDetailHeaderProps) => {
   return (
     <div>
       {/* Back link */}

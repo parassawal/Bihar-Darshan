@@ -364,7 +364,8 @@ const tribesData: Record<string, any> = {
 
 const TribeDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const tribe = tribesData[id || ""];
+  const { tribes } = useAdminData();
+  const tribe = tribes.find(t => t.id === id) || tribesData[id || ""];
 
   useEffect(() => {
     window.scrollTo(0, 0);

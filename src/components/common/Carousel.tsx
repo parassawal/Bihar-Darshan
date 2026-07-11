@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, Children, cloneElement, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 const GAP = 64;
 const COPIES = 5;
@@ -232,12 +233,12 @@ const Carousel = ({
 
         <div className="flex items-center gap-3 relative z-50">
           {actionLabel && (
-            <a
-              href={actionHref || "#"}
+            <Link
+              to={actionHref || "#"}
               className="hidden sm:inline-flex text-sm font-medium text-gold hover:text-gold-dark transition-colors mr-4"
             >
               {actionLabel} →
-            </a>
+            </Link>
           )}
         </div>
       </div>

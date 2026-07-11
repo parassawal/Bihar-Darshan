@@ -15,7 +15,7 @@ const CommunitySection = () => {
         actionHref="/community"
       >
         {featuredCommunities.map((community, index) => (
-          <Link key={community.id} to="/community" className="block">
+          <Link key={community.id} to={`/community?id=${community.id}`} className="block">
             <CommunityCard
               image={community.image}
               name={community.name}

@@ -41,7 +41,7 @@ const DistrictAbout = ({ districtName, image }: DistrictAboutProps) => {
               </p>
             </div>
 
-            <motion.button
+            {/* <motion.button
               whileHover={{
                 backgroundColor: '#D4A017',
                 color: '#FFFFFF',
@@ -53,7 +53,7 @@ const DistrictAbout = ({ districtName, image }: DistrictAboutProps) => {
                 size={18}
                 className="group-hover:translate-x-1 transition-transform"
               />
-            </motion.button>
+            </motion.button> */}
           </motion.div>
 
           {/* Right Column */}
@@ -66,17 +66,17 @@ const DistrictAbout = ({ districtName, image }: DistrictAboutProps) => {
           >
             <div className="absolute inset-0 bg-[#D4A017]/10 blur-[100px] rounded-full scale-125" />
 
-            <div className="relative h-full rounded-[32px] overflow-hidden shadow-2xl group">
-              <img
+            {/* <div className="relative h-full rounded-[32px] overflow-hidden shadow-2xl group"> */}
+              {/* <img
                 src={image}
                 alt={districtName}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+              /> */}
 
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#D4A017]/10 via-transparent to-transparent" />
+              {/* <div className="absolute inset-0 bg-gradient-to-tr from-[#D4A017]/10 via-transparent to-transparent" />
 
               <div className="absolute inset-4 border border-white/20 rounded-[24px]" />
-            </div>
+            </div> */}
           </motion.div>
         </div>
       </Container>

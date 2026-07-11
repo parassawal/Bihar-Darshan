@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import CommunityHero from '../components/community/CommunityHero';
@@ -26,15 +28,22 @@ import {
 import type { Community, Discussion } from '../data/communityData';
 
 const CommunityPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<CategoryOption>('All Categories');
-  const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(null);
+  const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    return id ? communities.find((c) => c.id === id) || null : null;
+  });
   const [activeTab, setActiveTab] = useState<DetailTab>('Discussions');
   const [customDiscussions, setCustomDiscussions] = useState<Discussion[]>([]);
   const [joinedCommunityIds, setJoinedCommunityIds] = useState<string[]>([]);
 
   const toggleJoinCommunity = (id: string) => {
-    setJoinedCommunityIds(prev => 
+    setJoinedCommunityIds(prev =>
       prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
     );
   };
@@ -106,10 +115,10 @@ const CommunityPage = () => {
             onJoinClick={() => toggleJoinCommunity(selectedCommunity.id)}
           />
 
-          {/* Tab bar */}
-          <div className="mt-4">
-            <CommunityDetailTabs active={activeTab} onChange={setActiveTab} />
-          </div>
+                {/* Tab bar */}
+                <div className="mt-4">
+                  <CommunityDetailTabs active={activeTab} onChange={setActiveTab} />
+                </div>
 
           {/* Main body: feed + sidebar */}
           {activeTab === 'Discussions' && (
@@ -141,41 +150,32 @@ const CommunityPage = () => {
             </div>
           )} */}
 
-          {activeTab === 'Media' && (
-            <div className="mt-4">
-              <TabMedia />
+                {activeTab === 'Media' && (
+                  <div className="mt-4">
+                    <TabMedia community={selectedCommunity} />
+                  </div>
+                )}
+
+                {activeTab === 'About' && (
+                  <div className="mt-4 max-w-4xl mx-auto">
+                    <TabAbout community={selectedCommunity} />
+                  </div>
+                )}
+              </main>
             </div>
-          )}
-
-          {/* {activeTab === 'Guides' && (
-            <div className="mt-4">
-              <TabGuides />
-            </div>
-          )} */}
-
-
-          {activeTab === 'About' && (
-            <div className="mt-4 max-w-4xl mx-auto">
-              <TabAbout community={selectedCommunity} />
-            </div>
-          )}
-        </main>
-
-        <Footer />
-
-        {/* Global Aesthetics Overlay */}
-        <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.02] mix-blend-multiply">
-          <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]" />
-        </div>
-      </div>
-    );
-  }
-
-  // ── Listing View ───────────────────────────────────────────────────────────
-  return (
-    <div className="min-h-screen bg-[#F8F5EF] selection:bg-brand-gold selection:text-brand-dark font-sans">
+            <Footer />
+          </motion.div >
+        ) : (
+  <motion.div
+    key="listing-view"
+    initial={{ opacity: 0, y: 15 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -15 }}
+    transition={{ duration: 0.35, ease: "easeInOut" }}
+    className="w-full min-h-screen flex flex-col justify-between"
+  >
+    <div>
       <Navbar />
-
       {/* Hero + Search */}
       <CommunityHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
@@ -203,20 +203,22 @@ const CommunityPage = () => {
           <CommunityGrid
             communities={filteredCommunities}
             onSelect={(community) => {
-              setSelectedCommunity(community);
-              setActiveTab('Discussions');
+              navigate(`/community?id=${community.id}`);
             }}
           />
         )}
       </main>
-
-      <Footer />
-
-      {/* Global Aesthetics Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.02] mix-blend-multiply">
-        <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]" />
-      </div>
     </div>
+    <Footer />
+  </motion.div>
+)}
+      </AnimatePresence >
+
+  {/* Global Aesthetics Overlay */ }
+  < div className = "fixed inset-0 pointer-events-none z-0 opacity-[0.02] mix-blend-multiply" >
+    <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]" />
+      </div >
+    </div >
   );
 };
 

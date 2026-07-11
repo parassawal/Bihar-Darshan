@@ -1,31 +1,15 @@
-
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X, ZoomIn } from "lucide-react";
-
-import heritageImg from "../../assets/bihar-heritage.png";
-import mountainsImg from "../../assets/bihar-mountains.png";
-import foodImg from "../../assets/bihar-food.png";
-import templeImg from "../../assets/bihar-temple.png";
-import monumentImg from "../../assets/bihar-monument.png";
-import folkDanceImg from "../../assets/bihar-folk-dance.png";
-
-const galleryItems = [
-  { id: 1, image: heritageImg, isVideo: false },
-  { id: 2, image: mountainsImg, isVideo: false },
-  { id: 3, image: foodImg, isVideo: false },
-  { id: 4, image: templeImg, isVideo: true },
-  { id: 5, image: monumentImg, isVideo: false },
-  { id: 6, image: folkDanceImg, isVideo: true },
-  { id: 7, image: heritageImg, isVideo: false },
-  { id: 8, image: mountainsImg, isVideo: false },
-  { id: 9, image: foodImg, isVideo: false },
-];
-
-type GalleryItem = (typeof galleryItems)[number];
+import { galleryData } from "../../data/galleryData";
+import type { GalleryItem } from "../../data/galleryData";
 
 const GallerySection = () => {
   const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
+
+  // Take the first 9 items from the central gallery data
+  const galleryItems = galleryData.slice(0, 9);
 
   const openLightbox = (item: GalleryItem) => {
     setLightboxItem(item);
@@ -53,79 +37,82 @@ const GallerySection = () => {
             </h2>
           </div>
 
-          <a
-            href="#gallery"
+          <Link
+            to="/gallery"
             className="hidden sm:inline-flex text-sm font-medium text-gold hover:text-gold-dark transition-colors"
           >
             View All →
-          </a>
+          </Link>
         </div>
 
         {/* Gallery Grid */}
         <div className="grid grid-cols-3 gap-[3px]">
-          {galleryItems.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{
-                duration: 0.4,
-                delay: index * 0.06,
-              }}
-              className="relative aspect-square overflow-hidden cursor-pointer group bg-black"
-              onClick={() => openLightbox(item)}
-            >
-              <img
-                src={item.image}
-                alt={`Gallery ${item.id}`}
-                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-[0.55]"
-                loading="lazy"
-              />
+          {galleryItems.map((item, index) => {
+            const isVideo = item.mediaType === "video";
+            return (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.06,
+                }}
+                className="relative aspect-square overflow-hidden cursor-pointer group bg-black"
+                onClick={() => openLightbox(item)}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-[0.55]"
+                  loading="lazy"
+                />
 
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {item.isVideo ? (
-                  <div className="flex items-center gap-2 text-white font-semibold text-sm">
-                    <Play
-                      size={22}
-                      fill="white"
-                      className="text-white"
-                    />
-                    <span>Play</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2 text-white font-semibold text-sm">
-                    <ZoomIn size={22} />
-                    <span>View</span>
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {isVideo ? (
+                    <div className="flex items-center gap-2 text-white font-semibold text-sm">
+                      <Play
+                        size={22}
+                        fill="white"
+                        className="text-white"
+                      />
+                      <span>Play</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 text-white font-semibold text-sm">
+                      <ZoomIn size={22} />
+                      <span>View</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Video Badge */}
+                {isVideo && (
+                  <div className="absolute top-2.5 right-2.5 pointer-events-none">
+                    <div className="w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
+                      <Play
+                        size={12}
+                        fill="white"
+                        className="text-white ml-0.5"
+                      />
+                    </div>
                   </div>
                 )}
-              </div>
-
-              {/* Video Badge */}
-              {item.isVideo && (
-                <div className="absolute top-2.5 right-2.5 pointer-events-none">
-                  <div className="w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
-                    <Play
-                      size={12}
-                      fill="white"
-                      className="text-white ml-0.5"
-                    />
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Mobile View All */}
         <div className="mt-6 text-center sm:hidden">
-          <a
-            href="#gallery"
+          <Link
+            to="/gallery"
             className="text-sm font-medium text-gold"
           >
             View All Gallery →
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -158,7 +145,7 @@ const GallerySection = () => {
               className="relative max-w-4xl w-full mx-4 rounded-xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              {lightboxItem.isVideo ? (
+              {lightboxItem.mediaType === "video" ? (
                 <div className="relative bg-black aspect-video">
                   <img
                     src={lightboxItem.image}
@@ -184,28 +171,33 @@ const GallerySection = () => {
               ) : (
                 <img
                   src={lightboxItem.image}
-                  alt=""
-                  className="w-full max-h-[80vh] object-contain bg-black"
+                  alt={lightboxItem.title}
+                  className="w-full max-h-[85vh] object-contain bg-black mx-auto"
                 />
               )}
 
               {/* Footer */}
               <div
-                className="px-5 py-3 flex items-center justify-between"
+                className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                 style={{
                   background: "rgba(15,10,5,0.95)",
                   borderTop: "1px solid rgba(184,134,11,0.3)",
                 }}
               >
+                <div>
+                  <h4 className="text-white font-bold text-sm">
+                    {lightboxItem.title}
+                  </h4>
+                  <p className="text-white/60 text-xs mt-1">
+                    by {lightboxItem.photographer} • {lightboxItem.location}
+                  </p>
+                </div>
+
                 <span
-                  className="text-xs uppercase tracking-widest font-semibold"
+                  className="text-xs uppercase tracking-widest font-semibold text-right"
                   style={{ color: "#b8860b" }}
                 >
-                  Bihar Darshan
-                </span>
-
-                <span className="text-white/40 text-xs">
-                  {lightboxItem.isVideo ? "Video" : "Photo"}
+                  {lightboxItem.category} • {lightboxItem.mediaType === "video" ? "Video" : "Photo"}
                 </span>
               </div>
             </motion.div>

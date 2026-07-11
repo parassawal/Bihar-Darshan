@@ -181,86 +181,86 @@ const DistrictsDetails = () => {
 
         {/* 6. TOP ATTRACTION */}
         <section className="py-16 bg-[#FAF6EE]">
-  <Container className="max-w-7xl">
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={fadeUp}
-      className="space-y-8"
-    >
-      <SectionLabel
-        icon={<Compass size={16} />}
-        text="Top Attractions"
-      />
+          <Container className="max-w-7xl">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              className="space-y-8"
+            >
+              <SectionLabel
+                icon={<Compass size={16} />}
+                text="Top Attractions"
+              />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {d.topAttractions.map((attraction, idx) => (
-          <motion.div
-            key={idx}
-            whileHover={{ y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="group relative h-[560px] overflow-hidden rounded-3xl shadow-xl"
-          >
-            {/* Image */}
-            <img
-              src={attraction.image}
-              alt={attraction.name}
-              className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
-            />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {d.topAttractions.map((attraction, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="group relative h-[560px] overflow-hidden rounded-3xl shadow-xl"
+                  >
+                    {/* Image */}
+                    <img
+                      src={attraction.image}
+                      alt={attraction.name}
+                      className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                    />
 
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-transparent" />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-transparent" />
 
-            {/* Number */}
-            <div className="absolute top-5 left-5 w-11 h-11 rounded-full bg-white/20 backdrop-blur-lg flex items-center justify-center border border-white/30 text-white font-semibold">
-              {String(idx + 1).padStart(2, "0")}
-            </div>
+                    {/* Number */}
+                    <div className="absolute top-5 left-5 w-11 h-11 rounded-full bg-white/20 backdrop-blur-lg flex items-center justify-center border border-white/30 text-white font-semibold">
+                      {String(idx + 1).padStart(2, "0")}
+                    </div>
 
-            {/* Rating */}
-            {attraction.rating && (
-              <div className="absolute top-5 right-5 rounded-full bg-black/40 backdrop-blur-lg px-3 py-1 text-white text-sm">
-                ⭐ {attraction.rating}
+                    {/* Rating */}
+                    {attraction.rating && (
+                      <div className="absolute top-5 right-5 rounded-full bg-black/40 backdrop-blur-lg px-3 py-1 text-white text-sm">
+                        ⭐ {attraction.rating}
+                      </div>
+                    )}
+
+                    {/* Content */}
+                    <div className="absolute bottom-0 left-0 right-0 p-7 text-white">
+
+                      <div className="flex items-center gap-2 text-yellow-300 mb-2">
+                        <MapPin size={15} />
+                        <span className="text-sm">
+                          {attraction.district}
+                        </span>
+                      </div>
+
+                      <h2 className="text-3xl font-bold mb-3">
+                        {attraction.name}
+                      </h2>
+
+                      <p className="text-white/90 text-base leading-7 mb-4">
+                        {attraction.shortDescription}
+                      </p>
+
+                      <div className="flex items-center justify-between border-t border-white/20 pt-4 text-sm">
+
+                        <div>
+                          <p className="text-white/60">Best Time</p>
+                          <p>{attraction.bestTime}</p>
+                        </div>
+
+                        <button className="rounded-full bg-white text-black px-4 py-2 font-semibold transition hover:bg-yellow-400">
+                          Explore
+                        </button>
+
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            )}
-
-            {/* Content */}
-            <div className="absolute bottom-0 left-0 right-0 p-7 text-white">
-
-              <div className="flex items-center gap-2 text-yellow-300 mb-2">
-                <MapPin size={15} />
-                <span className="text-sm">
-                  {attraction.district}
-                </span>
-              </div>
-
-              <h2 className="text-3xl font-bold mb-3">
-                {attraction.name}
-              </h2>
-
-              <p className="text-white/90 text-base leading-7 mb-4">
-                {attraction.shortDescription}
-              </p>
-
-              <div className="flex items-center justify-between border-t border-white/20 pt-4 text-sm">
-
-                <div>
-                  <p className="text-white/60">Best Time</p>
-                  <p>{attraction.bestTime}</p>
-                </div>
-
-                <button className="rounded-full bg-white text-black px-4 py-2 font-semibold transition hover:bg-yellow-400">
-                  Explore
-                </button>
-
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
-  </Container>
-</section>
+            </motion.div>
+          </Container>
+        </section>
 
       </main>
 

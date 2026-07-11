@@ -1,84 +1,92 @@
 import { motion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-const testimonials = [
+const stories = [
   {
-    name: "Sarah Jenkins",
-    country: "United Kingdom",
-    text: "The spiritual retreat in Bodh Gaya was life-changing. The attention to detail and luxury accommodation surpassed all my expectations.",
-    avatar: "https://i.pravatar.cc/150?u=sarah"
+    name: "Ananya Sharma",
+    location: "Delhi",
+    text: "The Bodh Gaya experience was beyond words. So peaceful and soulful.",
+    avatar: "https://i.pravatar.cc/150?u=ananya"
   },
   {
-    name: "Rajesh Malhotra",
-    country: "India",
-    text: "Never knew Bihar had such premium tourism options. The Nalanda heritage walk was like stepping back in time with modern comforts.",
-    avatar: "https://i.pravatar.cc/150?u=rajesh"
+    name: "Rahul Verma",
+    location: "Kolkata",
+    text: "Exploring Nalanda and Rajgir felt like stepping back in history.",
+    avatar: "https://i.pravatar.cc/150?u=rahul"
   },
   {
-    name: "Hiroshi Tanaka",
-    country: "Japan",
-    text: "The Vaishali expedition was perfectly organized. The private guide was incredibly knowledgeable and the transport was top-notch.",
-    avatar: "https://i.pravatar.cc/150?u=hiroshi"
+    name: "Meera Iyer",
+    location: "Bangalore",
+    text: "Bihar's culture, food and people made our trip unforgettable.",
+    avatar: "https://i.pravatar.cc/150?u=meera"
   }
 ];
 
 const Testimonials = () => {
   return (
-    <section className="py-32 bg-brand-gray relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-gold/5 blur-[100px] rounded-full" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-gold/10 blur-[100px] rounded-full" />
-      </div>
+    <section className="py-24 bg-[#F8F5EF]">
+      <div className="container mx-auto px-6 max-w-[1200px]">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <motion.h2
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-serif text-[#3e2723] mb-3"
+            >
+              Traveller Stories
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-base text-[#4e342e]"
+            >
+              Real experiences from people who explored Bihar.
+            </motion.p>
+          </div>
+          <button className="flex items-center gap-2 text-sm font-bold text-[#3e2723] hover:text-[#c19a5b] transition-colors border border-[#3e2723]/20 px-4 py-2 rounded-full hover:border-[#c19a5b]">
+            View all stories <ArrowRight size={16} />
+          </button>
+        </div>
 
-      <div className="container mx-auto px-6 mb-20 text-center">
-        <span className="text-brand-gold uppercase tracking-[0.3em] text-xs font-bold font-sans block mb-6">
-          Voices of the Voyage
-        </span>
-        <h2 className="text-4xl md:text-5xl font-serif text-brand-dark mb-4">
-          Traveler <span className="italic">Testimonials</span>
-        </h2>
-      </div>
+        {/* Stories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {stories.map((story, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.5 }}
+              className="bg-[#fcfaf7] border border-[#e8dfcf] p-8 rounded-2xl flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
+            >
+              {/* Background decorative elements */}
+              <div className="absolute right-0 bottom-0 opacity-5 w-24 h-24 bg-[url('https://www.transparenttextures.com/patterns/mandala.png')] bg-cover pointer-events-none" />
+              
+              <div className="flex items-start gap-4 mb-6 relative z-10">
+                <span className="text-4xl text-[#c19a5b] font-serif leading-none mt-[-5px]">“</span>
+                <p className="text-[#5d4037] text-sm font-medium italic leading-relaxed">
+                  {story.text}
+                </p>
+              </div>
 
-      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {testimonials.map((t, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.2, duration: 0.8 }}
-            whileHover={{ y: -10 }}
-            className="p-8 rounded-[40px] bg-white border border-brand-dark/5 shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center relative group"
-          >
-            <div className="absolute top-6 left-6 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
-              <Quote size={64} fill="currentColor" />
-            </div>
-
-            <img
-              src={t.avatar}
-              alt={t.name}
-              className="w-20 h-20 rounded-full border-4 border-brand-gray shadow-md mb-6 object-cover"
-            />
-
-            <div className="flex gap-1 mb-6">
-              {[1, 2, 3, 4, 5].map(i => (
-                <Star key={i} size={14} className="text-brand-gold fill-brand-gold" />
-              ))}
-            </div>
-
-            <p className="text-brand-dark/70 text-lg font-serif italic leading-relaxed mb-8 relative z-10">
-              "{t.text}"
-            </p>
-
-            <div className="mt-auto">
-              <h4 className="font-bold text-brand-dark">{t.name}</h4>
-              <p className="text-[10px] uppercase tracking-widest text-brand-gold font-bold">{t.country}</p>
-            </div>
-
-            {/* Float effect shadow */}
-            <div className="absolute -bottom-4 inset-x-12 h-4 bg-black/5 blur-xl group-hover:bg-black/10 transition-all" />
-          </motion.div>
-        ))}
+              <div className="mt-auto flex items-center gap-4 relative z-10">
+                <img
+                  src={story.avatar}
+                  alt={story.name}
+                  className="w-12 h-12 rounded-full border-2 border-[#f2ece1] object-cover"
+                />
+                <div>
+                  <h4 className="font-bold text-[#3e2723] text-sm">{story.name}</h4>
+                  <p className="text-[11px] text-[#8b5a2b] uppercase tracking-wider">{story.location}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

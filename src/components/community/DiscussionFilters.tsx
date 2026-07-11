@@ -29,11 +29,6 @@ const DiscussionFilters = ({ active, onChange }: DiscussionFiltersProps) => {
         );
       })}
 
-      {/* Latest sort */}
-      <button className="flex items-center gap-1 ml-auto px-3 py-1.5 text-sm font-semibold text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-all duration-200">
-        Latest
-        <ChevronDown size={13} />
-      </button>
     </div>
   );
 };

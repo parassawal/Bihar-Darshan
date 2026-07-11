@@ -39,17 +39,15 @@ const CommunityHero = ({ searchQuery, onSearchChange }: CommunityHeroProps) => {
 
           {/* Search */}
           <div
-            className={`relative flex items-center bg-white/10 backdrop-blur-md border rounded-xl transition-all duration-300 ${
-              focused
+            className={`relative flex items-center bg-white/10 backdrop-blur-md border rounded-xl transition-all duration-300 ${focused
                 ? 'border-amber-400 bg-white/15 shadow-lg shadow-amber-400/10'
                 : 'border-white/20'
-            }`}
+              }`}
           >
             <Search
               size={18}
-              className={`ml-4 shrink-0 transition-colors duration-300 ${
-                focused ? 'text-amber-400' : 'text-white/50'
-              }`}
+              className={`ml-4 shrink-0 transition-colors duration-300 ${focused ? 'text-amber-400' : 'text-white/50'
+                }`}
             />
             <input
               type="text"

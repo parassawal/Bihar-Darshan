@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { TourTrip } from "../../data/tourismData";
+import { ArrowRight } from "lucide-react";
 
 interface JourneyCardProps {
   trip: TourTrip;
@@ -7,39 +8,34 @@ interface JourneyCardProps {
 
 const JourneyCard = ({ trip }: JourneyCardProps) => {
   return (
-    <Link to={`/tourism/${trip.id}`} className="bg-[#fdf9ef] rounded-[2rem] shadow-lg overflow-hidden flex flex-col group border border-[#e2d5b8] transform transition-transform hover:-translate-y-2 duration-300">
-
-      {/* Image */}
-      <div className="relative h-64 overflow-hidden p-2">
-        <img
-          src={trip.image}
-          alt={trip.title}
-          className="w-full h-full object-cover rounded-t-[1.5rem] rounded-b-xl group-hover:scale-110 transition-transform duration-700"
-        />
-
-        {/* Location Badge */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-[#5c3a21] text-white text-[10px] uppercase tracking-widest px-3 py-1 rounded-full opacity-90 shadow-md">
-          {trip.departureCity}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-6 text-center flex-1 flex flex-col items-center">
-
-        <h3 className="text-xl font-bold text-[#5c3a21] mb-3">{trip.title}</h3>
-
-        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-          {trip.description}
-        </p>
-
-        <div className="mt-auto">
-          <span
-            className="text-[#d4a017] font-bold text-sm uppercase tracking-wider hover:text-[#5c3a21] transition-colors"
-          >
-            READ MORE
-          </span>
+    <Link
+      to={`/tourism/${trip.id}`}
+      className="group block w-full transform transition-transform hover:-translate-y-1 duration-500"
+    >
+      <div className="bg-[#fdfcf9] rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-shadow duration-500 border border-gray-100 flex flex-col relative h-full">
+        {/* Top: Image Section */}
+        <div className="relative h-56 md:h-64 overflow-hidden">
+          <img
+            src={trip.image}
+            alt={trip.title}
+            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+          />
         </div>
 
+        {/* Bottom: Minimal Content Section */}
+        <div className="p-8 flex flex-col items-center justify-center text-center relative z-10 flex-1 bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]">
+          <h3 className="text-xl md:text-2xl font-serif text-brand-dark mb-4 group-hover:text-brand-gold transition-colors duration-300">
+            {trip.title}
+          </h3>
+
+          <div className="flex items-center gap-2 text-[10px] font-bold text-brand-dark/60 uppercase tracking-[0.2em] group-hover:text-brand-dark transition-colors duration-300">
+            View Details
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+          </div>
+        </div>
+
+        {/* Golden Bottom Border on Hover */}
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
       </div>
     </Link>
   );

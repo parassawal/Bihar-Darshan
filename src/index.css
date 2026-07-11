@@ -35,6 +35,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Suppress Google Translate floating badges / tooltips ── */
+.goog-te-bd-container,
+.goog-tooltip,
+.goog-tooltip-card,
+.goog-te-spinner-pos,
+.jfk-bubble,
+.goog-te-ftab-float,
+.VIpgJd-yAWNEb-VIpgJd-fmcmS-sn54Q,
+.VIpgJd-yAWNEb-hvhgNd,
+#goog-gt-tt {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

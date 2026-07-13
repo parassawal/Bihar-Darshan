@@ -66,18 +66,18 @@ const JourneyDetails = () => {
   }));
   // Fill if less than 5
   if (memories.length < 5) {
-      memories.push({
-          id: 99,
-          url: "https://images.unsplash.com/photo-1542314831-c6a4d14d8387?q=80&w=1000",
-          category: "Accommodation",
-          title: "Resort Life",
-          className: "md:col-span-1 md:row-span-1"
-      });
+    memories.push({
+      id: 99,
+      url: "https://images.unsplash.com/photo-1542314831-c6a4d14d8387?q=80&w=1000",
+      category: "Accommodation",
+      title: "Resort Life",
+      className: "md:col-span-1 md:row-span-1"
+    });
   }
 
   return (
     <div className="min-h-screen bg-[#F8F5EF] text-[#2A2A2A] selection:bg-[#C89A3D] selection:text-white font-sans relative overflow-x-hidden">
-      <Navbar />
+      <Navbar forceDarkText={true} />
 
       {/* Decorative Texture */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.04] mix-blend-multiply">
@@ -129,7 +129,7 @@ const JourneyDetails = () => {
               </p>
             </motion.div>
 
-        {/* Stats Row Removed */}
+            {/* Stats Row Removed */}
           </div>
 
           {/* Right Side Glass Card Removed */}
@@ -141,7 +141,7 @@ const JourneyDetails = () => {
           ======================== */}
       <section className="py-[120px] container mx-auto px-6 md:px-12 max-w-[1280px] relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
-          
+
           {/* Left Column (65%) */}
           <div className="lg:w-[65%] space-y-12">
             <motion.div
@@ -153,7 +153,7 @@ const JourneyDetails = () => {
               <h2 className="text-4xl md:text-5xl font-serif text-[#1A1A1A] mb-8 font-light">
                 The Journey
               </h2>
-              
+
               <blockquote className="relative p-8 bg-white rounded-2xl border border-[#E8E0D4] shadow-sm mb-12">
                 <Quote className="absolute top-6 left-6 w-12 h-12 text-[#C89A3D] opacity-20" />
                 <p className="text-2xl font-serif text-[#2A2A2A] leading-relaxed italic relative z-10 pl-6">
@@ -288,7 +288,7 @@ const JourneyDetails = () => {
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-              
+
               <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                 <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-widest mb-2 block">
                   {mem.category}
@@ -297,7 +297,7 @@ const JourneyDetails = () => {
                   {mem.title}
                 </h3>
               </div>
-              
+
               <div className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition-all duration-500">
                 <Maximize2 className="w-5 h-5" />
               </div>
@@ -311,7 +311,7 @@ const JourneyDetails = () => {
           ======================== */}
       <section className="py-[120px] bg-[#1A1A1A] text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]" />
-        
+
         <div className="container mx-auto px-6 md:px-12 max-w-[1000px] relative z-10">
           <div className="text-center mb-20">
             <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Itinerary</span>
@@ -325,7 +325,7 @@ const JourneyDetails = () => {
                   <span className="w-12 h-px bg-[#C89A3D]/50 block" />
                   Day {day.day}: {day.title}
                 </h3>
-                
+
                 <div className="pl-6 md:pl-[60px] border-l border-white/10 space-y-12">
                   {day.activities.map((act, actIdx) => (
                     <motion.div

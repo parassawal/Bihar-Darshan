@@ -5,18 +5,18 @@ import { useAdminData } from '../data/AdminContext';
 import Container from '../components/layout/Container';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
-import { MapPin, Utensils, PartyPopper, Search, Sparkles, User, MessageSquare } from 'lucide-react';
+import { MapPin, Utensils, PartyPopper, Search, Sparkles, User, MessageSquare, Plus } from 'lucide-react';
 import { useContributions } from '../data/ContributionContext';
 import { Link, useLocation } from 'react-router-dom';
 
 // 1. ADDED: FULL LIST OF BIHAR DISTRICTS
 const BIHAR_DISTRICTS = [
   "All Districts",
-  "Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", 
-  "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", 
-  "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", 
-  "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", 
-  "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", 
+  "Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur",
+  "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui",
+  "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai",
+  "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada",
+  "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura",
   "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"
 ];
 
@@ -145,15 +145,15 @@ const Discover = () => {
 
       <Container>
         <div id="discover-explore-section" className="bg-white p-3 rounded-[1.5rem] shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 justify-between items-center mb-12">
-          
+
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${activeCategory === cat
-                    ? 'bg-brand-dark text-white shadow-md'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-brand-dark text-white shadow-md'
+                  : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                   }`}
               >
                 {cat}
@@ -161,84 +161,95 @@ const Discover = () => {
             ))}
           </div>
 
-          <div className="relative w-full md:w-56 shrink-0 z-40">
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full bg-gray-50 border border-transparent hover:border-gray-200 text-brand-dark text-sm rounded-[1.25rem] pl-10 pr-10 py-2.5 font-semibold transition-all flex items-center justify-between cursor-pointer"
+          <div className="flex items-center gap-3 w-full md:w-auto shrink-0 z-40">
+            {/* Add Story Button */}
+            <Link
+              to="/share-story"
+              className="flex items-center justify-center gap-1.5 px-5 py-2.5 bg-brand-gold hover:bg-brand-gold/90 text-brand-dark text-xs font-bold rounded-[1.25rem] transition-all shadow-sm shrink-0 uppercase tracking-wider active:scale-95 cursor-pointer"
             >
-              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                <MapPin size={16} className="text-gray-400" />
-              </div>
-              <span className="truncate">{activeDistrict}</span>
-              <svg
-                className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <Plus size={14} className="stroke-[3px]" />
+              <span>Add</span>
+            </Link>
+
+            {/* Districts Dropdown */}
+            <div className="relative w-full md:w-56 shrink-0">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full bg-gray-50 border border-transparent hover:border-gray-200 text-brand-dark text-sm rounded-[1.25rem] pl-10 pr-10 py-2.5 font-semibold transition-all flex items-center justify-between cursor-pointer"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
-
-            {isDropdownOpen && (
-              <div
-                className="fixed inset-0 z-40"
-                onClick={() => {
-                  setIsDropdownOpen(false);
-                  setSearchQuery("");
-                }}
-              ></div>
-            )}
-
-            <AnimatePresence>
-              {isDropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-gray-200 py-2 z-50 overflow-hidden"
+                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                  <MapPin size={16} className="text-gray-400" />
+                </div>
+                <span className="truncate">{activeDistrict}</span>
+                <svg
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <div className="px-3 pb-2 mb-1 border-b border-gray-100">
-                    <div className="relative">
-                      <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                      <input
-                        type="text"
-                        placeholder="Search district..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-gray-50 text-sm font-medium text-gray-900 rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-gold transition-all"
-                      />
-                    </div>
-                  </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
 
-                  {/* 3. REPLACED: LIST RENDERING LOGIC TO USE THE 38 DISTRICTS */}
-                  <div className="max-h-[220px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-                    {districts.filter((d: string) => d.toLowerCase().includes(searchQuery.toLowerCase())).length > 0 ? (
-                      districts.filter((d: string) => d.toLowerCase().includes(searchQuery.toLowerCase())).map((district: string) => (
-                        <button
-                          key={district}
-                          onClick={() => {
-                            setActiveDistrict(district);
-                            setIsDropdownOpen(false);
-                            setSearchQuery("");
-                          }}
-                          className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors hover:bg-gray-50 flex items-center gap-2 cursor-pointer ${activeDistrict === district ? 'text-brand-dark bg-gray-50' : 'text-gray-600'
-                            }`}
-                        >
-                          {activeDistrict === district && <div className="w-1.5 h-1.5 rounded-full bg-brand-gold"></div>}
-                          <span className={activeDistrict === district ? 'font-bold' : ''}>{district}</span>
-                        </button>
-                      ))
-                    ) : (
-                      <div className="px-4 py-6 text-center text-sm text-gray-400 font-medium">
-                        No districts found
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
+              {isDropdownOpen && (
+                <div
+                  className="fixed inset-0 z-45"
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setSearchQuery("");
+                  }}
+                ></div>
               )}
-            </AnimatePresence>
+
+              <AnimatePresence>
+                {isDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-gray-200 py-2 z-50 overflow-hidden"
+                  >
+                    <div className="px-3 pb-2 mb-1 border-b border-gray-100">
+                      <div className="relative">
+                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="Search district..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="w-full bg-gray-50 text-sm font-medium text-gray-900 rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-gold transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="max-h-[220px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+                      {districts.filter((d: string) => d.toLowerCase().includes(searchQuery.toLowerCase())).length > 0 ? (
+                        districts.filter((d: string) => d.toLowerCase().includes(searchQuery.toLowerCase())).map((district: string) => (
+                          <button
+                            key={district}
+                            onClick={() => {
+                              setActiveDistrict(district);
+                              setIsDropdownOpen(false);
+                              setSearchQuery("");
+                            }}
+                            className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors hover:bg-gray-50 flex items-center gap-2 cursor-pointer ${activeDistrict === district ? 'text-brand-dark bg-gray-50' : 'text-gray-600'
+                              }`}
+                          >
+                            {activeDistrict === district && <div className="w-1.5 h-1.5 rounded-full bg-brand-gold"></div>}
+                            <span className={activeDistrict === district ? 'font-bold' : ''}>{district}</span>
+                          </button>
+                        ))
+                      ) : (
+                        <div className="px-4 py-6 text-center text-sm text-gray-400 font-medium">
+                          No districts found
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
@@ -257,61 +268,65 @@ const Discover = () => {
                 filteredData.map((item) => (
                   <Link
                     key={item.id}
-                    to={item.type === "Personality" || item.submittedBy ? "#" : `/culture/${item.id.replace('culture-', '')}`}
-                    onClick={(e) => {
-                      if (item.type === "Personality" || item.submittedBy) {
-                        e.preventDefault();
-                        setSelectedItem(item);
-                      }
-                    }}
-                    className="relative block flex-none h-[400px] rounded-[1.5rem] overflow-hidden group bg-white shadow-[0_4px_20px_rgb(0,0,0,0.04)] cursor-pointer hover:shadow-xl transition-shadow"
+                    to={item.type === "Personality"
+                      ? `/personalities/${item.id.replace('personality-', '')}`
+                      : `/culture/${item.id.replace('culture-', '')}`
+                    }
+                    className="relative block h-[400px] rounded-[1.5rem] overflow-hidden group bg-gray-100 shadow-md transition-shadow hover:shadow-xl cursor-pointer"
                   >
-                    <div className="absolute top-0 left-0 right-0 h-full group-hover:h-[50%] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:delay-100 group-hover:rounded-b-2xl overflow-hidden z-0">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 group-hover:delay-100"
-                        onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x600?text=Profile+Coming+Soon"; }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-700 group-hover:delay-100"></div>
-                    </div>
+                    {/* Image */}
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x600?text=Profile+Coming+Soon"; }}
+                    />
 
-                    <div className="absolute top-3 left-3 bg-brand-gold px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 text-brand-dark shadow-md z-20">
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 pointer-events-none" />
+
+                    {/* Category Tag */}
+                    <div className="absolute top-3 left-3 bg-brand-gold px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 text-brand-dark shadow-md z-25">
                       {item.type === "Festival" ? <PartyPopper size={12} /> : item.type === "Food" ? <Utensils size={12} /> : <User size={12} />}
                       {item.type === "Personality" ? item.personalityCategory : item.type}
                     </div>
 
+                    {/* Community Tag */}
                     {item.submittedBy && (
-                      <div className="absolute top-3 right-3 bg-brand-dark/80 backdrop-blur-sm border border-brand-gold/30 text-brand-gold px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md z-20">
+                      <div className="absolute top-3 right-3 bg-brand-dark/80 backdrop-blur-sm border border-brand-gold/30 text-brand-gold px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md z-25">
                         <Sparkles size={10} /> Community
                       </div>
                     )}
 
-                    <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col justify-end z-10">
-                      <div className="mb-1">
-                        <h3 className="text-[17px] font-bold text-white group-hover:text-gray-900 transition-colors duration-700 group-hover:delay-100 leading-tight mb-0.5 truncate">
+                    {/* Slide Up Content */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-4 z-20">
+                      <div className="transform translate-y-[85px] group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                        {/* District */}
+                        <div className="flex items-center gap-1 text-[10px] font-bold text-[#D4A017] mb-1">
+                          <MapPin size={10} />
+                          <span>{item.district}</span>
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-base font-serif font-bold text-white leading-tight mb-2 truncate">
                           {item.title}
                         </h3>
+
                         {item.submittedBy && (
-                          <div className="text-[10px] font-bold text-brand-gold group-hover:text-amber-700 flex items-center gap-1 mb-0.5 transition-colors duration-700 group-hover:delay-100">
+                          <div className="text-[10px] font-bold text-amber-400 flex items-center gap-1 mb-2">
                             <User size={10} /> <span>By {item.submittedBy}</span>
                           </div>
                         )}
-                        <div className="flex items-center gap-1 text-[11px] font-bold text-gray-300 group-hover:text-gray-500 transition-colors duration-700 group-hover:delay-100 truncate">
-                          <MapPin size={12} /> {item.district}
-                        </div>
-                      </div>
-                      <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 group-hover:delay-100 ease-in-out">
-                        <div className="overflow-hidden">
-                          <div className="pt-2 pb-1">
-                            <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2 mb-2">
-                              {item.caption || item.description}
-                            </p>
-                            <span className="flex-1 py-2.5 rounded-[1rem] bg-brand-gold text-brand-dark text-[12px] font-bold tracking-wide shadow-sm hover:bg-gold-light transition-colors text-center block">
-                              Learn More
-                            </span>
-                          </div>
-                        </div>
+
+                        {/* Description (Visible on Hover - 3-4 lines) */}
+                        <p className="text-[11px] text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75 line-clamp-4 leading-relaxed mb-3">
+                          {item.caption || item.description}
+                        </p>
+
+                        {/* Action link indicator */}
+                        <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-brand-gold hover:underline">
+                          Learn More →
+                        </span>
                       </div>
                     </div>
                   </Link>
@@ -336,7 +351,7 @@ const Discover = () => {
         </div>
 
         {/* ── RELATED COMMUNITY STORIES SECTION ── */}
-        
+
       </Container>
 
       {/* Lightbox / Details Modal - (Unchanged) */}

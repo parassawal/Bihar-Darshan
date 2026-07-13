@@ -14,7 +14,7 @@ const ForgotPasswordPage: React.FC = () => {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden font-sans">
-      <Navbar />
+      <Navbar forceWhiteText={true} />
 
       {/* BACKGROUND IMAGE */}
       <div

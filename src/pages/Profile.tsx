@@ -106,7 +106,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen font-sans bg-[#f7f3e8]">
-      <Navbar />
+      <Navbar forceDarkText={true} />
 
       <div className="pt-24 pb-12 bg-gradient-to-b from-white to-[#f7f3e8]">
         <Container>

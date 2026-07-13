@@ -19,6 +19,7 @@ import ProductDetails from './pages/ProductDetails';
 import CultureDetails from './pages/CultureDetails';
 import ShareStory from './pages/ShareStory';
 import Personalities from './pages/Personalities';
+import PersonalityDetails from './pages/PersonalityDetails';
 import { AdminDataProvider } from './data/AdminContext';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminLogin from './pages/admin/AdminLogin';
@@ -67,30 +68,31 @@ function App() {
       <Router>
         <ScrollToTop />
 
-      <PageTransition>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/districts" element={<Districts />} />
-          <Route path="/discover" element={<Discover />} />
-          <Route path="/culture" element={<Discover />} />
-          <Route path="/culture/:id" element={<CultureDetails />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/Community" element={<Community />} />
-          <Route path="/marketplace" element={<MarketPlace />} />
-          <Route path="/Marketplace" element={<MarketPlace />} />
-          <Route path="/tourism" element={<Tourism />} />
-          <Route path="/tourism/:id" element={<JourneyDetails />} />
-          <Route path="/tribals" element={<Tribals />} />
-          <Route path="/tribals/:id" element={<TribeDetail />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/personalities" element={<Personalities />} />
-          <Route path="/districts/:name" element={<DistrictsDetails />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/marketplace/:id" element={<ProductDetails />} />
-          <Route path="/share-story" element={<ShareStory />} />
-        </Routes>
+        <PageTransition>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/districts" element={<Districts />} />
+            <Route path="/discover" element={<Discover />} />
+            <Route path="/culture" element={<Discover />} />
+            <Route path="/culture/:id" element={<CultureDetails />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/Community" element={<Community />} />
+            <Route path="/marketplace" element={<MarketPlace />} />
+            <Route path="/Marketplace" element={<MarketPlace />} />
+            <Route path="/tourism" element={<Tourism />} />
+            <Route path="/tourism/:id" element={<JourneyDetails />} />
+            <Route path="/tribals" element={<Tribals />} />
+            <Route path="/tribals/:id" element={<TribeDetail />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/personalities" element={<Personalities />} />
+            <Route path="/personalities/:id" element={<PersonalityDetails />} />
+            <Route path="/districts/:name" element={<DistrictsDetails />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/marketplace/:id" element={<ProductDetails />} />
+            <Route path="/share-story" element={<ShareStory />} />
+          </Routes>
         </PageTransition>
 
         {/* Admin Routes (outside PageTransition to avoid translation interference) */}

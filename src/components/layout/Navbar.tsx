@@ -21,9 +21,10 @@ const navItems: NavItem[] = [
 
 interface NavbarProps {
   forceDarkText?: boolean;
+  forceWhiteText?: boolean;
 }
 
-const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
+const Navbar = ({ forceDarkText = false, forceWhiteText = false }: NavbarProps = {}) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const getInitialLang = () => {
@@ -79,17 +80,23 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
     return false;
   };
 
+  // Text/logo colour logic
+  const useDarkText = scrolled || forceDarkText;
+  const useWhiteText = !scrolled && (forceWhiteText || (!forceDarkText));
+
   return (
     <header className={`fixed top-0 left-0 w-full z-[200] transition-all duration-500 ${scrolled
-      ? "bg-white/80 backdrop-blur-2xl shadow-md border-b border-black/5 py-2"
-      : "bg-transparent py-3"
+        ? "bg-white/80 backdrop-blur-2xl shadow-md border-b border-black/5 py-2"
+        : forceWhiteText
+          ? "bg-black/30 backdrop-blur-sm py-3"
+          : "bg-transparent py-3"
       }`}>
       <div className="max-w-[1920px] mx-auto px-6 sm:px-10 flex items-center justify-between">
         <div className="flex items-center gap-3 shrink-0">
           <img
             src={logo}
             alt="Bihar Darshan"
-            className={`h-10 lg:h-12 w-auto object-contain transition-all duration-500 drop-shadow-md ${!scrolled && !forceDarkText ? "brightness-0 invert drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" : ""
+            className={`h-10 lg:h-12 w-auto object-contain transition-all duration-500 drop-shadow-md ${!scrolled && (forceWhiteText || !forceDarkText) ? "brightness-0 invert drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" : ""
               }`}
           />
         </div>
@@ -100,9 +107,9 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
             <div key={item.label} className="relative">
               <Link
                 to={item.path}
-                className={`relative flex items-center gap-1.5 text-sm font-semibold transition-all duration-300 ${scrolled || forceDarkText
-                  ? "text-black/70 hover:text-gold"
-                  : "text-white/90 hover:text-gold"
+                className={`relative flex items-center gap-1.5 text-sm font-semibold transition-all duration-300 ${useDarkText
+                    ? "text-black/70 hover:text-gold"
+                    : "text-white/90 hover:text-gold"
                   } ${isActive(item) ? "text-gold" : ""}`}
               >
                 {item.label}
@@ -128,9 +135,9 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
           <div className="relative hidden lg:block">
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className={`flex items-center gap-2 px-4 h-9 rounded-xl border transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled || forceDarkText
-                ? "border-black/10 text-black hover:bg-black/5"
-                : "border-white/15 text-white hover:bg-white/5"
+              className={`flex items-center gap-2 px-4 h-9 rounded-xl border transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${useDarkText
+                  ? "border-black/10 text-black hover:bg-black/5"
+                  : "border-white/15 text-white hover:bg-white/5"
                 }`}
             >
               <Globe size={14} />
@@ -159,9 +166,7 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
           {isAuthenticated ? (
             <Link
               to="/profile"
-              className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled || forceDarkText
-                ? "text-black hover:bg-black/5"
-                : "text-white hover:bg-white/5"
+              className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${useDarkText ? "text-black hover:bg-black/5" : "text-white hover:bg-white/5"
                 }`}
             >
               Profile
@@ -169,9 +174,7 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
           ) : (
             <Link
               to="/login"
-              className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${scrolled || forceDarkText
-                ? "text-black hover:bg-black/5"
-                : "text-white hover:bg-white/5"
+              className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${useDarkText ? "text-black hover:bg-black/5" : "text-white hover:bg-white/5"
                 }`}
             >
               Login
@@ -180,8 +183,7 @@ const Navbar = ({ forceDarkText = false }: NavbarProps = {}) => {
 
           {/* Mobile Menu Toggle */}
           <button
-            className={`xl:hidden p-1 transition-colors ${scrolled || forceDarkText ? "text-black" : "text-white"
-              }`}
+            className={`xl:hidden p-1 transition-colors ${useDarkText ? "text-black" : "text-white"}`}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={28} /> : <Menu size={28} />}

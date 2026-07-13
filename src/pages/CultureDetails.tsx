@@ -4,6 +4,7 @@ import Footer from '../components/layout/Footer';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { cultureData } from '../data/cultureData';
+import { useContributions } from '../data/ContributionContext';
 import { MapPin, Utensils, PartyPopper } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
@@ -13,19 +14,22 @@ import 'swiper/css/pagination';
 
 const CultureDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const cultureItem = cultureData.find((item) => item.id.toString() === id);
+  const { cultureSubmissions } = useContributions();
+
+  const combinedCulture = [...cultureSubmissions, ...cultureData];
+  const cultureItem = combinedCulture.find((item) => item.id.toString() === id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
   if (!cultureItem) {
-    return <Navigate to="/culture" />;
+    return <Navigate to="/discover" />;
   }
 
   return (
     <div className="min-h-screen bg-brand-gray text-brand-dark font-sans overflow-x-hidden relative">
-      <Navbar />
+      <Navbar forceDarkText={true} />
 
       {/* Main Content Wrapper */}
       <div className="relative z-10 pt-32 pb-20 max-w-[1400px] mx-auto px-4 sm:px-8">
@@ -37,13 +41,12 @@ const CultureDetails = () => {
         </div>
 
         {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16 items-center">
-          {/* Left: Info */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+        <div className="mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-5 flex flex-col justify-center"
+            className="max-w-4xl"
           >
             <div className="flex items-center gap-3 mb-4">
               <span className="bg-brand-gold px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 text-brand-dark shadow-sm">
@@ -54,12 +57,17 @@ const CultureDetails = () => {
                 <MapPin size={16} />
                 {cultureItem.district}
               </span>
+              {cultureItem.submittedBy && (
+                <span className="text-sm font-bold text-brand-gold">
+                  By {cultureItem.submittedBy}
+                </span>
+              )}
             </div>
-            
-            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+
+            <h1 className="text-4xl md:text-6xl font-serif font-black text-gray-900 mb-6 leading-tight">
               {cultureItem.title}
             </h1>
-            
+
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
               {cultureItem.longDescription || cultureItem.description}
             </p>
@@ -74,33 +82,10 @@ const CultureDetails = () => {
               </div>
             )}
           </motion.div>
-
-          {/* Right: Featured Image/Video */}
-          {/* Right: Featured Image (Video Removed) */}
-<motion.div 
-  initial={{ opacity: 0, x: 30 }}
-  animate={{ opacity: 1, x: 0 }}
-  transition={{ duration: 0.6 }}
-  className="lg:col-span-7 relative"
->
-  <div className="relative w-full aspect-[4/3] md:aspect-video lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100 group">
-    <img 
-      src={cultureItem.image} 
-      alt={cultureItem.title} 
-      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-    />
-    {/* Subtle overlay for depth */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-  </div>
-  
-  {/* Decorative background blobs - kept these for the style */}
-  <div className="absolute -z-10 -bottom-8 -right-8 w-64 h-64 bg-brand-gold/20 rounded-full blur-3xl pointer-events-none" />
-  <div className="absolute -z-10 -top-8 -left-8 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-</motion.div>
         </div>
 
         {/* Gallery Section */}
-        {cultureItem.galleryImages && cultureItem.galleryImages.length > 0 && (
+        {((cultureItem.galleryImages && cultureItem.galleryImages.length > 0) || cultureItem.image) && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -113,7 +98,7 @@ const CultureDetails = () => {
                 <div className="absolute -bottom-2 left-1/4 right-1/4 h-1 bg-brand-gold rounded-full" />
               </h2>
             </div>
-            
+
             <div className="relative rounded-3xl overflow-hidden shadow-sm">
               <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
@@ -128,7 +113,10 @@ const CultureDetails = () => {
                 }}
                 className="w-full !pb-16"
               >
-                {cultureItem.galleryImages.map((src, index) => (
+                {(cultureItem.galleryImages && cultureItem.galleryImages.length > 0
+                  ? cultureItem.galleryImages
+                  : [cultureItem.image]
+                ).map((src, index) => (
                   <SwiperSlide key={index}>
                     <div className="bg-white rounded-2xl overflow-hidden shadow-md group aspect-[4/3] cursor-pointer">
                       <img

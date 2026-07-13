@@ -21,7 +21,7 @@ const MarketPlace = () => {
 
   return (
     <div className="min-h-screen bg-brand-gray">
-      <Navbar />
+      <Navbar forceDarkText={true} />
 
       {/* Hero Section */}
       <div className="bg-brand-dark pt-32 pb-16 mb-12 overflow-hidden">
@@ -66,8 +66,8 @@ const MarketPlace = () => {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${activeCategory === cat
-                    ? "bg-brand-dark text-white shadow-md"
-                    : "bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                  ? "bg-brand-dark text-white shadow-md"
+                  : "bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                   }`}
               >
                 {cat}

@@ -64,7 +64,7 @@ const CultureDetails = () => {
               )}
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-serif font-black text-gray-900 mb-6 leading-tight">
+            <h1 className="font-display font-bold text-4xl md:text-6xl text-gray-900 mb-6 leading-tight">
               {cultureItem.title}
             </h1>
 

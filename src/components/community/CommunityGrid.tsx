@@ -31,7 +31,7 @@ const CommunityGrid = ({ communities, onSelect }: CommunityGridProps) => {
         <div className="flex justify-center mt-8">
           <button
             onClick={() => setVisibleCount((c) => c + 6)}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl border border-gray-200 text-gray-700 font-semibold text-sm hover:border-amber-400 hover:text-amber-600 hover:bg-amber-50 transition-all duration-200"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl border border-gray-200 text-gray-700 font-semibold text-sm hover:border-brand-gold hover:text-accent-brown hover:bg-brand-gray transition-all duration-200"
           >
             Load More Communities
             <ChevronDown size={16} />

@@ -31,7 +31,7 @@ const CommunityDetailTabs = ({ active, onChange }: CommunityDetailTabsProps) => 
               onClick={() => onChange(label)}
               className={`flex items-center gap-1.5 px-4 py-3.5 text-sm font-semibold whitespace-nowrap border-b-2 transition-all duration-200 ${
                 isActive
-                  ? 'border-amber-400 text-amber-600'
+                  ? 'border-brand-gold text-accent-brown'
                   : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-200'
               }`}
             >

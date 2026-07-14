@@ -5,6 +5,7 @@ import { useAdminData } from '../data/AdminContext';
 import Container from '../components/layout/Container';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import ShareStorySection from '../components/cta/ShareStorySection';
 import { MapPin, Utensils, PartyPopper, Search, Sparkles, User, MessageSquare, Plus } from 'lucide-react';
 import { useContributions } from '../data/ContributionContext';
 import { Link, useLocation } from 'react-router-dom';
@@ -133,7 +134,7 @@ const Discover = () => {
         <div className="absolute inset-x-0 bottom-0 h-px bg-brand-gold/20"></div>
         <Container>
           <div className="relative z-10 text-center max-w-2xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="font-display font-bold text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
               Discover Bihar's <span className="text-brand-gold">Heritage</span>
             </h1>
             <p className="text-gray-300 text-lg leading-relaxed">
@@ -298,35 +299,42 @@ const Discover = () => {
                       </div>
                     )}
 
-                    {/* Slide Up Content */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-4 z-20">
-                      <div className="transform translate-y-[85px] group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                    {/* Content */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-5 z-20">
+                      {/* Always Visible Part */}
+                      <div className="transform transition-transform duration-500 ease-out group-hover:-translate-y-2">
                         {/* District */}
-                        <div className="flex items-center gap-1 text-[10px] font-bold text-[#D4A017] mb-1">
-                          <MapPin size={10} />
+                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-brand-gold mb-1.5 uppercase tracking-wider">
+                          <MapPin size={12} />
                           <span>{item.district}</span>
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-base font-serif font-bold text-white leading-tight mb-2 truncate">
+                        <h3 className="text-xl md:text-2xl font-serif font-bold text-white leading-tight mb-1 drop-shadow-md">
                           {item.title}
                         </h3>
 
                         {item.submittedBy && (
-                          <div className="text-[10px] font-bold text-amber-400 flex items-center gap-1 mb-2">
-                            <User size={10} /> <span>By {item.submittedBy}</span>
+                          <div className="text-[10px] font-bold text-white/70 flex items-center gap-1.5 mt-2">
+                            <User size={10} className="text-brand-gold" /> <span>By {item.submittedBy}</span>
                           </div>
                         )}
+                      </div>
 
-                        {/* Description (Visible on Hover - 3-4 lines) */}
-                        <p className="text-[11px] text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75 line-clamp-4 leading-relaxed mb-3">
-                          {item.caption || item.description}
-                        </p>
+                      {/* Hover Revealed Part */}
+                      <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-out">
+                        <div className="overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out delay-100">
+                          {/* Description */}
+                          <p className="text-sm text-white/90 line-clamp-3 leading-relaxed mt-3 mb-4 drop-shadow-sm">
+                            {item.caption || item.description}
+                          </p>
 
-                        {/* Action link indicator */}
-                        <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-brand-gold hover:underline">
-                          Learn More →
-                        </span>
+                          {/* Action link indicator */}
+                          <div className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-brand-gold group/btn">
+                            Learn More 
+                            <span className="transform transition-transform group-hover/btn:translate-x-1">→</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -364,13 +372,13 @@ const Discover = () => {
           >
             <motion.div
               initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 20 }}
-              className="bg-[#121620] border border-white/10 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row relative"
+              className="bg-[#0F3D2E] border border-white/10 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row relative"
               onClick={(e) => e.stopPropagation()}
             >
               <button onClick={() => setSelectedItem(null)} className="absolute top-4 right-4 z-50 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors border border-white/10 cursor-pointer">✕</button>
               <div className="md:w-1/2 relative h-64 md:h-auto min-h-[300px]">
                 <img src={selectedItem.image} alt={selectedItem.title} className="absolute inset-0 w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x600?text=Profile+Coming+Soon"; }} />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121620] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#121620]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F3D2E] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#0F3D2E]" />
                 <div className="absolute top-4 left-4 bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-md">{selectedItem.type === "Personality" ? selectedItem.personalityCategory : selectedItem.type}</div>
               </div>
               <div className="md:w-1/2 p-6 md:p-10 flex flex-col justify-between">
@@ -395,6 +403,7 @@ const Discover = () => {
         )}
       </AnimatePresence>
 
+      <ShareStorySection />
       <Footer />
     </div>
   );

@@ -77,7 +77,7 @@ const PersonalityDetails = () => {
               )}
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-black text-gray-900 mb-6 leading-tight">
+            <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6 leading-tight">
               {personality.name}
             </h1>
 

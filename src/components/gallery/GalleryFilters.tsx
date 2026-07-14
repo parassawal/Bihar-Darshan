@@ -109,18 +109,18 @@ const GalleryFilters = ({
   return (
     <div className="sticky top-[72px] z-[100] px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
-        <div className="bg-[#12161c]/80 backdrop-blur-3xl border border-white/10 rounded-2xl px-4 sm:px-5 py-3.5 shadow-2xl">
+        <div className="bg-white border border-gray-100 rounded-2xl px-4 sm:px-5 py-3.5 shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             
             {/* Search Input */}
             <div className="relative flex-1 w-full lg:max-w-xs xl:max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40" size={16} />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
               <input
                 type="text"
-                placeholder="Search Media..."
+                placeholder="Search photos, places, festivals..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full bg-white/[0.04] border border-white/[0.08] text-white text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-gold/50 focus:bg-white/[0.06] transition-all placeholder:text-white/30"
+                className="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#F4A261]/60 focus:bg-white focus:ring-2 focus:ring-[#F4A261]/10 transition-all placeholder:text-gray-400"
               />
             </div>
 
@@ -137,8 +137,8 @@ const GalleryFilters = ({
                   }}
                   className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-300 border ${
                     mediaOpen
-                      ? "bg-gold/10 border-gold/30 text-gold"
-                      : "bg-white/[0.04] border-white/[0.08] text-white/70 hover:bg-white/[0.08] hover:text-white"
+                      ? "bg-[#F4A261]/10 border-[#F4A261]/40 text-[#F4A261]"
+                      : "bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                   }`}
                 >
                   <SlidersHorizontal size={13} />
@@ -159,7 +159,7 @@ const GalleryFilters = ({
                       animate="visible"
                       exit="exit"
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 lg:right-0 lg:left-auto mt-2 w-44 bg-[#1a1f2a]/95 backdrop-blur-2xl border border-white/10 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden z-50"
+                      className="absolute top-full left-0 lg:right-0 lg:left-auto mt-2 w-44 bg-white border border-gray-100 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden z-50"
                     >
                       {mediaOptions.map((opt) => (
                         <button
@@ -170,8 +170,8 @@ const GalleryFilters = ({
                           }}
                           className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold transition-colors ${
                             mediaFilter === opt.value
-                              ? "bg-gold/15 text-gold"
-                              : "text-white/60 hover:bg-white/[0.06] hover:text-white"
+                              ? "bg-[#F4A261]/10 text-[#F4A261]"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                           }`}
                         >
                           <opt.icon size={14} />
@@ -193,8 +193,8 @@ const GalleryFilters = ({
                   }}
                   className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-300 border ${
                     categoryOpen
-                      ? "bg-gold/10 border-gold/30 text-gold"
-                      : "bg-white/[0.04] border-white/[0.08] text-white/70 hover:bg-white/[0.08] hover:text-white"
+                      ? "bg-[#F4A261]/10 border-[#F4A261]/40 text-[#F4A261]"
+                      : "bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                   }`}
                 >
                   <span className="text-sm">{categoryIcons[categoryFilter] || "🏛️"}</span>
@@ -213,7 +213,7 @@ const GalleryFilters = ({
                       animate="visible"
                       exit="exit"
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 lg:right-0 lg:left-auto mt-2 w-52 bg-[#1a1f2a]/95 backdrop-blur-2xl border border-white/10 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden z-50 max-h-[320px] overflow-y-auto scrollbar-hide"
+                      className="absolute top-full left-0 lg:right-0 lg:left-auto mt-2 w-52 bg-white border border-gray-100 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden z-50 max-h-[320px] overflow-y-auto scrollbar-hide"
                     >
                       {allCategories.map((cat) => (
                         <button
@@ -224,8 +224,8 @@ const GalleryFilters = ({
                           }}
                           className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold transition-colors ${
                             categoryFilter === cat
-                              ? "bg-gold/15 text-gold"
-                              : "text-white/60 hover:bg-white/[0.06] hover:text-white"
+                              ? "bg-[#F4A261]/10 text-[#F4A261]"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                           }`}
                         >
                           <span className="text-sm">{categoryIcons[cat]}</span>
@@ -249,11 +249,11 @@ const GalleryFilters = ({
                   }}
                   className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-300 border ${
                     sortOpen
-                      ? "bg-gold/10 border-gold/30 text-gold"
-                      : "bg-white/[0.04] border-white/[0.08] text-white/70 hover:bg-white/[0.08] hover:text-white"
+                      ? "bg-[#F4A261]/10 border-[#F4A261]/40 text-[#F4A261]"
+                      : "bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                   }`}
                 >
-                  <span className="text-white/40 text-[10px] uppercase tracking-wider hidden sm:inline">Sort</span>
+                  <span className="text-gray-400 text-[10px] uppercase tracking-wider hidden sm:inline">Sort</span>
                   <span>{sortOptions.find((s) => s.value === sortBy)?.label}</span>
                   <ChevronDown
                     size={13}
@@ -269,7 +269,7 @@ const GalleryFilters = ({
                       animate="visible"
                       exit="exit"
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full right-0 mt-2 w-44 bg-[#1a1f2a]/95 backdrop-blur-2xl border border-white/10 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden z-50"
+                      className="absolute top-full right-0 mt-2 w-44 bg-white border border-gray-100 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden z-50"
                     >
                       {sortOptions.map((opt) => (
                         <button
@@ -280,8 +280,8 @@ const GalleryFilters = ({
                           }}
                           className={`w-full text-left px-4 py-2.5 text-xs font-semibold transition-colors ${
                             sortBy === opt.value
-                              ? "bg-gold/15 text-gold"
-                              : "text-white/60 hover:bg-white/[0.06] hover:text-white"
+                              ? "bg-[#F4A261]/10 text-[#F4A261]"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                           }`}
                         >
                           {opt.label}
@@ -296,7 +296,7 @@ const GalleryFilters = ({
           </div>
           
           {/* Mobile Results Count */}
-          <div className="mt-3 flex items-center justify-between text-white/30 text-[11px] font-medium lg:hidden">
+          <div className="mt-3 flex items-center justify-between text-gray-400 text-[11px] font-medium lg:hidden">
             <span>{totalResults} media {totalResults === 1 ? 'item' : 'items'}</span>
           </div>
           

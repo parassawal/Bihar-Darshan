@@ -59,17 +59,17 @@ const ForgotPasswordPage: React.FC = () => {
 
               {/* Email pill */}
               <div className="flex items-center gap-2 bg-white/10 border border-white/20 rounded-2xl px-5 py-3 w-full justify-center">
-                <Mail size={16} className="text-amber-400 shrink-0" />
+                <Mail size={16} className="text-brand-gold shrink-0" />
                 <span className="text-white font-bold text-sm truncate">{email}</span>
               </div>
 
               <p className="text-xs text-gray-500 leading-relaxed px-2">
-                Can't find it? Check your <span className="text-amber-400">spam or junk</span> folder. The link expires in 30 minutes.
+                Can't find it? Check your <span className="text-brand-gold">spam or junk</span> folder. The link expires in 30 minutes.
               </p>
 
               <Link
                 to="/login"
-                className="block w-full py-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow-xl shadow-amber-950/40 text-center transition-all uppercase tracking-widest text-sm mt-2"
+                className="block w-full py-4 bg-gold-dark hover:bg-accent-brown text-white font-bold rounded-2xl shadow-xl shadow-amber-950/40 text-center transition-all uppercase tracking-widest text-sm mt-2"
               >
                 Back to Login
               </Link>
@@ -77,12 +77,12 @@ const ForgotPasswordPage: React.FC = () => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">Email Address</label>
+                <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-brand-gold">Email Address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand-gold focus:ring-4 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-gray-500 text-white"
                   placeholder="name@example.com"
                   required
                 />
@@ -90,13 +90,13 @@ const ForgotPasswordPage: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full py-4 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow-xl shadow-amber-950/40 transition-all active:scale-[0.97] uppercase tracking-widest text-sm cursor-pointer"
+                className="w-full py-4 px-4 bg-gold-dark hover:bg-accent-brown text-white font-bold rounded-2xl shadow-xl shadow-amber-950/40 transition-all active:scale-[0.97] uppercase tracking-widest text-sm cursor-pointer"
               >
                 Send Reset Link
               </button>
 
               <div className="text-center text-sm pt-2">
-                <Link to="/login" className="text-amber-400 font-bold hover:underline decoration-2 underline-offset-4">
+                <Link to="/login" className="text-brand-gold font-bold hover:underline decoration-2 underline-offset-4">
                   Back to Sign In
                 </Link>
               </div>

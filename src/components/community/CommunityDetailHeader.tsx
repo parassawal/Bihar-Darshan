@@ -14,7 +14,7 @@ const CommunityDetailHeader = ({ community, onBack, isJoined, onJoinClick }: Com
       {/* Back link */}
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-sm text-gray-600 hover:text-amber-600 font-medium mb-5 transition-colors duration-200 group"
+        className="flex items-center gap-2 text-sm text-gray-600 hover:text-accent-brown font-medium mb-5 transition-colors duration-200 group"
       >
         <ArrowLeft
           size={16}
@@ -52,7 +52,7 @@ const CommunityDetailHeader = ({ community, onBack, isJoined, onJoinClick }: Com
                   {community.name}
                 </h2>
                 {community.verified && (
-                  <CheckCircle size={18} className="text-amber-500 shrink-0" />
+                  <CheckCircle size={18} className="text-gold-dark shrink-0" />
                 )}
               </div>
             </div>

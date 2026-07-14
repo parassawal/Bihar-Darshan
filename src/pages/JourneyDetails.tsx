@@ -76,7 +76,7 @@ const JourneyDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F5EF] text-[#2A2A2A] selection:bg-[#C89A3D] selection:text-white font-sans relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#FCEBD3] text-[#2A2A2A] selection:bg-[#F4A261] selection:text-white font-sans relative overflow-x-hidden">
       <Navbar forceDarkText={true} />
 
       {/* Decorative Texture */}
@@ -95,7 +95,7 @@ const JourneyDetails = () => {
             alt={currentTrip.title}
             className="w-full h-full object-cover select-none"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F3D2E] via-[#0F3D2E]/40 to-transparent" />
         </motion.div>
 
         {/* Back Navigation */}
@@ -118,10 +118,10 @@ const JourneyDetails = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">
+              <span className="text-[#F4A261] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">
                 Luxury Experience
               </span>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif text-white leading-tight font-light mb-6">
+              <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-6">
                 {currentTrip.title}
               </h1>
               <p className="text-white/80 text-lg md:text-xl font-light max-w-2xl leading-relaxed">
@@ -150,12 +150,12 @@ const JourneyDetails = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl md:text-5xl font-serif text-[#1A1A1A] mb-8 font-light">
+              <h2 className="text-4xl md:text-5xl font-serif text-[#0F3D2E] mb-8 font-light">
                 The Journey
               </h2>
 
-              <blockquote className="relative p-8 bg-white rounded-2xl border border-[#E8E0D4] shadow-sm mb-12">
-                <Quote className="absolute top-6 left-6 w-12 h-12 text-[#C89A3D] opacity-20" />
+              <blockquote className="relative p-8 bg-white rounded-2xl border border-[#FCEBD3] shadow-sm mb-12">
+                <Quote className="absolute top-6 left-6 w-12 h-12 text-[#F4A261] opacity-20" />
                 <p className="text-2xl font-serif text-[#2A2A2A] leading-relaxed italic relative z-10 pl-6">
                   "Not just a holiday, but a journey aligned with the rich soil, spiritual structures, and legends."
                 </p>
@@ -174,31 +174,31 @@ const JourneyDetails = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl p-8 border border-[#E8E0D4] shadow-xl shadow-black/5"
+              className="bg-white rounded-2xl p-8 border border-[#FCEBD3] shadow-xl shadow-black/5"
             >
               <div className="flex flex-col items-center text-center mb-8">
                 <div className="relative mb-6">
                   <img
                     src={currentTrip.guide.image}
                     alt={currentTrip.guide.name}
-                    className="w-32 h-32 rounded-full object-cover border-4 border-[#F8F5EF]"
+                    className="w-32 h-32 rounded-full object-cover border-4 border-[#FCEBD3]"
                   />
-                  <div className="absolute bottom-0 right-0 bg-[#C89A3D] text-white p-2 rounded-full border-2 border-white">
+                  <div className="absolute bottom-0 right-0 bg-[#F4A261] text-white p-2 rounded-full border-2 border-white">
                     <CheckCircle className="w-4 h-4" />
                   </div>
                 </div>
-                <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Verified Expert</span>
-                <h3 className="text-2xl font-serif text-[#1A1A1A] mb-1">{currentTrip.guide.name}</h3>
+                <span className="text-[#F4A261] text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Verified Expert</span>
+                <h3 className="text-2xl font-serif text-[#0F3D2E] mb-1">{currentTrip.guide.name}</h3>
                 <p className="text-[#6A6A6A] text-sm">{currentTrip.guide.experience} Experience</p>
               </div>
 
               <div className="space-y-4 mb-8">
-                <div className="flex items-center gap-4 text-sm text-[#4A4A4A] pb-4 border-b border-[#E8E0D4]">
-                  <Globe className="w-5 h-5 text-[#C89A3D]" />
+                <div className="flex items-center gap-4 text-sm text-[#4A4A4A] pb-4 border-b border-[#FCEBD3]">
+                  <Globe className="w-5 h-5 text-[#F4A261]" />
                   <span>Speaks: {currentTrip.guide.languages.join(", ")}</span>
                 </div>
-                <div className="flex items-center gap-4 text-sm text-[#4A4A4A] pb-4 border-b border-[#E8E0D4]">
-                  <Star className="w-5 h-5 text-[#C89A3D] fill-[#C89A3D]" />
+                <div className="flex items-center gap-4 text-sm text-[#4A4A4A] pb-4 border-b border-[#FCEBD3]">
+                  <Star className="w-5 h-5 text-[#F4A261] fill-[#F4A261]" />
                   <span>{currentTrip.rating} / 5 ({currentTrip.reviews.length} reviews)</span>
                 </div>
               </div>
@@ -206,7 +206,7 @@ const JourneyDetails = () => {
               <div className="flex flex-col gap-3">
                 <a
                   href={`tel:${currentTrip.guide.phone}`}
-                  className="w-full h-14 bg-[#1A1A1A] text-white rounded-full flex items-center justify-center gap-3 font-bold text-xs uppercase tracking-widest hover:bg-[#C89A3D] transition-colors duration-300"
+                  className="w-full h-14 bg-[#0F3D2E] text-white rounded-full flex items-center justify-center gap-3 font-bold text-xs uppercase tracking-widest hover:bg-[#F4A261] transition-colors duration-300"
                 >
                   <Phone className="w-4 h-4" />
                   Call Guide
@@ -226,38 +226,6 @@ const JourneyDetails = () => {
         </div>
       </section>
 
-      {/* ========================
-          SECTION 3: Experience Highlights
-          ======================== */}
-      <section className="py-[120px] bg-white relative z-10">
-        <div className="container mx-auto px-6 md:px-12 max-w-[1280px]">
-          <div className="text-center mb-16">
-            <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Key Features</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-[#1A1A1A] font-light">Experience Highlights</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {currentTrip.placesCoveredDetails.slice(0, 4).map((place, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
-                className="bg-[#F8F5EF] p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-500 shadow-sm hover:shadow-xl group"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-6 shadow-sm group-hover:bg-[#C89A3D] transition-colors duration-500 text-[#C89A3D] group-hover:text-white">
-                  <Navigation className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-serif text-[#1A1A1A] mb-3">{place.name}</h3>
-                <p className="text-[#6A6A6A] text-sm leading-relaxed line-clamp-4">
-                  {place.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ========================
           SECTION 4: Immersive Gallery
@@ -265,8 +233,8 @@ const JourneyDetails = () => {
       <section className="py-[120px] container mx-auto px-6 md:px-12 max-w-[1280px]">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
-            <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Visual Artifacts</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-[#1A1A1A] font-light">Immersive Gallery</h2>
+            <span className="text-[#F4A261] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Visual Artifacts</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-[#0F3D2E] font-light">Immersive Gallery</h2>
           </div>
         </div>
 
@@ -290,7 +258,7 @@ const JourneyDetails = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
               <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-widest mb-2 block">
+                <span className="text-[#F4A261] text-[10px] font-bold uppercase tracking-widest mb-2 block">
                   {mem.category}
                 </span>
                 <h3 className="text-white font-serif text-2xl">
@@ -309,82 +277,56 @@ const JourneyDetails = () => {
       {/* ========================
           SECTION 5: Journey Timeline
           ======================== */}
-      <section className="py-[120px] bg-[#1A1A1A] text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]" />
-
+      <section className="py-[120px] bg-white relative">
         <div className="container mx-auto px-6 md:px-12 max-w-[1000px] relative z-10">
-          <div className="text-center mb-20">
-            <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Itinerary</span>
-            <h2 className="text-4xl md:text-5xl font-serif font-light">Journey Timeline</h2>
+          <div className="text-center mb-16">
+            <span className="text-[#F4A261] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Itinerary</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-[#0F3D2E] font-light">Journey Details</h2>
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-12">
             {currentTrip.timeline.map((day, dayIdx) => (
-              <div key={dayIdx} className="relative">
-                <h3 className="text-2xl font-serif text-[#C89A3D] mb-8 flex items-center gap-4">
-                  <span className="w-12 h-px bg-[#C89A3D]/50 block" />
-                  Day {day.day}: {day.title}
+              <motion.div
+                key={dayIdx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="bg-[#FCEBD3] rounded-2xl p-8 md:p-10 shadow-sm border border-[#FCEBD3]"
+              >
+                <h3 className="text-2xl font-serif text-[#0F3D2E] mb-8 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 border-b border-[#FCEBD3] pb-6">
+                  <span className="text-[#F4A261] font-bold text-sm tracking-widest uppercase bg-white px-4 py-2 rounded-full shadow-sm">
+                    Day {day.day}
+                  </span>
+                  <span>{day.title}</span>
                 </h3>
 
-                <div className="pl-6 md:pl-[60px] border-l border-white/10 space-y-12">
+                <div className="space-y-8">
                   {day.activities.map((act, actIdx) => (
-                    <motion.div
-                      key={actIdx}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.6, delay: actIdx * 0.1 }}
-                      className="relative"
-                    >
-                      <div className="absolute -left-[31px] md:-left-[65px] w-[10px] h-[10px] rounded-full bg-[#C89A3D] shadow-[0_0_10px_rgba(200,154,61,0.5)]" />
-                      <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8 mb-2">
-                        <span className="text-white/40 text-sm font-bold uppercase tracking-widest md:w-24 shrink-0">
-                          {act.time}
-                        </span>
-                        <h4 className="text-xl font-serif text-white">{act.activity}</h4>
+                    <div key={actIdx} className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+                      {act.time && (
+                        <div className="sm:w-32 shrink-0 pt-1">
+                          <span className="text-[#6A6A6A] text-xs font-bold uppercase tracking-widest bg-white px-3 py-1 rounded shadow-sm inline-block">
+                            {act.time}
+                          </span>
+                        </div>
+                      )}
+                      <div>
+                        <h4 className="text-lg font-serif text-[#0F3D2E] mb-2">{act.activity}</h4>
+                        <p className="text-[#4A4A4A] leading-relaxed text-sm">
+                          {act.description}
+                        </p>
                       </div>
-                      <p className="text-white/60 md:pl-32 text-base leading-relaxed">
-                        {act.description}
-                      </p>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ========================
-          SECTION 6: Luxury Amenities
-          ======================== */}
-      <section className="py-[120px] bg-white relative z-10">
-        <div className="container mx-auto px-6 md:px-12 max-w-[1280px]">
-          <div className="text-center mb-16">
-            <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Inclusions</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-[#1A1A1A] font-light">Luxury Amenities</h2>
-          </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {AMENITIES.map((amenity, idx) => {
-              const Icon = amenity.icon;
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  className="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#F8F5EF] hover:bg-white hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-[#E8E0D4]"
-                >
-                  <Icon className="w-8 h-8 text-[#1A1A1A] group-hover:text-[#C89A3D] transition-colors mb-4" strokeWidth={1.5} />
-                  <span className="text-sm font-medium text-center text-[#4A4A4A] group-hover:text-[#1A1A1A]">{amenity.label}</span>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* SECTION 7: Traveler Reviews Removed */}
 
@@ -395,8 +337,8 @@ const JourneyDetails = () => {
         <div className="container mx-auto px-6 md:px-12 max-w-[1280px]">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
-              <span className="text-[#C89A3D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Continue Exploring</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-[#1A1A1A] font-light">Related Experiences</h2>
+              <span className="text-[#F4A261] text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Continue Exploring</span>
+              <h2 className="text-4xl md:text-5xl font-serif text-[#0F3D2E] font-light">Related Experiences</h2>
             </div>
           </div>
 
@@ -417,7 +359,7 @@ const JourneyDetails = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-[#1A1A1A]/95 z-[9999] flex items-center justify-center p-4 backdrop-blur-xl"
+            className="fixed inset-0 bg-[#0F3D2E]/95 z-[9999] flex items-center justify-center p-4 backdrop-blur-xl"
           >
             <button onClick={() => setLightboxIndex(null)} className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/20 z-[100] transition-colors">
               <X className="w-5 h-5" />

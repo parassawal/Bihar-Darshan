@@ -25,20 +25,20 @@ const formatDateShort = (dateStr: string): string => {
 /* ── Shimmer Skeleton Card ───────────────────────────────────────── */
 
 const SkeletonCard = () => (
-  <div className="bg-[#e8dec0]/60 rounded-2xl overflow-hidden border border-[#3e2723]/10 animate-pulse">
-    <div className="flex justify-between items-center px-4 py-2 border-b border-[#3e2723]/10">
-      <div className="h-3 w-24 bg-[#3e2723]/10 rounded" />
-      <div className="h-3 w-16 bg-[#3e2723]/10 rounded" />
+  <div className="bg-[#FCEBD3]/60 rounded-2xl overflow-hidden border border-[#8B3E2F]/10 animate-pulse">
+    <div className="flex justify-between items-center px-4 py-2 border-b border-[#8B3E2F]/10">
+      <div className="h-3 w-24 bg-[#8B3E2F]/10 rounded" />
+      <div className="h-3 w-16 bg-[#8B3E2F]/10 rounded" />
     </div>
-    <div className="h-44 bg-[#3e2723]/8" />
+    <div className="h-44 bg-[#8B3E2F]/8" />
     <div className="p-4 space-y-3">
-      <div className="h-4 w-full bg-[#3e2723]/10 rounded" />
-      <div className="h-4 w-3/4 bg-[#3e2723]/10 rounded" />
-      <div className="h-3 w-full bg-[#3e2723]/8 rounded" />
-      <div className="h-3 w-5/6 bg-[#3e2723]/8 rounded" />
+      <div className="h-4 w-full bg-[#8B3E2F]/10 rounded" />
+      <div className="h-4 w-3/4 bg-[#8B3E2F]/10 rounded" />
+      <div className="h-3 w-full bg-[#8B3E2F]/8 rounded" />
+      <div className="h-3 w-5/6 bg-[#8B3E2F]/8 rounded" />
       <div className="flex justify-between pt-2">
-        <div className="h-3 w-20 bg-[#3e2723]/8 rounded" />
-        <div className="h-3 w-16 bg-[#3e2723]/8 rounded" />
+        <div className="h-3 w-20 bg-[#8B3E2F]/8 rounded" />
+        <div className="h-3 w-16 bg-[#8B3E2F]/8 rounded" />
       </div>
     </div>
   </div>
@@ -64,20 +64,20 @@ const ArticleCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1, margin: "50px" }}
       transition={{ delay: (index % 4) * 0.08, duration: 0.5 }}
-      className="group bg-[#e8dec0]/80 rounded-2xl overflow-hidden border border-[#3e2723]/10 hover:border-[#D4A017]/50 transition-all duration-500 flex flex-col hover:-translate-y-1.5 hover:shadow-[0_8px_30px_-8px_rgba(62,39,35,0.18)] cursor-pointer"
+      className="group bg-[#FCEBD3]/80 rounded-2xl overflow-hidden border border-[#8B3E2F]/10 hover:border-[#F4A261]/50 transition-all duration-500 flex flex-col hover:-translate-y-1.5 hover:shadow-[0_8px_30px_-8px_rgba(62,39,35,0.18)] cursor-pointer"
     >
       {/* Top Source Bar */}
-      <div className="flex justify-between items-center px-4 py-2 border-b border-[#3e2723]/10 bg-[#e8dec0]/40">
+      <div className="flex justify-between items-center px-4 py-2 border-b border-[#8B3E2F]/10 bg-[#FCEBD3]/40">
         <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#b71c1c]">
           {article.author}
         </span>
-        <span className="text-[10px] font-semibold tracking-wider text-[#5d4037]/70 uppercase">
+        <span className="text-[10px] font-semibold tracking-wider text-[#8B3E2F]/70 uppercase">
           {formatDate(article.publishedDate)}
         </span>
       </div>
 
       {/* Image */}
-      <div className="relative h-44 overflow-hidden bg-[#d4c9a8]">
+      <div className="relative h-44 overflow-hidden bg-[#FCEBD3]">
         {!imgLoaded && (
           <div className="absolute inset-0 tribal-articles-shimmer" />
         )}
@@ -97,21 +97,21 @@ const ArticleCard = ({
 
       {/* Content */}
       <div className="p-4 flex-grow flex flex-col">
-        <h3 className="text-[15px] leading-snug font-serif font-bold text-[#3e2723] group-hover:text-[#5d4037] transition-colors mb-2 line-clamp-3">
+        <h3 className="text-[15px] leading-snug font-serif font-bold text-[#8B3E2F] group-hover:text-[#8B3E2F] transition-colors mb-2 line-clamp-3">
           {article.headline}
         </h3>
 
-        <p className="text-[13px] text-[#4e342e]/80 leading-relaxed line-clamp-3 mb-4 flex-grow">
+        <p className="text-[13px] text-[#8B3E2F]/80 leading-relaxed line-clamp-3 mb-4 flex-grow">
           {article.description}
         </p>
 
         {/* Meta Row */}
-        <div className="flex items-center gap-3 text-[11px] text-[#5d4037]/70 mb-3 font-medium border-t border-[#3e2723]/8 pt-3">
+        <div className="flex items-center gap-3 text-[11px] text-[#8B3E2F]/70 mb-3 font-medium border-t border-[#8B3E2F]/8 pt-3">
           <span className="flex items-center gap-1">
             <Calendar className="w-3 h-3" />
             {formatDateShort(article.publishedDate)}
           </span>
-          <span className="text-[#3e2723]/20">|</span>
+          <span className="text-[#8B3E2F]/20">|</span>
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
             {article.readTime} min read
@@ -120,7 +120,7 @@ const ArticleCard = ({
 
         {/* Read More */}
         <span
-          className="inline-flex items-center text-[#b71c1c] group-hover:text-[#D4A017] text-sm font-bold tracking-wide transition-all group/link"
+          className="inline-flex items-center text-[#b71c1c] group-hover:text-[#F4A261] text-sm font-bold tracking-wide transition-all group/link"
         >
           Read More
           <ArrowRight className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" />
@@ -136,13 +136,13 @@ const EmptyState = ({ tribeName }: { tribeName?: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="text-center py-16 px-6 bg-[#e8dec0]/50 rounded-3xl border border-[#3e2723]/10"
+    className="text-center py-16 px-6 bg-[#FCEBD3]/50 rounded-3xl border border-[#8B3E2F]/10"
   >
-    <div className="w-16 h-16 rounded-full bg-[#D4A017]/10 flex items-center justify-center mx-auto mb-4">
-      <Newspaper className="w-7 h-7 text-[#D4A017]" />
+    <div className="w-16 h-16 rounded-full bg-[#F4A261]/10 flex items-center justify-center mx-auto mb-4">
+      <Newspaper className="w-7 h-7 text-[#F4A261]" />
     </div>
-    <h3 className="text-xl font-serif font-bold text-[#3e2723] mb-2">No Articles Yet</h3>
-    <p className="text-[#5d4037] text-sm max-w-md mx-auto">
+    <h3 className="text-xl font-serif font-bold text-[#8B3E2F] mb-2">No Articles Yet</h3>
+    <p className="text-[#8B3E2F] text-sm max-w-md mx-auto">
       {tribeName
         ? `Stories and articles about the ${tribeName} will appear here. Be the first to share!`
         : "Stories and articles about Bihar's tribal communities will appear here soon."}
@@ -206,19 +206,19 @@ const LatestArticlesSection = ({ tribeName }: LatestArticlesSectionProps) => {
           {/* Title with decorative lines */}
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-[#D4A017]" />
-              <div className="w-12 sm:w-20 h-px bg-[#3e2723]/30" />
+              <div className="w-2 h-2 rounded-full bg-[#F4A261]" />
+              <div className="w-12 sm:w-20 h-px bg-[#8B3E2F]/30" />
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#3e2723] tracking-[0.12em] uppercase font-bold">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#8B3E2F] tracking-[0.12em] uppercase font-bold">
               Latest Articles
             </h2>
             <div className="flex items-center gap-1.5">
-              <div className="w-12 sm:w-20 h-px bg-[#3e2723]/30" />
-              <div className="w-2 h-2 rounded-full bg-[#D4A017]" />
+              <div className="w-12 sm:w-20 h-px bg-[#8B3E2F]/30" />
+              <div className="w-2 h-2 rounded-full bg-[#F4A261]" />
             </div>
           </div>
 
-          <p className="text-sm sm:text-base text-[#5d4037] max-w-2xl mx-auto italic">
+          <p className="text-sm sm:text-base text-[#8B3E2F] max-w-2xl mx-auto italic">
             {subtitle}
           </p>
         </motion.div>
@@ -253,7 +253,7 @@ const LatestArticlesSection = ({ tribeName }: LatestArticlesSectionProps) => {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12"
             >
               {/* View All Articles */}
-              <button className="group inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-[#3e2723] text-[#3e2723] font-bold text-sm tracking-wider uppercase hover:bg-[#3e2723] hover:text-[#f4ebd0] transition-all duration-300 shadow-sm hover:shadow-md">
+              <button className="group inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-[#8B3E2F] text-[#8B3E2F] font-bold text-sm tracking-wider uppercase hover:bg-[#8B3E2F] hover:text-[#FCEBD3] transition-all duration-300 shadow-sm hover:shadow-md">
                 View All Articles
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
@@ -261,7 +261,7 @@ const LatestArticlesSection = ({ tribeName }: LatestArticlesSectionProps) => {
               {/* Contribute an Article */}
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="group inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#D4A017] hover:bg-[#B8860B] text-white font-bold text-sm tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-[#D4A017]/20"
+                className="group inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#F4A261] hover:bg-[#F4A261] text-white font-bold text-sm tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-[#F4A261]/20"
               >
                 <PenLine className="w-4 h-4" />
                 Contribute an Article

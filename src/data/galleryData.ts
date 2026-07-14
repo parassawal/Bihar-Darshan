@@ -47,6 +47,7 @@ export interface GalleryItem {
   comments: number;
   uploadDate: string;
   location: string;
+  description?: string; // optional caption/description shown in overlays
   duration?: string; // for videos, e.g. "2:34"
   aspectRatio: "square" | "portrait" | "landscape"; // controls masonry height
 }

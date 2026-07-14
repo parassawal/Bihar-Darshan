@@ -147,7 +147,7 @@ export default function Personalities() {
         <div className="absolute inset-x-0 bottom-0 h-px bg-brand-gold/20"></div>
         <Container>
           <div className="relative z-10 text-center max-w-2xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="font-display font-bold text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
               Bihar's <span className="text-brand-gold">Legends</span>
             </h1>
             <p className="text-gray-300 text-lg leading-relaxed">

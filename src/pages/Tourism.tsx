@@ -1,5 +1,6 @@
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import ShareStorySection from "../components/cta/ShareStorySection";
 import Hero from "../components/tourism/Hero";
 import FeaturedJourneys from "../components/tourism/FeaturedJourneys";
 import TopDestinations from "../components/tourism/TopDestinations";
@@ -19,6 +20,7 @@ const Tourism = () => {
 
       <TravelGuide />
 
+      <ShareStorySection />
       <Footer />
 
       {/* Global Aesthetics Overlay */}

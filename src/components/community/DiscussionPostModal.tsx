@@ -17,7 +17,7 @@ const avatarColorMap: Record<string, string> = {
   BA: 'bg-indigo-500',
   WP: 'bg-green-500',
   ER: 'bg-red-500',
-  YOU: 'bg-amber-400',
+  YOU: 'bg-brand-gold',
 };
 
 const DiscussionPostModal = ({ post, onClose, isJoined }: DiscussionPostModalProps) => {
@@ -109,7 +109,7 @@ const DiscussionPostModal = ({ post, onClose, isJoined }: DiscussionPostModalPro
           {post.poll && (
             <div className="mb-6 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
               <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xs">📊</span>
+                <span className="w-6 h-6 rounded-full bg-amber-100 text-accent-brown flex items-center justify-center text-xs">📊</span>
                 {post.poll.question}
               </h3>
               <div className="space-y-3">
@@ -124,7 +124,7 @@ const DiscussionPostModal = ({ post, onClose, isJoined }: DiscussionPostModalPro
                       onClick={() => handleVote(option.id)}
                       className={`relative overflow-hidden border rounded-xl p-3 cursor-pointer transition-all ${
                         selectedOption 
-                          ? isSelected ? 'border-amber-400 bg-amber-50' : 'border-gray-100 bg-gray-50 opacity-80'
+                          ? isSelected ? 'border-brand-gold bg-brand-gray' : 'border-gray-100 bg-gray-50 opacity-80'
                           : 'border-gray-200 hover:border-amber-300 hover:bg-gray-50'
                       }`}
                     >
@@ -158,10 +158,10 @@ const DiscussionPostModal = ({ post, onClose, isJoined }: DiscussionPostModalPro
           {/* Action Bar */}
           <div className="flex items-center justify-between py-3 border-y border-gray-100 mb-6">
             <div className="flex gap-4">
-              <button className="flex items-center gap-1.5 text-gray-500 hover:text-amber-600 transition-colors text-sm font-medium">
+              <button className="flex items-center gap-1.5 text-gray-500 hover:text-accent-brown transition-colors text-sm font-medium">
                 <Heart size={18} /> Like
               </button>
-              <button className="flex items-center gap-1.5 text-gray-500 hover:text-amber-600 transition-colors text-sm font-medium">
+              <button className="flex items-center gap-1.5 text-gray-500 hover:text-accent-brown transition-colors text-sm font-medium">
                 <MessageSquare size={18} /> {post.replies + mockComments.length}
               </button>
             </div>
@@ -205,7 +205,7 @@ const DiscussionPostModal = ({ post, onClose, isJoined }: DiscussionPostModalPro
                 value={comment}
                 onChange={e => setComment(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleComment()}
-                className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
+                className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors"
               />
               <button 
                 onClick={handleComment}

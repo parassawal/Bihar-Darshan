@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { MapPin, ArrowRight } from "lucide-react";
 
 interface DistrictGridCardProps {
   name: string;
@@ -10,10 +9,10 @@ const DistrictGridCard = ({ name, image }: DistrictGridCardProps) => {
   return (
     <Link
       to={`/districts/${name.toLowerCase()}`}
-      className="group block bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 cursor-pointer"
+      className="group flex flex-col h-full bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-[0_2px_16px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.12)] transition-all duration-300 cursor-pointer"
     >
-      {/* Image */}
-      <div className="relative aspect-[16/10] overflow-hidden">
+      {/* Image — fills all available vertical space */}
+      <div className="relative flex-1 overflow-hidden">
         <img
           src={image}
           alt={name}
@@ -22,22 +21,15 @@ const DistrictGridCard = ({ name, image }: DistrictGridCardProps) => {
         />
       </div>
 
-      {/* Content */}
-      <div className="px-4 py-3.5 flex items-center justify-between">
-        <div className="min-w-0">
-          <h3 className="text-sm font-bold text-gray-900 truncate leading-tight mb-1">
-            {name}
-          </h3>
-          <div className="flex items-center gap-1 text-gray-400">
-            <MapPin size={12} strokeWidth={2} />
-            <span className="text-[11px] font-medium truncate">{name}</span>
-          </div>
-        </div>
+      {/* Content — name + Explore button */}
+      <div className="px-4 pt-3.5 pb-4 flex items-center justify-between gap-3">
+        <h3 className="text-[15px] font-bold text-gray-900 leading-tight truncate">
+          {name}
+        </h3>
 
-        {/* Arrow button */}
-        <div className="flex-shrink-0 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-gold group-hover:border-gold group-hover:text-white transition-all duration-300">
-          <ArrowRight size={14} strokeWidth={2.5} />
-        </div>
+        <span className="flex-shrink-0 px-4 py-1.5 rounded-full bg-gold text-white text-[11px] font-bold uppercase tracking-wider shadow-sm group-hover:bg-gold-dark transition-colors duration-300">
+          Explore
+        </span>
       </div>
     </Link>
   );

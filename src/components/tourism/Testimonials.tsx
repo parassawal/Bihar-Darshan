@@ -24,7 +24,7 @@ const stories = [
 
 const Testimonials = () => {
   return (
-    <section className="py-24 bg-[#F8F5EF]">
+    <section className="py-24 bg-[#FCEBD3]">
       <div className="container mx-auto px-6 max-w-[1200px]">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -33,7 +33,7 @@ const Testimonials = () => {
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-serif text-[#3e2723] mb-3"
+              className="text-4xl md:text-5xl font-serif text-[#8B3E2F] mb-3"
             >
               Traveller Stories
             </motion.h2>
@@ -42,12 +42,12 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-base text-[#4e342e]"
+              className="text-base text-[#8B3E2F]"
             >
               Real experiences from people who explored Bihar.
             </motion.p>
           </div>
-          <button className="flex items-center gap-2 text-sm font-bold text-[#3e2723] hover:text-[#c19a5b] transition-colors border border-[#3e2723]/20 px-4 py-2 rounded-full hover:border-[#c19a5b]">
+          <button className="flex items-center gap-2 text-sm font-bold text-[#8B3E2F] hover:text-[#F4A261] transition-colors border border-[#8B3E2F]/20 px-4 py-2 rounded-full hover:border-[#F4A261]">
             View all stories <ArrowRight size={16} />
           </button>
         </div>
@@ -61,14 +61,14 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="bg-[#fcfaf7] border border-[#e8dfcf] p-8 rounded-2xl flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
+              className="bg-[#FFFFEF] border border-[#FCEBD3] p-8 rounded-2xl flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
             >
               {/* Background decorative elements */}
               <div className="absolute right-0 bottom-0 opacity-5 w-24 h-24 bg-[url('https://www.transparenttextures.com/patterns/mandala.png')] bg-cover pointer-events-none" />
               
               <div className="flex items-start gap-4 mb-6 relative z-10">
-                <span className="text-4xl text-[#c19a5b] font-serif leading-none mt-[-5px]">“</span>
-                <p className="text-[#5d4037] text-sm font-medium italic leading-relaxed">
+                <span className="text-4xl text-[#F4A261] font-serif leading-none mt-[-5px]">“</span>
+                <p className="text-[#8B3E2F] text-sm font-medium italic leading-relaxed">
                   {story.text}
                 </p>
               </div>
@@ -77,11 +77,11 @@ const Testimonials = () => {
                 <img
                   src={story.avatar}
                   alt={story.name}
-                  className="w-12 h-12 rounded-full border-2 border-[#f2ece1] object-cover"
+                  className="w-12 h-12 rounded-full border-2 border-[#FCEBD3] object-cover"
                 />
                 <div>
-                  <h4 className="font-bold text-[#3e2723] text-sm">{story.name}</h4>
-                  <p className="text-[11px] text-[#8b5a2b] uppercase tracking-wider">{story.location}</p>
+                  <h4 className="font-bold text-[#8B3E2F] text-sm">{story.name}</h4>
+                  <p className="text-[11px] text-[#8B3E2F] uppercase tracking-wider">{story.location}</p>
                 </div>
               </div>
             </motion.div>

@@ -83,7 +83,7 @@ const Culture = () => {
         <div className="absolute inset-x-0 bottom-0 h-px bg-brand-gold/20"></div>
         <Container>
           <div className="relative z-10 text-center max-w-2xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="font-display font-bold text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
               Discover Bihar's <span className="text-brand-gold">Heritage</span>
             </h1>
             <p className="text-gray-300 text-lg leading-relaxed">
@@ -374,7 +374,7 @@ const Culture = () => {
               ))}
             </div>
           ) : (
-            <div className="bg-[#121620] border border-white/5 rounded-3xl p-10 text-center max-w-xl mx-auto shadow-xl">
+            <div className="bg-[#0F3D2E] border border-white/5 rounded-3xl p-10 text-center max-w-xl mx-auto shadow-xl">
               <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto text-gray-400 mb-4">
                 <MessageSquare size={20} />
               </div>
@@ -407,7 +407,7 @@ const Culture = () => {
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              className="bg-[#121620] border border-white/10 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row relative"
+              className="bg-[#0F3D2E] border border-white/10 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -425,7 +425,7 @@ const Culture = () => {
                   alt={selectedItem.title}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121620] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#121620]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F3D2E] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#0F3D2E]" />
                 <div className="absolute top-4 left-4 bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-md">
                   {selectedItem.type}
                 </div>

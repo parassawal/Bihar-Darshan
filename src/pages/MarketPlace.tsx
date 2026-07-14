@@ -2,8 +2,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
+import marketplaceBanner from "../assets/marketplace-banner.jpg";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import ShareStorySection from "../components/cta/ShareStorySection";
 import Container from "../components/layout/Container";
 import ProductCard from "../components/marketplace/ProductCard";
 import { product } from "../data/product";
@@ -21,40 +23,45 @@ const MarketPlace = () => {
 
   return (
     <div className="min-h-screen bg-brand-gray">
-      <Navbar forceDarkText={true} />
+      <Navbar />
 
       {/* Hero Section */}
-      <div className="bg-brand-dark pt-32 pb-16 mb-12 overflow-hidden">
-        <Container>
-          <div className="text-center max-w-2xl mx-auto">
+      <section className="relative min-h-[90vh] md:min-h-[85vh] w-full flex flex-col pt-32 pb-24 md:pb-0 justify-center mb-12">
+        {/* Cinematic Background */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={marketplaceBanner}
+            alt="Bihar Marketplace"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-transparent" />
+        </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: -40 }}
+        <div className="container mx-auto px-6 relative z-10 flex flex-col h-full justify-center">
+          {/* Main Content */}
+          <div className="w-full md:w-3/5 lg:w-1/2 text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              whileHover={{
-                scale: 1.08,
-                textShadow: "0px 0px 25px rgba(255,215,0,0.6)",
-              }}
-              className="text-5xl font-bold text-white mb-5 inline-block cursor-pointer"
             >
-              Bihar
-              <span className="text-brand-gold"> Marketplace</span>
-            </motion.h1>
+              <span className="text-brand-gold uppercase tracking-[0.3em] text-xs font-bold mb-6 block font-sans">
+                SUPPORT LOCAL ARTISANS
+              </span>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="text-gray-300 text-lg"
-            >
-              Explore authentic products crafted by artisans and businesses
-              across Bihar.
-            </motion.p>
+              <h1 className="font-display font-bold text-5xl md:text-7xl text-white leading-[1.1] mb-6">
+                Bihar
+                <span className="text-brand-gold italic font-light block mt-2">Marketplace</span>
+              </h1>
 
+              <p className="text-white/80 text-lg md:text-xl max-w-md mb-10 font-medium leading-relaxed">
+                Explore authentic products, handicrafts, and artworks crafted by talented artisans across Bihar.
+              </p>
+
+            </motion.div>
           </div>
-        </Container>
-      </div>
+        </div>
+      </section>
 
       <Container>
         {/* Filter Bar */}
@@ -111,6 +118,7 @@ const MarketPlace = () => {
         </AnimatePresence>
       </Container>
 
+      <ShareStorySection />
       <Footer />
     </div>
   );

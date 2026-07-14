@@ -22,7 +22,7 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white tracking-tight">Dashboard Overview</h1>
+        <h1 className="font-display font-bold text-2xl font-bold text-white tracking-tight">Dashboard Overview</h1>
         <p className="text-white/40 mt-1">Manage content across Bihar Darshan.</p>
       </div>
 
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
         })}
       </div>
 
-      <div className="bg-gradient-to-r from-[#D4A017]/10 to-transparent border border-[#D4A017]/20 rounded-2xl p-6 mt-8">
+      <div className="bg-gradient-to-r from-[#F4A261]/10 to-transparent border border-[#F4A261]/20 rounded-2xl p-6 mt-8">
         <h3 className="text-lg font-bold text-white mb-2">Welcome to your Admin Panel</h3>
         <p className="text-white/60 text-sm max-w-2xl leading-relaxed">
           Here you can fully manage the content shown on the public site. Changes made here are saved directly to your local storage, ensuring immediate updates on the frontend. Use the sidebar to navigate to different sections.

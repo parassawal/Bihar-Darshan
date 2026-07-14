@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import ShareStorySection from "../components/cta/ShareStorySection";
 import GalleryHero from "../components/gallery/GalleryHero";
 import GalleryFilters from "../components/gallery/GalleryFilters";
 import GalleryGrid from "../components/gallery/GalleryGrid";
@@ -213,7 +214,7 @@ const Gallery = () => {
   }, [allItems, searchQuery, mediaFilter, categoryFilter, sortBy]);
 
   return (
-    <div className="min-h-screen bg-bg-dark gallery-page">
+    <div className="min-h-screen bg-white gallery-page">
       <Navbar />
 
       {/* Hero */}
@@ -249,8 +250,9 @@ const Gallery = () => {
         />
       </div>
 
-      {/* Upload CTA */}
-      <UploadBanner />
+
+      {/* CTA Banner */}
+      <ShareStorySection />
 
       {/* Footer */}
       <Footer />

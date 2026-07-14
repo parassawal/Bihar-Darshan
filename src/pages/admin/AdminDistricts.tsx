@@ -106,7 +106,7 @@ const AdminDistricts = () => {
             <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 rounded-xl text-white font-medium hover:bg-white/5 transition-colors">
               Cancel
             </button>
-            <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#D4A017] text-black font-bold hover:bg-[#b8860b] transition-colors">
+            <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#F4A261] text-black font-bold hover:bg-[#F4A261] transition-colors">
               {editingItem ? 'Save Changes' : 'Add District'}
             </button>
           </div>

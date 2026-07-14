@@ -46,9 +46,7 @@ const UploadBanner = () => {
           {/* Heading */}
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-bold leading-tight mb-4">
             Share Your{" "}
-            <span
-              className="text-gold italic"
-              style={{ fontFamily: "var(--font-signature)" }}
+            <span className="text-gold italic"
             >
               Bihar
             </span>{" "}

@@ -387,7 +387,7 @@ const TribeDetail = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f4ebd0] text-[#3e2723] overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#FCEBD3] text-[#8B3E2F] overflow-x-hidden relative">
       <Navbar forceDarkText={true} />
 
       {/* Global Parchment Background Texture */}
@@ -406,7 +406,7 @@ const TribeDetail = () => {
 
         {/* Back Button */}
         <div className="mb-12">
-          <Link to="/tribals" className="inline-flex items-center text-[#5d4037] hover:text-[#3e2723] font-bold tracking-widest uppercase transition-colors">
+          <Link to="/tribals" className="inline-flex items-center text-[#8B3E2F] hover:text-[#8B3E2F] font-bold tracking-widest uppercase transition-colors">
             <span className="mr-2">←</span> Back to Directory
           </Link>
         </div>
@@ -430,11 +430,11 @@ const TribeDetail = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
-            <h2 className="text-3xl md:text-4xl text-[#5d4037] mb-2 tracking-widest font-bold">{tribe.hindiName}</h2>
-            <h1 className="text-5xl md:text-7xl uppercase tracking-[0.2em] text-[#3e2723] border-b border-[#3e2723]/30 pb-4 inline-block">
+            <h2 className="text-3xl md:text-4xl text-[#8B3E2F] mb-2 tracking-widest font-bold">{tribe.hindiName}</h2>
+            <h1 className="font-display font-bold text-5xl md:text-7xl uppercase tracking-[0.2em] text-[#8B3E2F] border-b border-[#8B3E2F]/30 pb-4 inline-block">
               {tribe.englishName}
             </h1>
-            <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto italic text-[#4e342e]">
+            <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto italic text-[#8B3E2F]">
               {tribe.description}
             </p>
           </motion.div>
@@ -450,11 +450,11 @@ const TribeDetail = () => {
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-4 flex flex-col order-2 lg:order-1 text-center lg:text-right px-4 lg:px-0"
               >
-                <div className="bg-[#f4ebd0]/50 lg:bg-transparent p-6 lg:p-0 rounded-2xl lg:rounded-none backdrop-blur-sm lg:backdrop-blur-none border border-[#3e2723]/10 lg:border-none shadow-sm lg:shadow-none lg:translate-y-8">
-                  <h3 className="text-xl font-bold uppercase tracking-wider mb-3 text-[#5d4037] border-b lg:border-b-0 lg:border-r-4 border-gold lg:pr-4 pb-2 lg:pb-0 inline-block lg:block">
+                <div className="bg-[#FCEBD3]/50 lg:bg-transparent p-6 lg:p-0 rounded-2xl lg:rounded-none backdrop-blur-sm lg:backdrop-blur-none border border-[#8B3E2F]/10 lg:border-none shadow-sm lg:shadow-none lg:translate-y-8">
+                  <h3 className="text-xl font-bold uppercase tracking-wider mb-3 text-[#8B3E2F] border-b lg:border-b-0 lg:border-r-4 border-gold lg:pr-4 pb-2 lg:pb-0 inline-block lg:block">
                     {tribe.leftTitle}
                   </h3>
-                  <p className="text-[1.05rem] leading-relaxed text-[#3e2723] mt-2 font-medium">
+                  <p className="text-[1.05rem] leading-relaxed text-[#8B3E2F] mt-2 font-medium">
                     {tribe.leftDesc}
                   </p>
                 </div>
@@ -465,12 +465,12 @@ const TribeDetail = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
-                className="lg:col-span-4 flex justify-center order-1 lg:order-2 px-0 lg:-mx-12 z-10"
+                className="lg:col-span-4 flex justify-center order-1 lg:order-2 px-0 z-10"
               >
                 <img
                   src={tribe.image}
                   alt={tribe.englishName}
-                  className="w-full max-w-[20rem] lg:max-w-[32rem] h-auto object-contain drop-shadow-2xl my-8 lg:my-0"
+                  className="w-full max-w-[20rem] lg:max-w-[26rem] h-auto object-contain drop-shadow-2xl my-8 mix-blend-multiply"
                 />
               </motion.div>
 
@@ -481,11 +481,11 @@ const TribeDetail = () => {
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-4 flex flex-col order-3 text-center lg:text-left px-4 lg:px-0"
               >
-                <div className="bg-[#f4ebd0]/50 lg:bg-transparent p-6 lg:p-0 rounded-2xl lg:rounded-none backdrop-blur-sm lg:backdrop-blur-none border border-[#3e2723]/10 lg:border-none shadow-sm lg:shadow-none mt-4 lg:mt-0 lg:-translate-y-8">
-                  <h3 className="text-xl font-bold uppercase tracking-wider mb-3 text-[#5d4037] border-b lg:border-b-0 lg:border-l-4 border-gold lg:pl-4 pb-2 lg:pb-0 inline-block lg:block">
+                <div className="bg-[#FCEBD3]/50 lg:bg-transparent p-6 lg:p-0 rounded-2xl lg:rounded-none backdrop-blur-sm lg:backdrop-blur-none border border-[#8B3E2F]/10 lg:border-none shadow-sm lg:shadow-none mt-4 lg:mt-0 lg:-translate-y-8">
+                  <h3 className="text-xl font-bold uppercase tracking-wider mb-3 text-[#8B3E2F] border-b lg:border-b-0 lg:border-l-4 border-gold lg:pl-4 pb-2 lg:pb-0 inline-block lg:block">
                     {tribe.rightTitle}
                   </h3>
-                  <p className="text-[1.05rem] leading-relaxed text-[#3e2723] mt-2 font-medium">
+                  <p className="text-[1.05rem] leading-relaxed text-[#8B3E2F] mt-2 font-medium">
                     {tribe.rightDesc}
                   </p>
                 </div>
@@ -498,10 +498,10 @@ const TribeDetail = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-xl mx-auto text-center px-4 mt-8 lg:-mt-4 relative z-20"
+              className="max-w-xl mx-auto text-center px-4 mt-12 relative z-20"
             >
-              <div className="bg-[#f4ebd0]/60 p-6 rounded-2xl border border-[#3e2723]/10 shadow-sm">
-                <p className="text-[1.1rem] leading-relaxed text-[#3e2723] italic font-medium">
+              <div className="bg-[#FCEBD3]/60 p-6 rounded-2xl border border-[#8B3E2F]/10 shadow-sm">
+                <p className="text-[1.1rem] leading-relaxed text-[#8B3E2F] italic font-medium">
                   {tribe.bottomDesc}
                 </p>
               </div>

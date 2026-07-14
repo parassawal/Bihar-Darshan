@@ -31,7 +31,7 @@ const ProductDetails = () => {
   if (!selectedProduct) {
     return (
       <div className="h-screen flex justify-center items-center">
-        <h1 className="text-4xl font-bold">Product Not Found</h1>
+        <h1 className="font-display font-bold text-4xl font-bold">Product Not Found</h1>
       </div>
     );
   }
@@ -103,7 +103,7 @@ const ProductDetails = () => {
               </span>
 
               {/* Product Name */}
-              <h1 className="text-5xl font-bold text-brand-dark mt-6">
+              <h1 className="font-display font-bold text-5xl font-bold text-brand-dark mt-6">
                 {selectedProduct.productName}
               </h1>
 

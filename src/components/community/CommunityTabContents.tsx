@@ -6,12 +6,12 @@ export const TabMembers = ({ contributors }: { contributors: Contributor[] }) =>
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
       <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-        <Users className="text-amber-500" size={20} />
+        <Users className="text-gold-dark" size={20} />
         Community Members
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {contributors.map((c) => (
-          <div key={c.id} className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-amber-200 hover:shadow-md hover:bg-amber-50/30 transition-all duration-200">
+          <div key={c.id} className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-amber-200 hover:shadow-md hover:bg-brand-gray/30 transition-all duration-200">
             <div className={`w-12 h-12 rounded-full ${c.color} text-white flex items-center justify-center font-bold text-lg shadow-inner`}>
               {c.avatar}
             </div>
@@ -57,7 +57,7 @@ export const TabMedia = ({ community }: { community: Community }) => {
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
       <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-        <ImageIcon className="text-amber-500" size={20} />
+        <ImageIcon className="text-gold-dark" size={20} />
         Shared Media ({displayPhotos.length})
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -96,7 +96,7 @@ export const TabGuides = () => {
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
       <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-        <BookOpen className="text-amber-500" size={20} />
+        <BookOpen className="text-gold-dark" size={20} />
         Community Guides
       </h3>
       <div className="flex flex-col gap-4">
@@ -107,7 +107,7 @@ export const TabGuides = () => {
               <h4 className="text-lg font-bold text-gray-900 group-hover:text-amber-700 transition-colors">{g.title}</h4>
               <p className="text-sm text-gray-500 mt-1">Written by <span className="font-semibold">{g.author}</span> • {g.readTime}</p>
             </div>
-            <button className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-amber-50 text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+            <button className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-brand-gray text-accent-brown group-hover:bg-gold-dark group-hover:text-white transition-colors">
               <ExternalLink size={18} />
             </button>
           </div>
@@ -128,13 +128,13 @@ export const TabEvents = () => {
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
       <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-        <Calendar className="text-amber-500" size={20} />
+        <Calendar className="text-gold-dark" size={20} />
         Upcoming Events
       </h3>
       <div className="flex flex-col gap-4">
         {MOCK_EVENTS.map(e => (
           <div key={e.id} className="flex gap-5 p-5 rounded-xl border border-gray-100 hover:shadow-lg hover:border-amber-200 transition-all duration-300 group cursor-pointer bg-white">
-            <div className="flex flex-col items-center justify-center w-16 h-16 rounded-xl bg-amber-50 text-amber-600 shrink-0 border border-amber-100">
+            <div className="flex flex-col items-center justify-center w-16 h-16 rounded-xl bg-brand-gray text-accent-brown shrink-0 border border-amber-100">
               <span className="text-xs font-bold uppercase">{e.date.split(' ')[0]}</span>
               <span className="text-xl font-black leading-none">{e.date.split(' ')[1].replace(',', '')}</span>
             </div>
@@ -160,7 +160,7 @@ export const TabAbout = ({ community }: { community: Community }) => {
       {/* About Box */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Info className="text-amber-500" size={20} />
+          <Info className="text-gold-dark" size={20} />
           About {community.name}
         </h3>
         <p className="text-gray-700 leading-relaxed">
@@ -186,7 +186,7 @@ export const TabAbout = ({ community }: { community: Community }) => {
       {/* Rules Box */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Shield className="text-amber-500" size={20} />
+          <Shield className="text-gold-dark" size={20} />
           Community Guidelines
         </h3>
         <ul className="space-y-3">

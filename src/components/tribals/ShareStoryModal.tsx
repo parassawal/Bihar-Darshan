@@ -173,8 +173,8 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
     }, 2000);
   };
 
-  const inputBaseClass = "w-full bg-[#f4ebd0]/80 border border-[#3e2723]/20 text-[#3e2723] rounded-xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-[#D4A017] focus:border-transparent transition-all placeholder:text-[#5d4037]/50 font-sans text-sm";
-  const labelClass = "block text-sm font-bold text-[#5d4037] mb-1.5 tracking-wide uppercase font-sans";
+  const inputBaseClass = "w-full bg-[#FCEBD3]/80 border border-[#8B3E2F]/20 text-[#8B3E2F] rounded-xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-[#F4A261] focus:border-transparent transition-all placeholder:text-[#8B3E2F]/50 font-sans text-sm";
+  const labelClass = "block text-sm font-bold text-[#8B3E2F] mb-1.5 tracking-wide uppercase font-sans";
   const errorClass = "text-[#b71c1c] text-xs mt-1 font-medium";
 
   return (
@@ -189,7 +189,7 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
           onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-[#3e2723]/60 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-[#8B3E2F]/60 backdrop-blur-sm" />
 
           {/* Modal */}
           <motion.div
@@ -198,10 +198,10 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-[580px] max-h-[calc(100vh-8rem)] overflow-y-auto bg-[#f4ebd0] border border-[#3e2723]/15 rounded-3xl shadow-2xl z-10 flex-shrink-0"
+            className="relative w-full max-w-[580px] max-h-[calc(100vh-8rem)] overflow-y-auto bg-[#FCEBD3] border border-[#8B3E2F]/15 rounded-3xl shadow-2xl z-10 flex-shrink-0"
             style={{
               scrollbarWidth: 'thin',
-              scrollbarColor: '#D4A017 transparent',
+              scrollbarColor: '#F4A261 transparent',
             }}
           >
             {/* Success State */}
@@ -211,7 +211,7 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
-                  className="absolute inset-0 z-20 bg-[#f4ebd0] rounded-3xl flex flex-col items-center justify-center p-8"
+                  className="absolute inset-0 z-20 bg-[#FCEBD3] rounded-3xl flex flex-col items-center justify-center p-8"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
@@ -220,24 +220,24 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
                   >
                     <CheckCircle className="w-20 h-20 text-[#2e7d32] mb-4" />
                   </motion.div>
-                  <h3 className="text-2xl font-serif font-bold text-[#3e2723] mb-2">Story Submitted!</h3>
-                  <p className="text-[#5d4037] text-center">Thank you for sharing your story. It will be reviewed and published shortly.</p>
+                  <h3 className="text-2xl font-serif font-bold text-[#8B3E2F] mb-2">Story Submitted!</h3>
+                  <p className="text-[#8B3E2F] text-center">Thank you for sharing your story. It will be reviewed and published shortly.</p>
                 </motion.div>
               )}
             </AnimatePresence>
 
             {/* Header */}
-            <div className="sticky top-0 z-10 bg-[#f4ebd0] border-b border-[#3e2723]/10 px-6 py-4 flex items-center justify-between rounded-t-3xl">
+            <div className="sticky top-0 z-10 bg-[#FCEBD3] border-b border-[#8B3E2F]/10 px-6 py-4 flex items-center justify-between rounded-t-3xl">
               <div>
-                <h2 className="text-xl font-serif font-bold text-[#3e2723]">Write an Article</h2>
-                <p className="text-xs text-[#5d4037] mt-0.5">Contribute to our tribal heritage chronicle</p>
+                <h2 className="text-xl font-serif font-bold text-[#8B3E2F]">Write an Article</h2>
+                <p className="text-xs text-[#8B3E2F] mt-0.5">Contribute to our tribal heritage chronicle</p>
               </div>
               <button
                 onClick={handleClose}
-                className="w-9 h-9 rounded-full bg-[#3e2723]/10 hover:bg-[#b71c1c]/20 flex items-center justify-center transition-colors group"
+                className="w-9 h-9 rounded-full bg-[#8B3E2F]/10 hover:bg-[#b71c1c]/20 flex items-center justify-center transition-colors group"
                 aria-label="Close modal"
               >
-                <X className="w-4 h-4 text-[#5d4037] group-hover:text-[#b71c1c] transition-colors" />
+                <X className="w-4 h-4 text-[#8B3E2F] group-hover:text-[#b71c1c] transition-colors" />
               </button>
             </div>
 
@@ -271,7 +271,7 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
                 {imagePreviews.length > 0 && (
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
                     {imagePreviews.map((src, idx) => (
-                      <div key={idx} className="relative group rounded-xl overflow-hidden aspect-square border border-[#3e2723]/20">
+                      <div key={idx} className="relative group rounded-xl overflow-hidden aspect-square border border-[#8B3E2F]/20">
                         <img src={src} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
                         <button
                           type="button"
@@ -281,7 +281,7 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
                           <X className="w-3.5 h-3.5" />
                         </button>
                         {idx === 0 && (
-                          <div className="absolute bottom-0 left-0 right-0 bg-[#3e2723]/70 text-white text-[10px] py-1 text-center font-semibold">
+                          <div className="absolute bottom-0 left-0 right-0 bg-[#8B3E2F]/70 text-white text-[10px] py-1 text-center font-semibold">
                             Thumbnail
                           </div>
                         )}
@@ -294,10 +294,10 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
                   <div
                     className={`relative border-2 border-dashed rounded-xl transition-all cursor-pointer overflow-hidden ${
                       isDragging
-                        ? 'border-[#D4A017] bg-[#D4A017]/10'
+                        ? 'border-[#F4A261] bg-[#F4A261]/10'
                         : errors.images
                           ? 'border-[#b71c1c]/40 bg-[#b71c1c]/5'
-                          : 'border-[#3e2723]/20 bg-[#e8dec0]/40 hover:border-[#D4A017]/60'
+                          : 'border-[#8B3E2F]/20 bg-[#FCEBD3]/40 hover:border-[#F4A261]/60'
                     }`}
                     onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
                     onDragLeave={() => setIsDragging(false)}
@@ -315,13 +315,13 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
                       }}
                     />
                     <div className="py-6 flex flex-col items-center gap-2">
-                      <div className="w-10 h-10 rounded-full bg-[#D4A017]/15 flex items-center justify-center">
-                        <ImagePlus className="w-5 h-5 text-[#D4A017]" />
+                      <div className="w-10 h-10 rounded-full bg-[#F4A261]/15 flex items-center justify-center">
+                        <ImagePlus className="w-5 h-5 text-[#F4A261]" />
                       </div>
-                      <p className="text-sm text-[#5d4037] font-medium">
-                        Drag & drop or <span className="text-[#D4A017] underline">browse</span>
+                      <p className="text-sm text-[#8B3E2F] font-medium">
+                        Drag & drop or <span className="text-[#F4A261] underline">browse</span>
                       </p>
-                      <p className="text-xs text-[#5d4037]/60">PNG, JPG up to 5MB</p>
+                      <p className="text-xs text-[#8B3E2F]/60">PNG, JPG up to 5MB</p>
                     </div>
                   </div>
                 )}
@@ -346,7 +346,7 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
                 />
                 <div className="flex justify-between items-center mt-1">
                   {errors.description && <p className={errorClass}>{errors.description}</p>}
-                  <p className="text-xs text-[#5d4037]/50 ml-auto">{formData.description.length}/500</p>
+                  <p className="text-xs text-[#8B3E2F]/50 ml-auto">{formData.description.length}/500</p>
                 </div>
               </div>
 
@@ -386,7 +386,7 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
               {/* Location & Tags row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className={labelClass}>Location <span className="text-[#5d4037]/40 text-xs normal-case font-normal">(optional)</span></label>
+                  <label className={labelClass}>Location <span className="text-[#8B3E2F]/40 text-xs normal-case font-normal">(optional)</span></label>
                   <input
                     type="text"
                     value={formData.location}
@@ -396,7 +396,7 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Tags <span className="text-[#5d4037]/40 text-xs normal-case font-normal">(optional)</span></label>
+                  <label className={labelClass}>Tags <span className="text-[#8B3E2F]/40 text-xs normal-case font-normal">(optional)</span></label>
                   <input
                     type="text"
                     value={formData.tags}
@@ -408,18 +408,18 @@ const ShareStoryModal = ({ isOpen, onClose, defaultTribe }: ShareStoryModalProps
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#3e2723]/10">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#8B3E2F]/10">
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="px-5 py-2.5 text-[#5d4037] text-sm font-semibold hover:text-[#3e2723] transition-colors rounded-xl hover:bg-[#3e2723]/5"
+                  className="px-5 py-2.5 text-[#8B3E2F] text-sm font-semibold hover:text-[#8B3E2F] transition-colors rounded-xl hover:bg-[#8B3E2F]/5"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-6 py-2.5 bg-[#D4A017] hover:bg-[#B8860B] text-white text-sm font-bold rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-2.5 bg-[#F4A261] hover:bg-[#F4A261] text-white text-sm font-bold rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {isSubmitting ? (
                     <>

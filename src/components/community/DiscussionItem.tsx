@@ -21,7 +21,7 @@ const avatarColorMap: Record<string, string> = {
   BA: 'bg-indigo-500',
   WP: 'bg-green-500',
   ER: 'bg-red-500',
-  YOU: 'bg-amber-400',
+  YOU: 'bg-brand-gold',
 };
 
 const DiscussionItem = ({ discussion }: DiscussionItemProps) => {
@@ -114,7 +114,7 @@ const DiscussionItem = ({ discussion }: DiscussionItemProps) => {
           <div className="flex items-center bg-gray-100/80 rounded-full">
             <button 
               onClick={(e) => { e.stopPropagation(); setVoted(voted === 'up' ? null : 'up'); }}
-              className={`p-1.5 rounded-l-full hover:bg-gray-200 transition-colors ${voted === 'up' ? 'text-amber-500' : 'text-gray-500'}`}
+              className={`p-1.5 rounded-l-full hover:bg-gray-200 transition-colors ${voted === 'up' ? 'text-gold-dark' : 'text-gray-500'}`}
             >
               <ArrowBigUp size={18} fill={voted === 'up' ? 'currentColor' : 'none'} />
             </button>

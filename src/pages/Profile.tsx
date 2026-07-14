@@ -38,14 +38,17 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState<'posted' | 'verification'>('posted');
 
   // Profile State
-  const [profile, setProfile] = useState({
-    name: "Paras Sawal",
-    title: "Cultural Ambassador",
-    bio: "Passionate about preserving and promoting the rich cultural heritage of Bihar.",
-    avatar: "/images/culture/avatar-man1.png",
-    background: "/images/culture/hero-artwork.png",
-    rewardPoints: 1250,
-    totalPosts: 8,
+  const [profile, setProfile] = useState(() => {
+    const savedAvatar = localStorage.getItem('userAvatar');
+    return {
+      name: "Paras Sawal",
+      title: "Cultural Ambassador",
+      bio: "Passionate about preserving and promoting the rich cultural heritage of Bihar.",
+      avatar: savedAvatar || "/images/culture/avatar-man1.png",
+      background: "/images/culture/hero-artwork.png",
+      rewardPoints: 1250,
+      totalPosts: 8,
+    };
   });
 
   // Edit Modal State
@@ -91,6 +94,8 @@ const Profile = () => {
 
   const handleSave = () => {
     const finalAvatar = isCustomAvatar && customAvatarInput.trim() !== "" ? customAvatarInput : editForm.avatar;
+    localStorage.setItem('userAvatar', finalAvatar);
+    window.dispatchEvent(new Event('userAvatarChanged'));
     setProfile({
       ...profile,
       name: editForm.name,
@@ -105,13 +110,13 @@ const Profile = () => {
   const filteredPosts = mockPosts.filter(p => activeTab === 'posted' ? p.status === 'posted' : p.status === 'under verification');
 
   return (
-    <div className="min-h-screen font-sans bg-[#f7f3e8]">
+    <div className="min-h-screen font-sans bg-[#FCEBD3]">
       <Navbar forceDarkText={true} />
 
-      <div className="pt-24 pb-12 bg-gradient-to-b from-white to-[#f7f3e8]">
+      <div className="pt-24 pb-12 bg-gradient-to-b from-white to-[#FCEBD3]">
         <Container>
           {/* Profile Header Card */}
-          <div className="bg-[#fdf9ef] rounded-[2rem] shadow-xl p-8 md:p-12 border-2 border-[#d4a017] relative overflow-hidden">
+          <div className="bg-[#FCEBD3] rounded-[2rem] shadow-xl p-8 md:p-12 border-2 border-[#F4A261] relative overflow-hidden">
             {/* Background Pattern Overlay */}
             <div
               className="absolute inset-0 opacity-10 pointer-events-none transition-all duration-500"
@@ -125,28 +130,28 @@ const Profile = () => {
 
             <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
               {/* Avatar */}
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white ring-4 ring-[#d4a017] shadow-xl overflow-hidden bg-[#fdf9ef] relative z-20 shrink-0">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white ring-4 ring-[#F4A261] shadow-xl overflow-hidden bg-[#FCEBD3] relative z-20 shrink-0">
                 <img src={profile.avatar} alt={profile.name} className="w-full h-full object-cover" />
               </div>
 
               {/* User Info */}
               <div className="flex-1 text-center md:text-left relative z-20">
                 <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
-                  <svg className="w-6 h-6 text-[#d4a017]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 9H22L16 14L18 21L12 17L6 21L8 14L2 9H9L12 2Z" /></svg>
-                  <h1 className="text-4xl md:text-5xl font-extrabold text-[#5c3a21] font-serif">{profile.name}</h1>
-                  <svg className="w-6 h-6 text-[#d4a017]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 9H22L16 14L18 21L12 17L6 21L8 14L2 9H9L12 2Z" /></svg>
+                  <svg className="w-6 h-6 text-[#F4A261]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 9H22L16 14L18 21L12 17L6 21L8 14L2 9H9L12 2Z" /></svg>
+                  <h1 className="font-display font-bold text-4xl md:text-5xl text-[#8B3E2F]">{profile.name}</h1>
+                  <svg className="w-6 h-6 text-[#F4A261]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 9H22L16 14L18 21L12 17L6 21L8 14L2 9H9L12 2Z" /></svg>
                 </div>
-                <p className="text-[#d4a017] uppercase tracking-[0.2em] font-bold text-sm mb-4">{profile.title}</p>
-                <p className="text-[#5c3a21] text-sm mb-6 max-w-lg leading-relaxed font-medium">{profile.bio}</p>
+                <p className="text-[#F4A261] uppercase tracking-[0.2em] font-bold text-sm mb-4">{profile.title}</p>
+                <p className="text-[#8B3E2F] text-sm mb-6 max-w-lg leading-relaxed font-medium">{profile.bio}</p>
 
                 <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                  <div className="flex items-center gap-2 bg-[#fdf9ef] border border-[#e2d5b8] px-4 py-2 rounded-xl shadow-sm">
-                    <FileText className="text-[#5c3a21] w-5 h-5" />
-                    <span className="font-bold text-[#5c3a21]">{profile.totalPosts} Posts</span>
+                  <div className="flex items-center gap-2 bg-[#FCEBD3] border border-[#FCEBD3] px-4 py-2 rounded-xl shadow-sm">
+                    <FileText className="text-[#8B3E2F] w-5 h-5" />
+                    <span className="font-bold text-[#8B3E2F]">{profile.totalPosts} Posts</span>
                   </div>
-                  <div className="flex items-center gap-2 bg-[#fdf9ef] border border-[#e2d5b8] px-4 py-2 rounded-xl shadow-sm">
-                    <Award className="text-[#d4a017] w-5 h-5" />
-                    <span className="font-bold text-[#5c3a21]">{profile.rewardPoints} Reward Points</span>
+                  <div className="flex items-center gap-2 bg-[#FCEBD3] border border-[#FCEBD3] px-4 py-2 rounded-xl shadow-sm">
+                    <Award className="text-[#F4A261] w-5 h-5" />
+                    <span className="font-bold text-[#8B3E2F]">{profile.rewardPoints} Reward Points</span>
                   </div>
                 </div>
               </div>
@@ -155,14 +160,14 @@ const Profile = () => {
               <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={openEditModal}
-                  className="bg-white border-2 border-[#5c3a21] text-[#5c3a21] hover:bg-[#fdf9ef] font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm group"
+                  className="bg-white border-2 border-[#8B3E2F] text-[#8B3E2F] hover:bg-[#FCEBD3] font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm group"
                 >
                   <Edit3 className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   <span>Edit</span>
                 </button>
                 <button
                   onClick={handleShare}
-                  className="bg-[#5c3a21] hover:bg-[#4a2e1a] text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md group"
+                  className="bg-[#8B3E2F] hover:bg-[#8B3E2F] text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md group"
                 >
                   <Share2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   <span>Share</span>
@@ -188,15 +193,15 @@ const Profile = () => {
 
         {/* Tabs */}
         <div className="flex justify-center mb-12">
-          <div className="bg-[#fdf9ef] p-1.5 rounded-full shadow-md border-2 border-[#d4a017] inline-flex relative">
+          <div className="bg-[#FCEBD3] p-1.5 rounded-full shadow-md border-2 border-[#F4A261] inline-flex relative">
             <button
               onClick={() => setActiveTab('posted')}
-              className={`relative z-10 px-8 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors duration-300 ${activeTab === 'posted' ? 'text-white' : 'text-[#5c3a21] hover:bg-white/50'}`}
+              className={`relative z-10 px-8 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors duration-300 ${activeTab === 'posted' ? 'text-white' : 'text-[#8B3E2F] hover:bg-white/50'}`}
             >
               {activeTab === 'posted' && (
                 <motion.div
                   layoutId="activeTabIndicator"
-                  className="absolute inset-0 bg-[#5c3a21] rounded-full shadow-md z-[-1]"
+                  className="absolute inset-0 bg-[#8B3E2F] rounded-full shadow-md z-[-1]"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
@@ -204,12 +209,12 @@ const Profile = () => {
             </button>
             <button
               onClick={() => setActiveTab('verification')}
-              className={`relative z-10 px-8 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors duration-300 ${activeTab === 'verification' ? 'text-white' : 'text-[#5c3a21] hover:bg-white/50'}`}
+              className={`relative z-10 px-8 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors duration-300 ${activeTab === 'verification' ? 'text-white' : 'text-[#8B3E2F] hover:bg-white/50'}`}
             >
               {activeTab === 'verification' && (
                 <motion.div
                   layoutId="activeTabIndicator"
-                  className="absolute inset-0 bg-[#5c3a21] rounded-full shadow-md z-[-1]"
+                  className="absolute inset-0 bg-[#8B3E2F] rounded-full shadow-md z-[-1]"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
@@ -229,14 +234,14 @@ const Profile = () => {
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.95, x: -50 }}
                 transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
-                className="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-[#e2d5b8] flex flex-col sm:flex-row group"
+                className="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-[#FCEBD3] flex flex-col sm:flex-row group"
               >
                 <div className="sm:w-2/5 h-48 sm:h-auto overflow-hidden relative">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-1.5 rounded-full shadow-sm">
                     {post.status === 'posted'
                       ? <CheckCircle2 className="w-5 h-5 text-green-600" />
-                      : <Clock className="w-5 h-5 text-amber-500" />
+                      : <Clock className="w-5 h-5 text-gold-dark" />
                     }
                   </div>
                 </div>
@@ -247,7 +252,7 @@ const Profile = () => {
                     </span>
                     <span className="text-gray-400 text-xs">{post.date}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-[#5c3a21] font-serif mb-3 leading-tight">{post.title}</h3>
+                  <h3 className="text-xl font-bold text-[#8B3E2F] font-serif mb-3 leading-tight">{post.title}</h3>
                   <p className="text-gray-600 text-sm line-clamp-3">{post.excerpt}</p>
                 </div>
               </motion.div>
@@ -284,30 +289,30 @@ const Profile = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-[#fdf9ef] w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[2rem] shadow-2xl relative border-4 border-[#e2d5b8] p-8 md:p-10"
+              className="bg-[#FCEBD3] w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[2rem] shadow-2xl relative border-4 border-[#FCEBD3] p-8 md:p-10"
             >
               {/* Close Button */}
               <button
                 onClick={() => setIsEditing(false)}
-                className="absolute top-6 right-6 z-10 w-10 h-10 bg-white/80 hover:bg-white text-[#5c3a21] rounded-full flex items-center justify-center shadow-md transition-colors"
+                className="absolute top-6 right-6 z-10 w-10 h-10 bg-white/80 hover:bg-white text-[#8B3E2F] rounded-full flex items-center justify-center shadow-md transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
 
               <div className="flex items-center gap-3 mb-8">
-                <Edit3 className="w-8 h-8 text-[#d4a017]" />
-                <h2 className="text-3xl font-bold text-[#5c3a21] font-serif">Edit Profile</h2>
+                <Edit3 className="w-8 h-8 text-[#F4A261]" />
+                <h2 className="text-3xl font-bold text-[#8B3E2F] font-serif">Edit Profile</h2>
               </div>
 
               <div className="space-y-8">
                 {/* Name Input */}
                 <div>
-                  <label className="block text-[#5c3a21] font-bold uppercase tracking-wider text-sm mb-2">Display Name</label>
+                  <label className="block text-[#8B3E2F] font-bold uppercase tracking-wider text-sm mb-2">Display Name</label>
                   <input
                     type="text"
                     value={editForm.name}
                     onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                    className="w-full bg-white border-2 border-[#e2d5b8] rounded-xl px-4 py-3 text-[#5c3a21] font-bold focus:outline-none focus:border-[#d4a017] transition-colors shadow-sm"
+                    className="w-full bg-white border-2 border-[#FCEBD3] rounded-xl px-4 py-3 text-[#8B3E2F] font-bold focus:outline-none focus:border-[#F4A261] transition-colors shadow-sm"
                     placeholder="Enter your name"
                   />
                 </div>
@@ -315,24 +320,24 @@ const Profile = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Title Input */}
                   <div>
-                    <label className="block text-[#5c3a21] font-bold uppercase tracking-wider text-sm mb-2">Title</label>
+                    <label className="block text-[#8B3E2F] font-bold uppercase tracking-wider text-sm mb-2">Title</label>
                     <input
                       type="text"
                       value={editForm.title}
                       onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                      className="w-full bg-white border-2 border-[#e2d5b8] rounded-xl px-4 py-3 text-[#5c3a21] focus:outline-none focus:border-[#d4a017] transition-colors shadow-sm"
+                      className="w-full bg-white border-2 border-[#FCEBD3] rounded-xl px-4 py-3 text-[#8B3E2F] focus:outline-none focus:border-[#F4A261] transition-colors shadow-sm"
                       placeholder="e.g. Cultural Ambassador"
                     />
                   </div>
 
                   {/* Bio Input */}
                   <div>
-                    <label className="block text-[#5c3a21] font-bold uppercase tracking-wider text-sm mb-2">Short Bio</label>
+                    <label className="block text-[#8B3E2F] font-bold uppercase tracking-wider text-sm mb-2">Short Bio</label>
                     <input
                       type="text"
                       value={editForm.bio}
                       onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
-                      className="w-full bg-white border-2 border-[#e2d5b8] rounded-xl px-4 py-3 text-[#5c3a21] focus:outline-none focus:border-[#d4a017] transition-colors shadow-sm"
+                      className="w-full bg-white border-2 border-[#FCEBD3] rounded-xl px-4 py-3 text-[#8B3E2F] focus:outline-none focus:border-[#F4A261] transition-colors shadow-sm"
                       placeholder="Write a short bio..."
                     />
                   </div>
@@ -340,7 +345,7 @@ const Profile = () => {
 
                 {/* Avatar Selection */}
                 <div>
-                  <label className="block text-[#5c3a21] font-bold uppercase tracking-wider text-sm mb-3">Choose Avatar</label>
+                  <label className="block text-[#8B3E2F] font-bold uppercase tracking-wider text-sm mb-3">Choose Avatar</label>
                   <div className="flex flex-wrap gap-4 mb-4">
                     {PREDEFINED_AVATARS.map((avatar, idx) => (
                       <button
@@ -349,7 +354,7 @@ const Profile = () => {
                           setIsCustomAvatar(false);
                           setEditForm({ ...editForm, avatar });
                         }}
-                        className={`w-16 h-16 rounded-full overflow-hidden border-4 transition-all duration-300 ${!isCustomAvatar && editForm.avatar === avatar ? 'border-[#d4a017] scale-110 shadow-lg ring-2 ring-[#5c3a21]' : 'border-white shadow-sm opacity-70 hover:opacity-100'}`}
+                        className={`w-16 h-16 rounded-full overflow-hidden border-4 transition-all duration-300 ${!isCustomAvatar && editForm.avatar === avatar ? 'border-[#F4A261] scale-110 shadow-lg ring-2 ring-[#8B3E2F]' : 'border-white shadow-sm opacity-70 hover:opacity-100'}`}
                       >
                         <img src={avatar} alt={`Avatar ${idx}`} className="w-full h-full object-cover" />
                       </button>
@@ -359,31 +364,31 @@ const Profile = () => {
 
                 {/* Background Selection */}
                 <div>
-                  <label className="block text-[#5c3a21] font-bold uppercase tracking-wider text-sm mb-3">Cultural Background Overlay</label>
+                  <label className="block text-[#8B3E2F] font-bold uppercase tracking-wider text-sm mb-3">Cultural Background Overlay</label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {PREDEFINED_BACKGROUNDS.map((bg, idx) => (
                       <button
                         key={idx}
                         onClick={() => setEditForm({ ...editForm, background: bg })}
-                        className={`h-20 rounded-xl overflow-hidden border-4 transition-all duration-300 relative ${editForm.background === bg ? 'border-[#d4a017] shadow-lg ring-2 ring-[#5c3a21]' : 'border-white shadow-sm opacity-70 hover:opacity-100'}`}
+                        className={`h-20 rounded-xl overflow-hidden border-4 transition-all duration-300 relative ${editForm.background === bg ? 'border-[#F4A261] shadow-lg ring-2 ring-[#8B3E2F]' : 'border-white shadow-sm opacity-70 hover:opacity-100'}`}
                       >
                         <img src={bg} alt={`Background ${idx}`} className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-[#5c3a21] mix-blend-color opacity-30"></div>
+                        <div className="absolute inset-0 bg-[#8B3E2F] mix-blend-color opacity-30"></div>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-[#e2d5b8] flex justify-end gap-4">
+                <div className="pt-6 border-t border-[#FCEBD3] flex justify-end gap-4">
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="border-2 border-[#5c3a21] text-[#5c3a21] hover:bg-[#5c3a21] hover:text-white font-bold py-3 px-8 rounded-full tracking-widest uppercase transition-colors"
+                    className="border-2 border-[#8B3E2F] text-[#8B3E2F] hover:bg-[#8B3E2F] hover:text-white font-bold py-3 px-8 rounded-full tracking-widest uppercase transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSave}
-                    className="bg-[#d4a017] hover:bg-[#c29112] text-[#5c3a21] font-bold py-3 px-8 rounded-full tracking-widest uppercase transition-colors shadow-lg"
+                    className="bg-[#F4A261] hover:bg-[#F4A261] text-[#8B3E2F] font-bold py-3 px-8 rounded-full tracking-widest uppercase transition-colors shadow-lg"
                   >
                     Save Changes
                   </button>

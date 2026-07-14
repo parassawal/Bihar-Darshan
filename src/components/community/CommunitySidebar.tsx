@@ -11,7 +11,7 @@ interface CommunitySidebarProps {
   onViewGuidelines?: () => void;
 }
 
-const medalColors = ['text-yellow-500', 'text-gray-400', 'text-amber-600'];
+const medalColors = ['text-yellow-500', 'text-gray-400', 'text-accent-brown'];
 
 const CommunitySidebar = ({ community, contributors, onCreatePost, isJoined, onJoinClick, onViewGuidelines }: CommunitySidebarProps) => {
   return (
@@ -23,7 +23,7 @@ const CommunitySidebar = ({ community, contributors, onCreatePost, isJoined, onJ
           className={`w-full px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 shadow-sm flex items-center justify-center gap-2 ${
             isJoined 
               ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200' 
-              : 'bg-amber-400 hover:bg-amber-500 text-black hover:shadow-lg hover:shadow-amber-400/30 active:scale-95'
+              : 'bg-brand-gold hover:bg-gold-dark text-black hover:shadow-lg hover:shadow-brand-gold/30 active:scale-95'
           }`}
         >
           {isJoined ? (

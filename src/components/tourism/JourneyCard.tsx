@@ -12,7 +12,7 @@ const JourneyCard = ({ trip }: JourneyCardProps) => {
       to={`/tourism/${trip.id}`}
       className="group block w-full transform transition-transform hover:-translate-y-1 duration-500"
     >
-      <div className="bg-[#fdfcf9] rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-shadow duration-500 border border-gray-100 flex flex-col relative h-full">
+      <div className="bg-[#FFFFEF] rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-shadow duration-500 border border-gray-100 flex flex-col relative h-full">
         {/* Top: Image Section */}
         <div className="relative h-56 md:h-64 overflow-hidden">
           <img

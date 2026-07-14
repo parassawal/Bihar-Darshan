@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Landmark, Map, Utensils, Sparkles, MessageSquare, ArrowRight, Compass, Play } from "lucide-react";
-import heroImage from "../../assets/hero.png";
+import heroVideo from "../../assets/hero-video.mp4";
 import type { SiteSettings } from "../../data/AdminContext";
 
 interface HeroSectionProps {
@@ -11,12 +11,15 @@ const HeroSection = ({ settings }: HeroSectionProps) => {
   return (
     <section id="home" className="relative min-h-screen lg:h-screen py-24 lg:py-0 overflow-hidden">
       {/* Hero Background */}
-      <img
-        src={settings?.heroImage || heroImage}
-        alt="Bihar Heritage Monument"
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
         className="absolute inset-0 w-full h-full object-cover"
-        loading="eager"
-      />
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
 
       {/* Cinematic Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
@@ -28,10 +31,10 @@ const HeroSection = ({ settings }: HeroSectionProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl text-white leading-[1.1] tracking-tight">
-            {settings ? settings.heroTitle : "Discover the"}
+          <h1 className="font-display italic text-5xl sm:text-7xl lg:text-[100px] text-white leading-[1.1] tracking-normal drop-shadow-2xl">
+            {settings ? settings.heroTitle : "Discover the Soul of"}
             <br />
-            <span className="text-gold italic inline-block" style={{ fontFamily: 'var(--font-signature)', fontSize: '1.15em', lineHeight: '0.8' }}>{settings ? settings.heroSubtitle : "Bihar"}</span>
+            <span className="text-brand-gold block mt-2">{settings ? settings.heroSubtitle : "Bihar"}</span>
           </h1>
 
           <motion.div
@@ -40,8 +43,8 @@ const HeroSection = ({ settings }: HeroSectionProps) => {
             transition={{ delay: 1, duration: 0.8 }}
             className="mt-6 sm:mt-8"
           >
-            <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-3xl mx-auto font-light leading-relaxed">
-              {settings ? settings.heroDescription : "Journey through ancient civilizations, sacred temples, breathtaking landscapes, vibrant festivals, authentic cuisine, and modern stories waiting to be explored."}
+            <p className="text-white/95 text-base sm:text-lg md:text-xl max-w-4xl mx-auto font-normal leading-relaxed drop-shadow-lg px-4">
+              {settings ? settings.heroDescription : "Ancient ruins, sacred temples, breathtaking landscapes, living festivals, authentic cuisines and stories waiting to be explored through immersive storytelling."}
             </p>
           </motion.div>
 
@@ -49,17 +52,17 @@ const HeroSection = ({ settings }: HeroSectionProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4, duration: 0.8 }}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-5"
           >
             <a
               href="#places"
-              className="px-8 py-3.5 rounded-full bg-gold hover:bg-gold-dark text-black font-semibold text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-gold/20"
+              className="px-10 py-4 rounded-[2rem] bg-brand-gold hover:bg-brand-gold/90 text-brand-dark font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
             >
               Explore Places
             </a>
             <a
               href="#districts"
-              className="px-8 py-3.5 rounded-full border border-white/25 text-white font-medium text-sm tracking-wide hover:bg-white/10 transition-all duration-300"
+              className="px-10 py-4 rounded-[2rem] border border-white/50 text-white font-semibold text-base hover:bg-white/10 transition-all duration-300 hover:border-white backdrop-blur-sm"
             >
               View Districts
             </a>

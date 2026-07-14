@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import ShareStorySection from "../components/cta/ShareStorySection";
 import DistrictsPageMap from "../components/districts/DistrictsPageMap";
 import DistrictGridCard from "../components/districts/DistrictGridCard";
 import { useAdminData } from "../data/AdminContext";
@@ -67,7 +68,7 @@ const Districts = () => {
       <Navbar />
 
       {/* ═══════════════════════════════════════════════════════
-          SECTION 1 — HERO: District Explorer
+          SECTION 1 — Map & Overview
           ═══════════════════════════════════════════════════════ */}
       <section className="relative pt-28 sm:pt-32 pb-16 sm:pb-20 lg:pb-24 overflow-hidden">
         {/* Dark heritage background */}
@@ -138,54 +139,53 @@ const Districts = () => {
       {/* ═══════════════════════════════════════════════════════
           SECTION 2 — District Grid
           ═══════════════════════════════════════════════════════ */}
-      <section className="pb-20 sm:pb-28">
+      <section className="py-12 sm:py-16 pb-20 sm:pb-28">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl shadow-[0_4px_40px_rgba(0,0,0,0.04)] border border-gray-100 p-6 sm:p-8 lg:p-10">
-            {/* Header row */}
-            <div className="flex items-center justify-between mb-8">
-              {/* Left */}
-              <div className="flex items-baseline gap-3">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                  All Districts
-                </h2>
-              </div>
 
-            </div>
-
-            {/* District grid */}
-            {filteredDistricts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-                {filteredDistricts.map((district) => (
-                  <DistrictGridCard
-                    key={district.name}
-                    name={district.name}
-                    image={district.image}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="py-20 text-center">
-                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search size={24} className="text-gray-300" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">
-                  No districts found
-                </h3>
-                <p className="text-sm text-gray-400">
-                  Try a different search term
-                </p>
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="mt-4 px-5 py-2 bg-gold text-white font-semibold text-sm rounded-full hover:bg-gold-dark transition-colors cursor-pointer"
-                >
-                  Clear Search
-                </button>
-              </div>
-            )}
+          {/* Section heading */}
+          <div className="mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              All Districts
+            </h2>
           </div>
+
+          {/* District grid — uniform card size via gridAutoRows */}
+          {filteredDistricts.length > 0 ? (
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"
+              style={{ gridAutoRows: "260px" }}
+            >
+              {filteredDistricts.map((district) => (
+                <DistrictGridCard
+                  key={district.name}
+                  name={district.name}
+                  image={district.image}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="py-20 text-center">
+              <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Search size={24} className="text-gray-300" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">
+                No districts found
+              </h3>
+              <p className="text-sm text-gray-400">
+                Try a different search term
+              </p>
+              <button
+                onClick={() => setSearchQuery("")}
+                className="mt-4 px-5 py-2 bg-gold text-white font-semibold text-sm rounded-full hover:bg-gold-dark transition-colors cursor-pointer"
+              >
+                Clear Search
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
+      <ShareStorySection />
       <Footer />
     </div>
   );

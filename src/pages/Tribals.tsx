@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import ShareStorySection from '../components/cta/ShareStorySection';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Search, ChevronRight } from 'lucide-react';
@@ -23,7 +24,7 @@ export const tribesList = [
     hindiName: "उरांव",
     englishName: "Oraon Tribe",
     shortDesc: "Celebrated for progressive agricultural practices and dynamic community life.",
-    image: "/images/tribals/oraon_tribe_1782405740193.png",
+    image: "/images/tribals/oraon_nobg.png",
     leftTitle: "Dharmes & Sarnaism",
     leftDesc: "The Oraon traditionally follow Sarnaism, centering around the worship of nature. Their supreme deity is \"Dharmes,\" associated with the sun. Sacred groves called \"Sarna\" serve as their central places of worship.",
     rightTitle: "Youth Dormitories",
@@ -288,7 +289,7 @@ const Tribals = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#f4ebd0] text-[#3e2723] font-sans overflow-x-hidden selection:bg-[#D4A017] selection:text-white relative">
+    <div className="min-h-screen bg-[#FCEBD3] text-[#8B3E2F] font-sans overflow-x-hidden selection:bg-[#F4A261] selection:text-white relative">
       <Navbar />
 
       {/* Global Parchment Background Texture */}
@@ -313,7 +314,7 @@ const Tribals = () => {
               transition={{ duration: 1, ease: "easeOut" }}
               className="mb-6 inline-block"
             >
-              <span className="px-4 py-1.5 rounded-full border border-[#3e2723]/20 bg-[#e8dec0]/80 text-[#5d4037] text-sm tracking-[0.2em] font-medium uppercase backdrop-blur-md shadow-sm">
+              <span className="px-4 py-1.5 rounded-full border border-[#8B3E2F]/20 bg-[#FCEBD3]/80 text-[#8B3E2F] text-sm tracking-[0.2em] font-medium uppercase backdrop-blur-md shadow-sm">
                 Indigenous Heritage
               </span>
             </motion.div>
@@ -322,16 +323,16 @@ const Tribals = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-5xl md:text-7xl lg:text-8xl font-serif text-[#3e2723] tracking-wide mb-4 font-bold"
+              className="text-5xl md:text-7xl lg:text-8xl font-serif text-[#8B3E2F] tracking-wide mb-4 font-bold"
             >
-              Tribes of <span className="text-[#D4A017]">Bihar</span>
+              Tribes of <span className="text-[#F4A261]">Bihar</span>
             </motion.h1>
 
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-3xl md:text-4xl text-[#5d4037] font-signature italic mb-8"
+              className="text-3xl md:text-4xl text-[#8B3E2F] font-signature italic mb-8"
             >
               आदिवासी
             </motion.h2>
@@ -340,7 +341,7 @@ const Tribals = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-lg md:text-xl text-[#4e342e] max-w-2xl leading-relaxed mx-auto md:mx-0"
+              className="text-lg md:text-xl text-[#8B3E2F] max-w-2xl leading-relaxed mx-auto md:mx-0"
             >
               Discover the rich, ancient cultures, arts, and traditions of Bihar's indigenous communities. Explore their vibrant legacy and unbreakable bond with nature.
             </motion.p>
@@ -353,8 +354,8 @@ const Tribals = () => {
             transition={{ duration: 1, delay: 0.4 }}
             className="flex-1 w-full flex justify-center relative"
           >
-            <div className="relative w-full max-w-md aspect-square rounded-full bg-[#e8dec0]/60 border border-[#3e2723]/10 shadow-xl overflow-hidden flex items-center justify-center p-8 backdrop-blur-md group">
-              <div className="absolute inset-0 bg-[#D4A017]/10 blur-3xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-700" />
+            <div className="relative w-full max-w-md aspect-square rounded-full bg-[#FCEBD3]/60 border border-[#8B3E2F]/10 shadow-xl overflow-hidden flex items-center justify-center p-8 backdrop-blur-md group">
+              <div className="absolute inset-0 bg-[#F4A261]/10 blur-3xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-700" />
               <img
                 src="/images/tribals/santhal_nobg.png"
                 alt="Tribal Heritage"
@@ -376,14 +377,14 @@ const Tribals = () => {
             className="relative max-w-md mx-auto"
           >
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-[#5d4037]" />
+              <Search className="h-5 w-5 text-[#8B3E2F]" />
             </div>
             <input
               type="text"
               placeholder="Search tribes by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#e8dec0]/60 border border-[#3e2723]/20 text-[#3e2723] rounded-2xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-[#D4A017] focus:border-transparent transition-all backdrop-blur-md placeholder:text-[#5d4037]/70 shadow-sm"
+              className="w-full bg-[#FCEBD3]/60 border border-[#8B3E2F]/20 text-[#8B3E2F] rounded-2xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-[#F4A261] focus:border-transparent transition-all backdrop-blur-md placeholder:text-[#8B3E2F]/70 shadow-sm"
             />
           </motion.div>
         </section>
@@ -401,14 +402,14 @@ const Tribals = () => {
                   transition={{ delay: (index % 4) * 0.05, duration: 0.4 }}
                 >
                   <Link to={`/tribals/${tribe.id}`} className="block group h-full">
-                    <div className="h-full bg-[#e8dec0]/80 rounded-3xl overflow-hidden border border-[#3e2723]/10 group-hover:border-[#D4A017]/60 transition-all duration-500 backdrop-blur-md flex flex-col group-hover:-translate-y-2 group-hover:shadow-[0_10px_40px_-10px_rgba(62,39,35,0.15)] relative">
+                    <div className="h-full bg-[#FCEBD3]/80 rounded-3xl overflow-hidden border border-[#8B3E2F]/10 group-hover:border-[#F4A261]/60 transition-all duration-500 backdrop-blur-md flex flex-col group-hover:-translate-y-2 group-hover:shadow-[0_10px_40px_-10px_rgba(62,39,35,0.15)] relative">
 
                       {/* Glow effect on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-[#f4ebd0]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-[#FCEBD3]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                       {/* Image Container */}
                       <div className="relative h-56 w-full overflow-hidden flex items-center justify-center p-6 bg-white/40">
-                        <div className="absolute inset-0 bg-[#D4A017]/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full scale-50" />
+                        <div className="absolute inset-0 bg-[#F4A261]/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full scale-50" />
 
                         <img
                           src={tribe.image}
@@ -421,15 +422,15 @@ const Tribals = () => {
                       </div>
 
                       {/* Content Container */}
-                      <div className="p-6 flex-grow flex flex-col relative z-20 bg-gradient-to-t from-[#e8dec0] via-[#e8dec0] to-transparent pt-8 -mt-8">
+                      <div className="p-6 flex-grow flex flex-col relative z-20 bg-gradient-to-t from-[#FCEBD3] via-[#FCEBD3] to-transparent pt-8 -mt-8">
                         <div className="flex justify-between items-start mb-2">
-                          <h2 className="text-xl font-serif font-bold text-[#3e2723] group-hover:text-[#D4A017] transition-colors">{tribe.englishName}</h2>
-                          <span className="text-xl font-signature font-bold text-[#5d4037]">{tribe.hindiName}</span>
+                          <h2 className="text-xl font-serif font-bold text-[#8B3E2F] group-hover:text-[#F4A261] transition-colors">{tribe.englishName}</h2>
+                          <span className="text-xl font-signature font-bold text-[#8B3E2F]">{tribe.hindiName}</span>
                         </div>
-                        <p className="text-sm text-[#4e342e] line-clamp-3 mb-6 flex-grow italic">
+                        <p className="text-sm text-[#8B3E2F] line-clamp-3 mb-6 flex-grow italic">
                           {tribe.shortDesc}
                         </p>
-                        <div className="flex items-center text-[#b71c1c] text-sm font-bold uppercase tracking-wider group-hover:tracking-widest transition-all mt-auto group-hover:text-[#D4A017]">
+                        <div className="flex items-center text-[#b71c1c] text-sm font-bold uppercase tracking-wider group-hover:tracking-widest transition-all mt-auto group-hover:text-[#F4A261]">
                           Explore <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
@@ -440,11 +441,11 @@ const Tribals = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 bg-[#e8dec0]/80 border border-[#3e2723]/10 rounded-3xl backdrop-blur-md shadow-sm">
-              <p className="text-[#4e342e] text-lg">No tribes found matching "{searchTerm}"</p>
+            <div className="text-center py-20 bg-[#FCEBD3]/80 border border-[#8B3E2F]/10 rounded-3xl backdrop-blur-md shadow-sm">
+              <p className="text-[#8B3E2F] text-lg">No tribes found matching "{searchTerm}"</p>
               <button
                 onClick={() => setSearchTerm('')}
-                className="mt-4 px-6 py-2 bg-[#3e2723]/10 text-[#3e2723] font-medium rounded-full hover:bg-[#3e2723]/20 transition-colors"
+                className="mt-4 px-6 py-2 bg-[#8B3E2F]/10 text-[#8B3E2F] font-medium rounded-full hover:bg-[#8B3E2F]/20 transition-colors"
               >
                 Clear Search
               </button>
@@ -453,6 +454,7 @@ const Tribals = () => {
         </section>
       </div>
 
+      <ShareStorySection />
       <Footer />
     </div>
   );

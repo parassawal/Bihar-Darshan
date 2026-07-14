@@ -20,7 +20,7 @@ const DiscussionFilters = ({ active, onChange }: DiscussionFiltersProps) => {
             onClick={() => onChange(label)}
             className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${
               isActive
-                ? 'bg-amber-400 text-black'
+                ? 'bg-brand-gold text-black'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
             }`}
           >

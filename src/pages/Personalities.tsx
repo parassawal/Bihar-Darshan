@@ -169,14 +169,14 @@ export default function Personalities() {
   }, [searchTerm, selectedDist, selectedCat, allPersonalities]);
 
   return (
-    <div className="min-h-screen bg-[#fcfcfc] font-sans pb-24">
+    <div className="min-h-screen bg-[#FFFFEF] font-sans pb-24">
       <Navbar forceDarkText={true} />
       {/* HEADER SECTION */}
-      <div className="bg-[#0f172a] text-white pt-24 pb-32 px-6 text-center">
+      <div className="bg-[#0F3D2E] text-white pt-24 pb-32 px-6 text-center">
         <div className="inline-flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full text-orange-400 text-sm font-bold mb-6 backdrop-blur-md">
           <Star size={14} fill="currentColor" /> THE PRIDE OF BIHAR
         </div>
-        <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
+        <h1 className="font-display font-bold text-5xl md:text-7xl mb-6 tracking-tight">
           Bihar's Iconic <span className="text-orange-500">Legends</span>
         </h1>
         <p className="max-w-3xl mx-auto text-slate-400 text-lg md:text-xl leading-relaxed">

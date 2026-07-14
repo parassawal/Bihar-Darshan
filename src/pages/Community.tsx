@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import ShareStorySection from '../components/cta/ShareStorySection';
 import CommunityHero from '../components/community/CommunityHero';
 import CategoryFilter from '../components/community/CategoryFilter';
 import type { CategoryOption } from '../components/community/CategoryFilter';
@@ -113,7 +114,7 @@ const CommunityPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F5EF] selection:bg-brand-gold selection:text-brand-dark font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-[#FAFAF8] selection:bg-brand-gold selection:text-brand-dark font-sans relative overflow-hidden">
       <AnimatePresence mode="wait">
         {selectedCommunity ? (
           <motion.div
@@ -173,6 +174,7 @@ const CommunityPage = () => {
                 )}
               </main>
             </div>
+            <ShareStorySection />
             <Footer />
           </motion.div>
         ) : (
@@ -213,6 +215,7 @@ const CommunityPage = () => {
                 )}
               </main>
             </div>
+            <ShareStorySection />
             <Footer />
           </motion.div>
         )}
@@ -226,3 +229,4 @@ const CommunityPage = () => {
 };
 
 export default CommunityPage;
+

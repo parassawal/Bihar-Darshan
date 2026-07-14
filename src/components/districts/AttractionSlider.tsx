@@ -53,18 +53,18 @@ const AttractionSlider: React.FC<AttractionSliderProps> = ({ attractions, title 
   }, [activeIndex, filtered.length]);
 
   return (
-    <section className="py-24 bg-[#F8F5EF] overflow-hidden">
+    <section className="py-24 bg-[#FCEBD3] overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#1A1A1A] mb-4">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#0F3D2E] mb-4">
               {title}
             </h2>
-            <div className="w-24 h-1 bg-[#D4A017] rounded-full" />
+            <div className="w-24 h-1 bg-[#F4A261] rounded-full" />
           </div>
-          {/* <button className="group flex items-center gap-2 text-[#D4A017] font-bold text-lg hover:text-[#B8860B] transition-colors">
+          {/* <button className="group flex items-center gap-2 text-[#F4A261] font-bold text-lg hover:text-[#F4A261] transition-colors">
             View All Attractions <ArrowRight className="group-hover:translate-x-1 transition-transform" />
           </button> */}
         </div>
@@ -82,14 +82,14 @@ const AttractionSlider: React.FC<AttractionSliderProps> = ({ attractions, title 
                   relative flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold
                   tracking-wide border transition-all duration-300 overflow-hidden
                   ${isActive
-                    ? 'bg-[#D4A017] border-[#D4A017] text-white shadow-lg shadow-[#D4A017]/30'
-                    : 'bg-white border-[#D4A017]/30 text-[#1A1A1A]/60 hover:border-[#D4A017] hover:text-[#D4A017]'}
+                    ? 'bg-[#F4A261] border-[#F4A261] text-white shadow-lg shadow-[#F4A261]/30'
+                    : 'bg-white border-[#F4A261]/30 text-[#0F3D2E]/60 hover:border-[#F4A261] hover:text-[#F4A261]'}
                 `}
               >
                 {/* animated bg sweep on hover */}
                 {!isActive && (
                   <motion.span
-                    className="absolute inset-0 bg-[#D4A017]/8 rounded-full"
+                    className="absolute inset-0 bg-[#F4A261]/8 rounded-full"
                     initial={{ scale: 0, opacity: 0 }}
                     whileHover={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.2 }}
@@ -112,7 +112,7 @@ const AttractionSlider: React.FC<AttractionSliderProps> = ({ attractions, title 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="flex flex-col items-center justify-center h-64 text-[#1A1A1A]/40 gap-4"
+              className="flex flex-col items-center justify-center h-64 text-[#0F3D2E]/40 gap-4"
             >
               <MapPin size={48} strokeWidth={1} />
               <p className="text-xl font-serif">No {activeFilter} attractions found</p>
@@ -131,14 +131,14 @@ const AttractionSlider: React.FC<AttractionSliderProps> = ({ attractions, title 
                 <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 flex justify-between px-4 sm:px-10 z-30 pointer-events-none">
                   <button
                     onClick={prevSlide}
-                    className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md border border-white/20 flex items-center justify-center text-[#1A1A1A] shadow-xl hover:bg-white hover:scale-110 transition-all pointer-events-auto disabled:opacity-30"
+                    className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md border border-white/20 flex items-center justify-center text-[#0F3D2E] shadow-xl hover:bg-white hover:scale-110 transition-all pointer-events-auto disabled:opacity-30"
                     disabled={filtered.length <= 1}
                   >
                     <ChevronLeft size={28} />
                   </button>
                   <button
                     onClick={nextSlide}
-                    className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md border border-white/20 flex items-center justify-center text-[#1A1A1A] shadow-xl hover:bg-white hover:scale-110 transition-all pointer-events-auto disabled:opacity-30"
+                    className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md border border-white/20 flex items-center justify-center text-[#0F3D2E] shadow-xl hover:bg-white hover:scale-110 transition-all pointer-events-auto disabled:opacity-30"
                     disabled={filtered.length <= 1}
                   >
                     <ChevronRight size={28} />
@@ -190,7 +190,7 @@ const AttractionSlider: React.FC<AttractionSliderProps> = ({ attractions, title 
 
                             {/* Category Badge */}
                             {position === 0 && attraction.category && (
-                              <div className="absolute top-8 left-8 bg-[#D4A017] text-white text-[10px] font-bold tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg uppercase">
+                              <div className="absolute top-8 left-8 bg-[#F4A261] text-white text-[10px] font-bold tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg uppercase">
                                 {attraction.category}
                               </div>
                             )}
@@ -200,7 +200,7 @@ const AttractionSlider: React.FC<AttractionSliderProps> = ({ attractions, title 
                               <div className="flex items-end justify-between gap-6">
                                 <div className="max-w-2xl">
                                   {position === 0 && (
-                                    <p className="text-[#D4A017] font-signature text-2xl mb-2 italic">
+                                    <p className="text-[#F4A261] font-signature text-2xl mb-2 italic">
                                       Discovery {String(index + 1).padStart(2, '0')}
                                     </p>
                                   )}
@@ -231,8 +231,8 @@ const AttractionSlider: React.FC<AttractionSliderProps> = ({ attractions, title 
                       key={i}
                       onClick={() => setActiveIndex(i)}
                       className={`transition-all duration-300 rounded-full ${i === activeIndex
-                          ? 'w-8 h-2 bg-[#D4A017]'
-                          : 'w-2 h-2 bg-[#D4A017]/30 hover:bg-[#D4A017]/60'
+                          ? 'w-8 h-2 bg-[#F4A261]'
+                          : 'w-2 h-2 bg-[#F4A261]/30 hover:bg-[#F4A261]/60'
                         }`}
                     />
                   ))}

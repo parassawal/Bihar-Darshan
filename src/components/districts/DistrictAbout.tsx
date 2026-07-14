@@ -9,7 +9,7 @@ interface DistrictAboutProps {
 
 const DistrictAbout = ({ districtName, image }: DistrictAboutProps) => {
   return (
-    <section className="relative py-24 bg-[#F8F5EF] overflow-hidden">
+    <section className="relative py-24 bg-[#FCEBD3] overflow-hidden">
       <Container className="relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left Column */}
@@ -19,14 +19,14 @@ const DistrictAbout = ({ districtName, image }: DistrictAboutProps) => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl lg:text-7xl font-serif font-bold text-[#1A1A1A] mb-6 leading-tight">
+            <h2 className="text-5xl lg:text-7xl font-serif font-bold text-[#0F3D2E] mb-6 leading-tight">
               The Timeless Capital <br />
               of <span className="italic">Bihar</span>
             </h2>
 
-            <div className="w-24 h-1.5 bg-[#D4A017] mb-10" />
+            <div className="w-24 h-1.5 bg-[#F4A261] mb-10" />
 
-            <div className="space-y-6 text-[#1A1A1A]/70 leading-relaxed text-lg lg:text-xl font-light mb-12 max-w-xl">
+            <div className="space-y-6 text-[#0F3D2E]/70 leading-relaxed text-lg lg:text-xl font-light mb-12 max-w-xl">
               <p>
                 {districtName}, one of the world's oldest continuously inhabited
                 places, stands as a testament to India's glorious past. From the
@@ -43,10 +43,10 @@ const DistrictAbout = ({ districtName, image }: DistrictAboutProps) => {
 
             {/* <motion.button
               whileHover={{
-                backgroundColor: '#D4A017',
-                color: '#FFFFFF',
+                backgroundColor: '#F4A261',
+                color: '#FFFFEFFFF',
               }}
-              className="px-10 py-4 rounded-full border border-[#D4A017] text-[#D4A017] font-bold text-sm tracking-widest uppercase flex items-center gap-3 transition-all duration-300 group"
+              className="px-10 py-4 rounded-full border border-[#F4A261] text-[#F4A261] font-bold text-sm tracking-widest uppercase flex items-center gap-3 transition-all duration-300 group"
             >
               Explore {districtName}
               <ArrowRight
@@ -64,7 +64,7 @@ const DistrictAbout = ({ districtName, image }: DistrictAboutProps) => {
             transition={{ duration: 0.9 }}
             className="relative h-[550px] lg:h-[700px]"
           >
-            <div className="absolute inset-0 bg-[#D4A017]/10 blur-[100px] rounded-full scale-125" />
+            <div className="absolute inset-0 bg-[#F4A261]/10 blur-[100px] rounded-full scale-125" />
 
             {/* <div className="relative h-full rounded-[32px] overflow-hidden shadow-2xl group"> */}
               {/* <img
@@ -73,7 +73,7 @@ const DistrictAbout = ({ districtName, image }: DistrictAboutProps) => {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               /> */}
 
-              {/* <div className="absolute inset-0 bg-gradient-to-tr from-[#D4A017]/10 via-transparent to-transparent" />
+              {/* <div className="absolute inset-0 bg-gradient-to-tr from-[#F4A261]/10 via-transparent to-transparent" />
 
               <div className="absolute inset-4 border border-white/20 rounded-[24px]" />
             </div> */}

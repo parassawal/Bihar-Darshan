@@ -52,7 +52,7 @@ const DiscussionFeed = ({ discussions, isJoined }: DiscussionFeedProps) => {
         <div className="px-4 pb-4 pt-2 border-t border-gray-100">
           <button
             onClick={() => setVisibleCount((c) => c + 5)}
-            className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-semibold text-gray-600 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all duration-200"
+            className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-semibold text-gray-600 hover:text-accent-brown hover:bg-brand-gray rounded-xl transition-all duration-200"
           >
             Load More Discussions
             <ChevronDown size={15} />

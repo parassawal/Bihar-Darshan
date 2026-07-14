@@ -30,7 +30,7 @@ const GalleryCard = ({ item, index, spanClass, onClick }: GalleryCardProps) => {
         delay: (index % 10) * 0.06,
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
-      className={`group relative overflow-hidden rounded-2xl cursor-pointer bg-[#1a1f2a] w-full h-full ${spanClass || "col-span-1 row-span-1"}`}
+      className={`group relative overflow-hidden rounded-2xl cursor-pointer bg-[#0F3D2E] w-full h-full ${spanClass || "col-span-1 row-span-1"}`}
       onClick={onClick}
     >
       {/* Image Container */}

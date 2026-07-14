@@ -33,6 +33,7 @@ import AdminMarketplace from './pages/admin/AdminMarketplace';
 import AdminTribes from './pages/admin/AdminTribes';
 import AdminPersonalities from './pages/admin/AdminPersonalities';
 import AdminSettings from './pages/admin/AdminSettings';
+import FloatingSocials from './components/shared/FloatingSocials';
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const [isTranslating, setIsTranslating] = useState(false);
@@ -49,13 +50,13 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div
-        className={`fixed inset-0 z-[9999] bg-[#1a1a1a] flex flex-col items-center justify-center pointer-events-none ${isTranslating
+        className={`fixed inset-0 z-[9999] bg-[#0F3D2E] flex flex-col items-center justify-center pointer-events-none ${isTranslating
           ? 'opacity-100 transition-none'
           : 'opacity-0 transition-opacity duration-500'
           }`}
       >
-        <div className="w-12 h-12 border-4 border-[#D4A017]/20 border-t-[#D4A017] rounded-full animate-spin" />
-        <p className="text-[#D4A017] mt-4 text-sm font-semibold tracking-wider animate-pulse uppercase">Translating...</p>
+        <div className="w-12 h-12 border-4 border-[#F4A261]/20 border-t-[#F4A261] rounded-full animate-spin" />
+        <p className="text-[#F4A261] mt-4 text-sm font-semibold tracking-wider animate-pulse uppercase">Translating...</p>
       </div>
       {children}
     </>
@@ -67,6 +68,7 @@ function App() {
     <AdminDataProvider>
       <Router>
         <ScrollToTop />
+        <FloatingSocials />
 
         <PageTransition>
           <Routes>

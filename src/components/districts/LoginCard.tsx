@@ -39,7 +39,7 @@ const LoginCard: React.FC = () => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, delay: 0.3 }}
-          className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#D4A017] to-[#B8860B] shadow-lg shadow-[#D4A017]/30 text-white mb-4"
+          className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#F4A261] to-[#F4A261] shadow-lg shadow-[#F4A261]/30 text-white mb-4"
         >
           <LogIn size={24} />
         </motion.div>
@@ -53,7 +53,7 @@ const LoginCard: React.FC = () => {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="w-10 h-1 bg-[#D4A017] mx-auto mt-3 rounded-full"
+          className="w-10 h-1 bg-[#F4A261] mx-auto mt-3 rounded-full"
         />
       </div>
 
@@ -67,7 +67,7 @@ const LoginCard: React.FC = () => {
               y: isEmailFocused || email ? -24 : 12,
               x: isEmailFocused || email ? 0 : 40,
               scale: isEmailFocused || email ? 0.8 : 1,
-              color: isEmailFocused ? "#D4A017" : "rgba(255,255,255,0.4)"
+              color: isEmailFocused ? "#F4A261" : "rgba(255,255,255,0.4)"
             }}
             className="absolute left-0 pointer-events-none font-medium transition-all text-sm"
           >
@@ -76,7 +76,7 @@ const LoginCard: React.FC = () => {
           <div className="relative">
             <Mail
               size={18}
-              className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300 ${isEmailFocused ? 'text-[#D4A017]' : 'text-white/30'}`}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300 ${isEmailFocused ? 'text-[#F4A261]' : 'text-white/30'}`}
             />
             <input
               type="email"
@@ -84,7 +84,7 @@ const LoginCard: React.FC = () => {
               onFocus={() => setIsEmailFocused(true)}
               onBlur={() => setIsEmailFocused(false)}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-12 pr-5 py-3.5 rounded-xl bg-white/5 border border-white/10 focus:border-[#D4A017] focus:ring-4 focus:ring-[#D4A017]/10 outline-none transition-all text-[13px] font-medium"
+              className="w-full pl-12 pr-5 py-3.5 rounded-xl bg-white/5 border border-white/10 focus:border-[#F4A261] focus:ring-4 focus:ring-[#F4A261]/10 outline-none transition-all text-[13px] font-medium"
               required
             />
           </div>
@@ -98,7 +98,7 @@ const LoginCard: React.FC = () => {
               y: isPasswordFocused || password ? -24 : 12,
               x: isPasswordFocused || password ? 0 : 40,
               scale: isPasswordFocused || password ? 0.8 : 1,
-              color: isPasswordFocused ? "#D4A017" : "rgba(255,255,255,0.4)"
+              color: isPasswordFocused ? "#F4A261" : "rgba(255,255,255,0.4)"
             }}
             className="absolute left-0 pointer-events-none font-medium transition-all text-sm"
           >
@@ -107,7 +107,7 @@ const LoginCard: React.FC = () => {
           <div className="relative">
             <Lock
               size={18}
-              className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300 ${isPasswordFocused ? 'text-[#D4A017]' : 'text-white/30'}`}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300 ${isPasswordFocused ? 'text-[#F4A261]' : 'text-white/30'}`}
             />
             <input
               type={showPassword ? "text" : "password"}
@@ -115,13 +115,13 @@ const LoginCard: React.FC = () => {
               onFocus={() => setIsPasswordFocused(true)}
               onBlur={() => setIsPasswordFocused(false)}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-12 pr-12 py-3.5 rounded-xl bg-white/5 border border-white/10 focus:border-[#D4A017] focus:ring-4 focus:ring-[#D4A017]/10 outline-none transition-all text-[13px] font-medium"
+              className="w-full pl-12 pr-12 py-3.5 rounded-xl bg-white/5 border border-white/10 focus:border-[#F4A261] focus:ring-4 focus:ring-[#F4A261]/10 outline-none transition-all text-[13px] font-medium"
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-[#D4A017] transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-[#F4A261] transition-colors"
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -133,14 +133,14 @@ const LoginCard: React.FC = () => {
           <label className="flex items-center space-x-2 cursor-pointer group">
             <div className="relative flex items-center">
               <input type="checkbox" className="peer sr-only" />
-              <div className="w-4 h-4 border border-white/20 rounded bg-white/5 peer-checked:bg-[#D4A017] peer-checked:border-[#D4A017] transition-all" />
+              <div className="w-4 h-4 border border-white/20 rounded bg-white/5 peer-checked:bg-[#F4A261] peer-checked:border-[#F4A261] transition-all" />
               <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity left-[2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             </div>
             <span className="text-white/40 group-hover:text-white transition-colors">Remember me</span>
           </label>
-          <a href="#" className="text-[#D4A017] hover:text-[#FFC738] transition-colors uppercase">
+          <a href="#" className="text-[#F4A261] hover:text-[#F4A261] transition-colors uppercase">
             Forgot Password?
           </a>
         </div>
@@ -150,7 +150,7 @@ const LoginCard: React.FC = () => {
           type="submit"
           whileHover={{ y: -4, scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full h-[52px] bg-gradient-to-r from-[#D4A017] to-[#DAA520] hover:to-[#FFD700] text-white font-bold rounded-xl shadow-xl shadow-[#D4A017]/20 flex items-center justify-center gap-3 transition-all duration-300 group mt-2 overflow-hidden relative text-sm"
+          className="w-full h-[52px] bg-gradient-to-r from-[#F4A261] to-[#F4A261] hover:to-[#FFD700] text-white font-bold rounded-xl shadow-xl shadow-[#F4A261]/20 flex items-center justify-center gap-3 transition-all duration-300 group mt-2 overflow-hidden relative text-sm"
         >
           <span className="relative z-10">Sign In</span>
           <ArrowRight size={18} className="relative z-10 transition-transform duration-300 group-hover:translate-x-2" />
@@ -169,7 +169,7 @@ const LoginCard: React.FC = () => {
       <motion.button
         type="button"
         whileHover={{ y: -2, backgroundColor: "rgba(248, 245, 239, 0.05)" }}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 text-white/80 hover:text-[#D4A017] hover:border-[#D4A017] transition-all duration-300 font-bold uppercase text-[10px] tracking-widest"
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 text-white/80 hover:text-[#F4A261] hover:border-[#F4A261] transition-all duration-300 font-bold uppercase text-[10px] tracking-widest"
       >
         <UserPlus size={16} />
         Create Account
@@ -177,7 +177,7 @@ const LoginCard: React.FC = () => {
 
       {/* Footer */}
       <div className="mt-8 flex items-center justify-center gap-2 text-[9px] text-white/30 uppercase tracking-widest font-bold">
-        <ShieldCheck size={12} className="text-[#D4A017]" />
+        <ShieldCheck size={12} className="text-[#F4A261]" />
         Secure Protection
       </div>
     </motion.div>

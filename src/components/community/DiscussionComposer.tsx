@@ -86,7 +86,7 @@ const DiscussionComposer = ({ onPost }: DiscussionComposerProps) => {
             placeholder="Title of your discussion..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors duration-200 font-semibold"
+            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors duration-200 font-semibold"
             autoFocus
           />
 
@@ -96,7 +96,7 @@ const DiscussionComposer = ({ onPost }: DiscussionComposerProps) => {
               <select
                 value={tag}
                 onChange={(e) => setTag(e.target.value as Discussion['tag'])}
-                className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1 text-xs font-semibold text-gray-700 focus:outline-none focus:border-amber-400"
+                className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1 text-xs font-semibold text-gray-700 focus:outline-none focus:border-brand-gold"
               >
                 <option value="Destinations">Destinations</option>
                 <option value="Tips">Tips</option>
@@ -124,7 +124,7 @@ const DiscussionComposer = ({ onPost }: DiscussionComposerProps) => {
               placeholder="Add more details about your post..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors min-h-[120px] resize-none"
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors min-h-[120px] resize-none"
             />
           )}
 
@@ -157,7 +157,7 @@ const DiscussionComposer = ({ onPost }: DiscussionComposerProps) => {
                 </div>
               ) : (
                 <div 
-                  className="flex flex-col items-center gap-3 cursor-pointer p-8 w-full border-2 border-dashed border-gray-300 rounded-xl hover:bg-gray-100 hover:border-amber-400 transition-colors"
+                  className="flex flex-col items-center gap-3 cursor-pointer p-8 w-full border-2 border-dashed border-gray-300 rounded-xl hover:bg-gray-100 hover:border-brand-gold transition-colors"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-violet-500">
@@ -179,7 +179,7 @@ const DiscussionComposer = ({ onPost }: DiscussionComposerProps) => {
                 placeholder="Ask a question..."
                 value={pollQuestion}
                 onChange={(e) => setPollQuestion(e.target.value)}
-                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-amber-400 transition-colors mb-4"
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-brand-gold transition-colors mb-4"
               />
               <div className="space-y-2 mb-3">
                 {pollOptions.map((opt, index) => (
@@ -189,7 +189,7 @@ const DiscussionComposer = ({ onPost }: DiscussionComposerProps) => {
                     placeholder={`Option ${index + 1}`}
                     value={opt.text}
                     onChange={(e) => updatePollOption(opt.id, e.target.value)}
-                    className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-amber-400"
+                    className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-brand-gold"
                   />
                 ))}
               </div>
@@ -225,7 +225,7 @@ const DiscussionComposer = ({ onPost }: DiscussionComposerProps) => {
       onClick={() => { setIsExpanded(true); setActiveTab('text'); }}
     >
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center text-black font-bold text-sm shrink-0">
+        <div className="w-9 h-9 rounded-full bg-brand-gold flex items-center justify-center text-black font-bold text-sm shrink-0">
           You
         </div>
         <div className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-400 transition-colors duration-200">

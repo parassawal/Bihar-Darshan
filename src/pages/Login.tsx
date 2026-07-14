@@ -70,23 +70,23 @@ const LoginPage: React.FC = () => {
             {!isLogin && (
               <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">First Name</label>
+                  <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-brand-gold">First Name</label>
                   <input
                     type="text"
                     name="firstName"
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand-gold focus:ring-4 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-gray-500 text-white"
                     placeholder="Rahul"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">Last Name</label>
+                  <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-brand-gold">Last Name</label>
                   <input
                     type="text"
                     name="lastName"
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand-gold focus:ring-4 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-gray-500 text-white"
                     placeholder="Kumar"
                     required
                   />
@@ -95,12 +95,12 @@ const LoginPage: React.FC = () => {
             )}
 
             <div>
-              <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">Email Address</label>
+              <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-brand-gold">Email Address</label>
               <input
                 type="email"
                 name="email"
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand-gold focus:ring-4 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-gray-500 text-white"
                 placeholder="name@example.com"
                 required
               />
@@ -109,7 +109,7 @@ const LoginPage: React.FC = () => {
             {/* NEW PASSWORD FIELDS */}
             <div className={`${!isLogin ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'space-y-4'}`}>
               <div className="w-full relative">
-                <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">
+                <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-brand-gold">
                   {isLogin ? 'Password' : 'New Password'}
                 </label>
                 <div className="relative">
@@ -117,7 +117,7 @@ const LoginPage: React.FC = () => {
                     type={showPassword ? "text" : "password"}
                     name="newPassword"
                     onChange={handleInputChange}
-                    className="w-full px-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
+                    className="w-full px-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand-gold focus:ring-4 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-gray-500 text-white"
                     placeholder="••••••••"
                     required
                   />
@@ -133,13 +133,13 @@ const LoginPage: React.FC = () => {
 
               {!isLogin && (
                 <div className="w-full relative animate-in fade-in slide-in-from-right-2 duration-300">
-                  <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-amber-400">Confirm Password</label>
+                  <label className="block text-[10px] uppercase tracking-widest font-bold mb-1.5 ml-1 text-brand-gold">Confirm Password</label>
                   <div className="relative">
                     <input
                       type={showConfirmPassword ? "text" : "password"}
                       name="confirmPassword"
                       onChange={handleInputChange}
-                      className="w-full px-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 outline-none transition-all placeholder:text-gray-500 text-white"
+                      className="w-full px-4 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand-gold focus:ring-4 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-gray-500 text-white"
                       placeholder="••••••••"
                       required
                     />
@@ -157,13 +157,13 @@ const LoginPage: React.FC = () => {
 
             {isLogin && (
               <div className="flex items-center justify-end text-xs">
-                <Link to="/forgot-password" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">Forgot password?</Link>
+                <Link to="/forgot-password" className="text-brand-gold hover:text-amber-300 transition-colors font-medium">Forgot password?</Link>
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full py-4 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow-xl shadow-amber-950/40 transition-all active:scale-[0.97] mt-4 uppercase tracking-widest text-sm cursor-pointer"
+              className="w-full py-4 px-4 bg-gold-dark hover:bg-accent-brown text-white font-bold rounded-2xl shadow-xl shadow-amber-950/40 transition-all active:scale-[0.97] mt-4 uppercase tracking-widest text-sm cursor-pointer"
             >
               {isLogin ? 'Sign In' : 'Create Account'}
             </button>
@@ -175,7 +175,7 @@ const LoginPage: React.FC = () => {
             </span>
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="text-amber-400 font-bold hover:underline decoration-2 underline-offset-4 bg-transparent border-none cursor-pointer"
+              className="text-brand-gold font-bold hover:underline decoration-2 underline-offset-4 bg-transparent border-none cursor-pointer"
             >
               {isLogin ? 'Register now' : 'Sign in instead'}
             </button>

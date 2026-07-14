@@ -50,7 +50,7 @@ const DistrictHighlights: React.FC<DistrictHighlightsProps> = ({
   ];
 
   return (
-    <section className="relative py-24 bg-[#F8F5EF] overflow-hidden">
+    <section className="relative py-24 bg-[#FCEBD3] overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
         <div className="absolute top-10 left-10 w-64 h-64 bg-gold/10 rounded-full blur-[100px]" />
@@ -68,14 +68,14 @@ const DistrictHighlights: React.FC<DistrictHighlightsProps> = ({
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-[#1A1A1A] mb-4 uppercase tracking-tight">
+            <h2 className="text-5xl md:text-6xl font-serif font-bold text-[#0F3D2E] mb-4 uppercase tracking-tight">
               {districtName} Highlights
             </h2>
-            <p className="text-[#1A1A1A]/60 text-lg max-w-2xl mx-auto mb-8 font-light">
+            <p className="text-[#0F3D2E]/60 text-lg max-w-2xl mx-auto mb-8 font-light">
               Discover what makes {districtName} one of Bihar's most iconic
               destinations.
             </p>
-            <div className="w-24 h-1 bg-[#D4A017] mx-auto rounded-full" />
+            <div className="w-24 h-1 bg-[#F4A261] mx-auto rounded-full" />
           </motion.div>
         </div>
 
@@ -95,29 +95,29 @@ const DistrictHighlights: React.FC<DistrictHighlightsProps> = ({
               className="relative group bg-white/40 backdrop-blur-md border border-white/60 p-8 rounded-[32px] shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(212,160,23,0.15)] flex flex-col items-center text-center transition-all duration-300 overflow-hidden"
             >
               {/* Animated Border */}
-              <div className="absolute inset-0 border-[1px] border-transparent group-hover:border-[#D4A017]/30 rounded-[32px] transition-all duration-500" />
+              <div className="absolute inset-0 border-[1px] border-transparent group-hover:border-[#F4A261]/30 rounded-[32px] transition-all duration-500" />
 
               {/* Icon Container */}
               <div className="relative mb-6">
-                <div className="absolute inset-0 bg-[#D4A017]/10 rounded-full scale-110 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-[#F4A261]/10 rounded-full scale-110 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
                 <motion.div
                   whileHover={{ rotate: 15 }}
-                  className="w-16 h-16 rounded-full border border-gray-100 flex items-center justify-center text-[#D4A017] bg-white shadow-sm ring-8 ring-[#D4A017]/5"
+                  className="w-16 h-16 rounded-full border border-gray-100 flex items-center justify-center text-[#F4A261] bg-white shadow-sm ring-8 ring-[#F4A261]/5"
                 >
                   {item.icon}
                 </motion.div>
               </div>
 
               {/* Text Content */}
-              <h3 className="text-xl font-serif font-bold text-[#1A1A1A] mb-3">
+              <h3 className="text-xl font-serif font-bold text-[#0F3D2E] mb-3">
                 {item.title}
               </h3>
-              <p className="text-sm text-[#1A1A1A]/50 leading-relaxed font-medium">
+              <p className="text-sm text-[#0F3D2E]/50 leading-relaxed font-medium">
                 {item.desc}
               </p>
 
               {/* Bottom Accent Line */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-[#D4A017] rounded-t-full group-hover:w-16 transition-all duration-500" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-[#F4A261] rounded-t-full group-hover:w-16 transition-all duration-500" />
             </motion.div>
           ))}
         </div>
@@ -125,10 +125,10 @@ const DistrictHighlights: React.FC<DistrictHighlightsProps> = ({
         {/* Decorative corner illustrations - absolute positioned icons or SVGs */}
         <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none hidden lg:block">
           {/* Placeholder for leaf illustration */}
-          <Palmtree size={120} className="text-[#D4A017]" />
+          <Palmtree size={120} className="text-[#F4A261]" />
         </div>
         <div className="absolute bottom-0 left-0 p-12 opacity-5 pointer-events-none hidden lg:block rotate-180">
-          <Palmtree size={120} className="text-[#D4A017]" />
+          <Palmtree size={120} className="text-[#F4A261]" />
         </div>
       </div>
     </section>

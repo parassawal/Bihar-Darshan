@@ -40,6 +40,15 @@ const Navbar = ({ forceDarkText = false, forceWhiteText = false }: NavbarProps =
 
   // Simple check for authentication mock
   const isAuthenticated = typeof window !== 'undefined' && localStorage.getItem('isAuthenticated') === 'true';
+  const [userAvatar, setUserAvatar] = useState(localStorage.getItem('userAvatar') || "/images/culture/avatar-man1.png");
+
+  useEffect(() => {
+    const handleAvatarChange = () => {
+      setUserAvatar(localStorage.getItem('userAvatar') || "/images/culture/avatar-man1.png");
+    };
+    window.addEventListener('userAvatarChanged', handleAvatarChange);
+    return () => window.removeEventListener('userAvatarChanged', handleAvatarChange);
+  }, []);
 
   const handleLanguageChange = (l: string) => {
     setLang(l);
@@ -166,10 +175,9 @@ const Navbar = ({ forceDarkText = false, forceWhiteText = false }: NavbarProps =
           {isAuthenticated ? (
             <Link
               to="/profile"
-              className={`hidden lg:block px-4 py-2 rounded-xl transition-all duration-300 font-semibold text-[11px] uppercase tracking-wider ${useDarkText ? "text-black hover:bg-black/5" : "text-white hover:bg-white/5"
-                }`}
+              className="hidden lg:block rounded-full border-2 border-transparent hover:border-brand-gold transition-all duration-300 overflow-hidden w-10 h-10 ring-2 ring-white/20"
             >
-              Profile
+              <img src={userAvatar} alt="Profile" className="w-full h-full object-cover" />
             </Link>
           ) : (
             <Link
@@ -211,8 +219,11 @@ const Navbar = ({ forceDarkText = false, forceWhiteText = false }: NavbarProps =
               <Link
                 to="/profile"
                 onClick={() => setMobileOpen(false)}
-                className={`text-lg font-bold transition-colors ${location.pathname === "/profile" ? "text-gold" : "text-black/80 dark:text-white/90"}`}
+                className={`flex items-center gap-3 text-lg font-bold transition-colors ${location.pathname === "/profile" ? "text-gold" : "text-black/80 dark:text-white/90"}`}
               >
+                <div className="w-8 h-8 rounded-full overflow-hidden border border-black/10 dark:border-white/10 shrink-0">
+                  <img src={userAvatar} alt="Profile" className="w-full h-full object-cover" />
+                </div>
                 Profile
               </Link>
             ) : (

@@ -17,15 +17,19 @@ export interface JourneySubmissionItem extends TourTrip {
   desc: string;
 }
 
+import type { Community } from './communityData';
+
 interface ContributionContextValue {
   cultureSubmissions: CultureItem[];
   gallerySubmissions: GalleryItem[];
   personalitySubmissions: PersonalityItem[];
   journeySubmissions: JourneySubmissionItem[];
+  communitySubmissions: Community[];
   addCultureSubmission: (submission: Omit<CultureItem, 'id' | 'featured'>) => void;
   addGallerySubmission: (submission: Omit<GalleryItem, 'id' | 'likes' | 'views' | 'comments' | 'uploadDate'>) => void;
   addPersonalitySubmission: (submission: Omit<PersonalityItem, 'id'>) => void;
   addJourneySubmission: (submission: Omit<JourneySubmissionItem, 'id'>) => void;
+  addCommunitySubmission: (submission: Omit<Community, 'id' | 'members' | 'posts' | 'online' | 'verified' | 'createdOn'>) => void;
 }
 
 const ContributionContext = createContext<ContributionContextValue>({
@@ -33,10 +37,12 @@ const ContributionContext = createContext<ContributionContextValue>({
   gallerySubmissions: [],
   personalitySubmissions: [],
   journeySubmissions: [],
+  communitySubmissions: [],
   addCultureSubmission: () => { },
   addGallerySubmission: () => { },
   addPersonalitySubmission: () => { },
   addJourneySubmission: () => { },
+  addCommunitySubmission: () => { },
 });
 
 export const ContributionProvider = ({ children }: { children: React.ReactNode }) => {
@@ -44,6 +50,7 @@ export const ContributionProvider = ({ children }: { children: React.ReactNode }
   const [gallerySubmissions, setGallerySubmissions] = useState<GalleryItem[]>([]);
   const [personalitySubmissions, setPersonalitySubmissions] = useState<PersonalityItem[]>([]);
   const [journeySubmissions, setJourneySubmissions] = useState<JourneySubmissionItem[]>([]);
+  const [communitySubmissions, setCommunitySubmissions] = useState<Community[]>([]);
 
   // Load submissions from localStorage on mount
   useEffect(() => {
@@ -59,6 +66,9 @@ export const ContributionProvider = ({ children }: { children: React.ReactNode }
 
       const storedJourneys = localStorage.getItem('bihar_journey_submissions');
       if (storedJourneys) setJourneySubmissions(JSON.parse(storedJourneys));
+
+      const storedCommunities = localStorage.getItem('bihar_community_submissions');
+      if (storedCommunities) setCommunitySubmissions(JSON.parse(storedCommunities));
     } catch (error) {
       console.error('Failed to load contributions from localStorage:', error);
     }
@@ -134,6 +144,27 @@ export const ContributionProvider = ({ children }: { children: React.ReactNode }
     });
   }, []);
 
+  const addCommunitySubmission = useCallback((submission: Omit<Community, 'id' | 'members' | 'posts' | 'online' | 'verified' | 'createdOn'>) => {
+    setCommunitySubmissions((prev) => {
+      const newItem: Community = {
+        ...submission,
+        id: `comm_${Date.now()}`,
+        members: '1',
+        posts: '0',
+        online: 1,
+        verified: false,
+        createdOn: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      };
+      const updated = [newItem, ...prev];
+      try {
+        localStorage.setItem('bihar_community_submissions', JSON.stringify(updated));
+      } catch (error) {
+        console.error('Failed to save:', error);
+      }
+      return updated;
+    });
+  }, []);
+
   return (
     <ContributionContext.Provider
       value={{
@@ -141,10 +172,12 @@ export const ContributionProvider = ({ children }: { children: React.ReactNode }
         gallerySubmissions,
         personalitySubmissions,
         journeySubmissions,
+        communitySubmissions,
         addCultureSubmission,
         addGallerySubmission,
         addPersonalitySubmission,
         addJourneySubmission,
+        addCommunitySubmission,
       }}
     >
       {children}

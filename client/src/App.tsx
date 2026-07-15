@@ -14,6 +14,7 @@ import LoginPage from './pages/Login';
 import ForgotPasswordPage from './pages/ForgotPassword';
 import Profile from './pages/Profile';
 import Community from './pages/Community';
+import CreateCommunity from './pages/CreateCommunity';
 import MarketPlace from './pages/MarketPlace';
 import ScrollToTop from "./components/ScrollToTop";
 import ProductDetails from './pages/ProductDetails';
@@ -78,6 +79,7 @@ function App() {
             <Route path="/discover" element={<Discover />} />
             <Route path="/culture" element={<Discover />} />
             <Route path="/culture/:id" element={<CultureDetails />} />
+            <Route path="/community/create" element={<CreateCommunity />} />
             <Route path="/community" element={<Community />} />
             <Route path="/Community" element={<Community />} />
             <Route path="/marketplace" element={<MarketPlace />} />

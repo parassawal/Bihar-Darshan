@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import LatestArticlesSection from '../components/tribals/LatestArticlesSection';
 import TribeCulturalSections from '../components/tribals/CulturalHighlightsGrid';
 import { getTribeCulturalSections } from '../data/tribeCulturalData';
+import { useAdminData } from '../data/AdminContext';
 
 const tribesData: Record<string, any> = {
   santhal: {
@@ -365,7 +366,7 @@ const tribesData: Record<string, any> = {
 const TribeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { tribes } = useAdminData();
-  const tribe = tribes.find(t => t.id === id) || tribesData[id || ""];
+  const tribe = tribes.find((t: any) => t.id === id) || tribesData[id || ""];
 
   useEffect(() => {
     window.scrollTo(0, 0);

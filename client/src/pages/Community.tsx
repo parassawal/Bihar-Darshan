@@ -27,17 +27,22 @@ import {
   contributors,
 } from '../data/communityData';
 import type { Community, Discussion } from '../data/communityData';
+import { useContributions } from '../data/ContributionContext';
 
 const CommunityPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { communitySubmissions } = useContributions();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<CategoryOption>('All Categories');
   const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(() => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-    return id ? communities.find((c) => c.id === id) || null : null;
+    const all = [...communities];
+    // We cannot access communitySubmissions safely before initialization, 
+    // but the next useEffect will handle syncing it.
+    return id ? all.find((c) => c.id === id) || null : null;
   });
   const [activeTab, setActiveTab] = useState<DetailTab>('Discussions');
   const [customDiscussions, setCustomDiscussions] = useState<Discussion[]>([]);
@@ -63,16 +68,17 @@ const CommunityPage = () => {
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
     if (id) {
-      const found = communities.find((c) => c.id === id);
+      const allCommunities = [...communitySubmissions, ...communities];
+      const found = allCommunities.find((c) => c.id === id);
       setSelectedCommunity(found || null);
     } else {
       setSelectedCommunity(null);
     }
-  }, [location.search]);
+  }, [location.search, communitySubmissions]);
 
   // Filter communities
   const filteredCommunities = useMemo(() => {
-    let result = [...communities];
+    let result = [...communitySubmissions, ...communities];
 
     if (activeCategory !== 'All Categories') {
       result = result.filter((c) => c.category === activeCategory);
@@ -89,7 +95,7 @@ const CommunityPage = () => {
     }
 
     return result;
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, communitySubmissions]);
 
   // Discussions for the selected community
   const communityDiscussions = useMemo(() => {
@@ -195,6 +201,12 @@ const CommunityPage = () => {
                     <h2 className="text-2xl font-bold text-gray-900">Explore Communities</h2>
                     <p className="text-sm text-gray-500 mt-0.5">Join a community that matches your interest</p>
                   </div>
+                  <button
+                    onClick={() => navigate('/community/create')}
+                    className="px-5 py-2.5 bg-brand-gold text-brand-dark font-semibold rounded-full shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                  >
+                    + Create Community
+                  </button>
                 </div>
 
                 <div className="mb-6 mt-4">

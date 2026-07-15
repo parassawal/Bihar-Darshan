@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Share2, Award, FileText, CheckCircle2, Clock, Edit3, X, LogOut, Users, Shield, Bell, Trophy, Megaphone, Eye, Trash2 } from 'lucide-react';
+import { Share2, Award, FileText, CheckCircle2, Clock, Edit3, X, LogOut, Users, Shield, Bell, Trophy, Megaphone, Eye, Trash2, XCircle } from 'lucide-react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
@@ -40,7 +40,7 @@ const Profile = () => {
   // Check auth status synchronously before rendering 
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
-  const [activeTab, setActiveTab] = useState<'published' | 'pending' | 'notifications'>('published');
+  const [activeTab, setActiveTab] = useState<'published' | 'pending' | 'rejected'>('published');
 
   // Profile State
   const [profile, setProfile] = useState(() => {
@@ -152,9 +152,6 @@ const Profile = () => {
                       <div className="flex items-center gap-2 bg-white/70 border border-[#F4A261]/30 px-4 py-2 rounded-lg text-sm text-[#8B3E2F] font-bold shadow-sm">
                         <FileText className="w-4 h-4 text-[#8B3E2F]" /> {profile.totalPosts} Posts
                       </div>
-                      <div className="flex items-center gap-2 bg-white/70 border border-[#F4A261]/30 px-4 py-2 rounded-lg text-sm text-[#8B3E2F] font-bold shadow-sm">
-                        <Trophy className="w-4 h-4 text-[#F4A261]" /> {profile.rewardPoints} Reward Points
-                      </div>
                    </div>
                 </div>
                 
@@ -174,13 +171,11 @@ const Profile = () => {
           </div>
           
           {/* Stats Row */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {[
               { icon: <Users className="w-6 h-6 text-[#8B3E2F]" />, label: 'Communities Joined', value: profile.communitiesJoined, bg: 'bg-[#FFF3E5]' },
               { icon: <FileText className="w-6 h-6 text-[#D97706]" />, label: 'Published Posts', value: profile.totalPosts, bg: 'bg-[#FEF3C7]' },
               { icon: <Clock className="w-6 h-6 text-[#B45309]" />, label: 'Pending Posts', value: profile.pendingPosts, bg: 'bg-[#FFEDD5]' },
-              { icon: <Award className="w-6 h-6 text-[#EAB308]" />, label: 'Reward Points', value: profile.rewardPoints, bg: 'bg-[#FEF08A]/50' },
-              { icon: <Shield className="w-6 h-6 text-[#EA580C]" />, label: 'Badges Earned', value: profile.badgesEarned, bg: 'bg-[#FFEDD5]' },
             ].map((stat, idx) => (
               <div key={idx} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center gap-4 hover:shadow-md transition">
                 <div className={`w-12 h-12 rounded-full ${stat.bg} flex items-center justify-center shrink-0`}>
@@ -213,18 +208,17 @@ const Profile = () => {
                   <Clock className="w-4 h-4" /> Pending Review
                 </button>
                 <button 
-                  onClick={() => setActiveTab('notifications')}
-                  className={`flex-1 min-w-[150px] py-4 flex justify-center items-center gap-2 font-bold text-sm transition ${activeTab === 'notifications' ? 'border-b-2 border-[#8B3E2F] text-[#8B3E2F]' : 'text-gray-500 hover:bg-gray-50'}`}
+                  onClick={() => setActiveTab('rejected')}
+                  className={`flex-1 min-w-[150px] py-4 flex justify-center items-center gap-2 font-bold text-sm transition ${activeTab === 'rejected' ? 'border-b-2 border-[#8B3E2F] text-[#8B3E2F]' : 'text-gray-500 hover:bg-gray-50'}`}
                 >
-                  <Bell className="w-4 h-4" /> Notifications 
-                  <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full leading-none">12</span>
+                  <XCircle className="w-4 h-4" /> Rejected Posts
                 </button>
               </div>
               
               <h2 className="text-xl font-bold text-gray-800 pt-2">
                 {activeTab === 'published' && 'Published Posts'}
                 {activeTab === 'pending' && 'Pending Posts'}
-                {activeTab === 'notifications' && 'Notifications'}
+                {activeTab === 'rejected' && 'Rejected Posts'}
               </h2>
               
               {activeTab === 'published' && (
@@ -249,7 +243,6 @@ const Profile = () => {
                           </div>
                           <div className="flex justify-between border-t border-gray-100 pt-4">
                             <button className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 text-xs font-bold transition"><Eye className="w-4 h-4" /> View</button>
-                            <button className="flex items-center gap-1.5 text-gray-500 hover:text-blue-600 text-xs font-bold transition"><Edit3 className="w-4 h-4" /> Edit</button>
                             <button className="flex items-center gap-1.5 text-red-400 hover:text-red-600 text-xs font-bold transition"><Trash2 className="w-4 h-4" /> Delete</button>
                           </div>
                         </div>
@@ -271,51 +264,9 @@ const Profile = () => {
                 </div>
               )}
               
-              {activeTab === 'notifications' && (
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mt-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-lg font-bold text-gray-800">Your Notifications</h2>
-                    <button className="text-[11px] font-bold border border-red-200 text-red-500 px-3 py-1.5 rounded-full hover:bg-red-50 transition">Mark all as read</button>
-                  </div>
-                  
-                  <div className="space-y-6">
-                    {['Today', 'Yesterday', 'Older'].map(group => {
-                      const groupNotifs = mockNotifications.filter(n => n.group === group);
-                      if (groupNotifs.length === 0) return null;
-                      
-                      return (
-                        <div key={group}>
-                          <h3 className="text-xs font-bold text-gray-800 mb-4">{group}</h3>
-                          <div className="space-y-5">
-                            {groupNotifs.map(notif => (
-                              <div key={notif.id} className="flex gap-3 relative">
-                                <div className="shrink-0 mt-0.5">
-                                  {notif.type === 'approved' && <div className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center"><CheckCircle2 className="w-4 h-4" /></div>}
-                                  {notif.type === 'reward' && <div className="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center"><Trophy className="w-4 h-4" /></div>}
-                                  {notif.type === 'badge' && <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><Award className="w-4 h-4" /></div>}
-                                  {notif.type === 'announcement' && <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><Megaphone className="w-4 h-4" /></div>}
-                                </div>
-                                <div className="flex-1">
-                                  <div className="flex justify-between items-start gap-2">
-                                    <h4 className="font-bold text-[13px] text-gray-900 leading-tight">{notif.title}</h4>
-                                    {notif.unread && <div className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-1"></div>}
-                                  </div>
-                                  <p className="text-[12px] text-gray-600 mt-1 line-clamp-2 leading-relaxed">{notif.message}</p>
-                                  <p className="text-[10px] text-gray-400 mt-1.5 font-medium">{notif.time}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  
-                  <div className="flex justify-center mt-6 pt-6 border-t border-gray-100">
-                    <button className="px-6 py-2.5 border-2 border-[#8B3E2F]/20 text-[#8B3E2F] rounded-full text-sm font-bold hover:bg-[#8B3E2F] hover:text-white transition shadow-sm">
-                      View All Notifications
-                    </button>
-                  </div>
+              {activeTab === 'rejected' && (
+                <div className="py-12 text-center">
+                  <p className="text-gray-500 font-medium">No rejected posts found.</p>
                 </div>
               )}
 

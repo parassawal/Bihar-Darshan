@@ -42,7 +42,11 @@ const CommunityDetailHeader = ({ community, onBack, isJoined, onJoinClick }: Com
             <div
               className={`relative z-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full ${community.iconBg} flex items-center justify-center text-3xl shadow-lg shrink-0 -mt-10 sm:-mt-12 border-4 border-white overflow-hidden`}
             >
-              {community.icon}
+              {(community.icon.startsWith('data:image/') || community.icon.startsWith('http')) ? (
+                <img src={community.icon} alt="Logo" className="w-full h-full object-cover" />
+              ) : (
+                community.icon
+              )}
             </div>
 
             {/* Text */}

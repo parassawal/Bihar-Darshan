@@ -122,7 +122,7 @@
 }
 
 .form-section-content {
-  padding: 0 32px 32px 32px;
+  padding: 24px 32px 32px 32px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -192,7 +192,8 @@ textarea.form-control-dark {
   overflow: hidden;
 }
 
-.upload-zone:hover, .upload-zone.drag-active {
+.upload-zone:hover,
+.upload-zone.drag-active {
   border-color: #D4A017;
   background-color: rgba(212, 160, 23, 0.05);
   transform: translateY(-2px);
@@ -377,4 +378,32 @@ textarea.form-control-dark {
 .day-container {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(212, 160, 23, 0.15);
+  padding: 24px;
+  border-radius: 1.5rem;
+  margin-bottom: 24px;
+}
+
+.form-control-light {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  padding: 10px 16px;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-control-light::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 300;
+}
+
+.form-control-light:focus {
+  outline: none;
+  border-color: #D4A017;
+  background-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.15);
 }

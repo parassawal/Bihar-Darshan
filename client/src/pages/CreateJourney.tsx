@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, Image as ImageIcon, Upload, X, MapPin, Quote, Camera, Plus, Trash2, GripVertical, CheckCircle, Phone, MessageSquare, Globe, Star, Clock, Maximize2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Image as ImageIcon, Upload, X, MapPin, Quote, Camera, Plus, Trash2, GripVertical, CheckCircle, Phone, MessageSquare, Globe, Star, Clock, Maximize2, ArrowLeft } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import PremiumFooter from "../components/tourism/PremiumFooter";
 import { useContributions } from "../data/ContributionContext";
@@ -32,7 +32,7 @@ interface TimelineDay {
 const CreateJourney = () => {
   const navigate = useNavigate();
   const { addJourneySubmission } = useContributions();
-  
+
   // Section states (collapsible)
   const [openSections, setOpenSections] = useState({
     hero: true,
@@ -47,7 +47,7 @@ const CreateJourney = () => {
   };
 
   // --- Form States ---
-  
+
   // 1. Hero Banner
   const [title, setTitle] = useState("Mahabodhi Trail");
   const [shortDesc, setShortDesc] = useState("Walk the path of Buddha in Bodh Gaya.");
@@ -68,7 +68,7 @@ const CreateJourney = () => {
 
   // 4. Gallery
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
-  
+
   // 5. Timeline (Itinerary)
   const [timeline, setTimeline] = useState<TimelineDay[]>([
     {
@@ -182,13 +182,55 @@ const CreateJourney = () => {
       alert("Please fill out the Hero Section details.");
       return;
     }
-    
+
     const durationDays = timeline.length;
     addJourneySubmission({
       title: title,
       desc: shortDesc,
+      description: description || shortDesc,
       image: heroImage || "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?q=80&w=2000&auto=format&fit=crop",
-      duration: `${durationDays > 1 ? durationDays - 1 : 1} Nights / ${durationDays} Days`
+      duration: `${durationDays > 1 ? durationDays - 1 : 1} Nights / ${durationDays} Days`,
+      overviewText: description || shortDesc,
+      guide: {
+        name: guideName || "Ramesh Kumar",
+        image: guidePhoto || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop",
+        experience: experience || "10+ Years",
+        languages: languages ? languages.split(",").map(lang => lang.trim()) : ["English", "Hindi"],
+        intro: "Verified Expert Guide for this custom trip.",
+        phone: callNumber || "+919876543210",
+        email: "guide@example.com",
+        whatsapp: whatsapp || "+919876543210"
+      },
+      rating: parseFloat(rating) || 4.9,
+      reviews: [],
+      galleryImages: gallery.map(g => g.url).length > 0 ? gallery.map(g => g.url) : [heroImage || "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?q=80&w=2000&auto=format&fit=crop"],
+      timeline: timeline.map(day => ({
+        day: day.day,
+        title: day.title || `Day ${day.day}`,
+        activities: day.activities.map(act => ({
+          time: act.time || "Flexible",
+          activity: act.title || "Sightseeing",
+          description: act.description || "Explore and enjoy details of this site."
+        }))
+      })),
+      provider: "Community Contributor",
+      providerLogo: "https://cdn-icons-png.flaticon.com/512/3233/3233481.png",
+      departureCity: "Patna",
+      places: [],
+      price: "Flexible",
+      phone: callNumber || "+919876543210",
+      whatsapp: whatsapp || "+919876543210",
+      difficulty: "Easy",
+      bestTime: "October to March",
+      groupSize: "Flexible",
+      transportation: "Custom Arranged",
+      startPoint: "Patna",
+      endPoint: "Patna",
+      emergencyContact: callNumber || "+919876543210",
+      email: "contributor@example.com",
+      placesCoveredDetails: [],
+      videos: [],
+      mapMarkers: []
     });
 
     alert("Featured Journey created successfully!");
@@ -235,24 +277,27 @@ const CreateJourney = () => {
 
       <main className="create-journey-content">
         <div className="create-journey-panel">
-          
+          <button className="btn-secondary mr-auto flex items-center gap-2 mb-8" onClick={() => navigate('/tourism')}>
+            <ArrowLeft size={16} /> Back
+          </button>
+
           <h1 className="create-journey-title">Create Featured Journey</h1>
           <p className="create-journey-subtitle">Design a premium experience to showcase on the Bihar Darshan tourism page.</p>
-          
+
           <div className="form-container">
-            
+
             {/* SECTION 1: Hero Banner */}
             <div className="form-section">
               <div className="form-section-header" onClick={() => toggleSection('hero')}>
                 <h3><ImageIcon className="section-icon" size={24} /> 1. Hero Banner</h3>
                 {openSections.hero ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
               </div>
-              
+
               <AnimatePresence>
                 {openSections.hero && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }} 
-                    animate={{ height: 'auto', opacity: 1 }} 
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     className="form-section-content"
                   >
@@ -260,26 +305,26 @@ const CreateJourney = () => {
                       <div className="space-y-6">
                         <div className="form-group">
                           <label className="form-label">Journey Title</label>
-                          <input 
-                            type="text" 
-                            className="form-control-dark" 
-                            value={title} 
-                            onChange={(e) => setTitle(e.target.value)} 
-                            placeholder="e.g. Mahabodhi Trail" 
+                          <input
+                            type="text"
+                            className="form-control-dark"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="e.g. Mahabodhi Trail"
                           />
                         </div>
                         <div className="form-group">
                           <label className="form-label">Short Description</label>
-                          <textarea 
-                            className="form-control-dark" 
-                            value={shortDesc} 
-                            onChange={(e) => setShortDesc(e.target.value)} 
+                          <textarea
+                            className="form-control-dark"
+                            value={shortDesc}
+                            onChange={(e) => setShortDesc(e.target.value)}
                             placeholder="A brief compelling overview..."
                             rows={3}
                           />
                         </div>
                       </div>
-                      
+
                       <div className="form-group">
                         <label className="form-label">Hero Banner Image</label>
                         <div className="upload-zone" onClick={() => !heroImage && heroInputRef.current?.click()}>
@@ -299,7 +344,7 @@ const CreateJourney = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* Live Preview */}
                     <div className="mt-8 pt-8 border-t border-[#F4A261]/20">
                       <h4 className="text-white font-bold mb-4">Live Preview: Hero Section</h4>
@@ -332,29 +377,29 @@ const CreateJourney = () => {
               </div>
               <AnimatePresence>
                 {openSections.intro && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }} 
-                    animate={{ height: 'auto', opacity: 1 }} 
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     className="form-section-content"
                   >
                     <div className="space-y-6">
                       <div className="form-group">
                         <label className="form-label">Journey Quote</label>
-                        <input 
-                          type="text" 
-                          className="form-control-dark" 
-                          value={quote} 
-                          onChange={(e) => setQuote(e.target.value)} 
-                          placeholder="An inspiring quote about this journey..." 
+                        <input
+                          type="text"
+                          className="form-control-dark"
+                          value={quote}
+                          onChange={(e) => setQuote(e.target.value)}
+                          placeholder="An inspiring quote about this journey..."
                         />
                       </div>
                       <div className="form-group">
                         <label className="form-label">Journey Description</label>
-                        <textarea 
-                          className="form-control-dark" 
-                          value={description} 
-                          onChange={(e) => setDescription(e.target.value)} 
+                        <textarea
+                          className="form-control-dark"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
                           placeholder="Full detailed description of what makes this journey special..."
                           rows={6}
                         />
@@ -390,9 +435,9 @@ const CreateJourney = () => {
               </div>
               <AnimatePresence>
                 {openSections.guide && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }} 
-                    animate={{ height: 'auto', opacity: 1 }} 
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     className="form-section-content"
                   >
@@ -501,9 +546,9 @@ const CreateJourney = () => {
               </div>
               <AnimatePresence>
                 {openSections.gallery && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }} 
-                    animate={{ height: 'auto', opacity: 1 }} 
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     className="form-section-content"
                   >
@@ -526,12 +571,12 @@ const CreateJourney = () => {
                             <GripVertical className="text-gray-400 cursor-grab" />
                             <img src={item.url} alt={item.title} className="w-16 h-16 rounded-lg object-cover" />
                             <div className="flex-1">
-                              <input 
-                                type="text" 
-                                className="form-control-light py-2" 
-                                value={item.title} 
-                                onChange={(e) => updateGalleryTitle(item.id, e.target.value)} 
-                                placeholder="Image Title" 
+                              <input
+                                type="text"
+                                className="form-control-light py-2"
+                                value={item.title}
+                                onChange={(e) => updateGalleryTitle(item.id, e.target.value)}
+                                placeholder="Image Title"
                               />
                             </div>
                             <button className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" onClick={() => removeGalleryItem(item.id)}>
@@ -573,30 +618,30 @@ const CreateJourney = () => {
               </div>
               <AnimatePresence>
                 {openSections.timeline && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }} 
-                    animate={{ height: 'auto', opacity: 1 }} 
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     className="form-section-content"
                   >
-                    
+
                     <div className="space-y-8">
                       {timeline.map((day, dIdx) => (
                         <div key={day.id} className="day-container p-6 rounded-2xl shadow-sm relative">
                           <button className="absolute top-4 right-4 text-red-400 hover:text-red-600 transition" onClick={() => removeDay(day.id)} title="Remove Day">
                             <X size={20} />
                           </button>
-                          
+
                           <div className="flex items-center gap-4 mb-6">
                             <div className="bg-[#F4A261] text-white font-bold text-xs px-3 py-1.5 rounded-full uppercase tracking-widest">
                               Day {day.day}
                             </div>
-                            <input 
-                              type="text" 
-                              className="form-control-light font-serif text-lg text-[#0F3D2E] py-2" 
-                              value={day.title} 
-                              onChange={(e) => updateDayTitle(day.id, e.target.value)} 
-                              placeholder="Day Title (e.g. Departure & Spirit of Gaya)" 
+                            <input
+                              type="text"
+                              className="form-control-light font-serif text-lg text-white py-2"
+                              value={day.title}
+                              onChange={(e) => updateDayTitle(day.id, e.target.value)}
+                              placeholder="Day Title (e.g. Departure & Spirit of Gaya)"
                             />
                           </div>
 
@@ -671,10 +716,9 @@ const CreateJourney = () => {
             </div>
 
           </div>
-          
+
           <div className="form-actions border-t border-[#F4A261]/20 pt-8 mt-12">
-            <button className="btn-secondary" onClick={handleSaveDraft}>Save Draft</button>
-            <button className="btn-secondary text-[#F4A261] border-[#F4A261] hover:bg-[#F4A261]/5">Preview Page</button>
+
             <button className="btn-primary" onClick={handleSubmit}>Submit Journey</button>
           </div>
 

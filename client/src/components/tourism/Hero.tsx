@@ -1,0 +1,44 @@
+import { motion } from "framer-motion";
+import tourismMain from "../../assets/tourism main.png";
+
+const Hero = () => {
+  return (
+    <section className="relative min-h-[90vh] md:min-h-screen w-full flex flex-col pt-32 pb-24 md:pb-0 justify-center">
+      {/* Cinematic Background */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={tourismMain}
+          alt="Bihar Tourism"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10 flex flex-col h-full justify-center mt-[-8vh]">
+        {/* Main Content */}
+        <div className="w-full md:w-3/5 lg:w-1/2 text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="text-brand-gold uppercase tracking-[0.3em] text-xs font-bold mb-6 block font-sans">
+              EXPLORE THE SOUL OF BIHAR
+            </span>
+
+            <h1 className="font-display font-bold text-5xl md:text-7xl text-white leading-[1.1] mb-6">
+              Journeys That <br /> Stay <span className="text-brand-gold italic font-light">With You</span>
+            </h1>
+
+            <p className="text-white/80 text-lg md:text-xl max-w-md mb-10 font-medium leading-relaxed">
+              From ancient temples to peaceful riversides, Bihar welcomes you with stories, spirituality and culture.
+            </p>
+
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;

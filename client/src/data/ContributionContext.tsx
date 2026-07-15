@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { CultureItem } from './cultureData';
 import type { GalleryItem } from './galleryData';
+import type { TourTrip } from './tourismData';
 
 export interface PersonalityItem {
   id: number;
@@ -12,12 +13,8 @@ export interface PersonalityItem {
   author: string;
 }
 
-export interface JourneySubmissionItem {
-  id: string;
-  title: string;
+export interface JourneySubmissionItem extends TourTrip {
   desc: string;
-  image: string;
-  duration: string;
 }
 
 import type { Community } from './communityData';
@@ -41,11 +38,11 @@ const ContributionContext = createContext<ContributionContextValue>({
   personalitySubmissions: [],
   journeySubmissions: [],
   communitySubmissions: [],
-  addCultureSubmission: () => {},
-  addGallerySubmission: () => {},
-  addPersonalitySubmission: () => {},
-  addJourneySubmission: () => {},
-  addCommunitySubmission: () => {},
+  addCultureSubmission: () => { },
+  addGallerySubmission: () => { },
+  addPersonalitySubmission: () => { },
+  addJourneySubmission: () => { },
+  addCommunitySubmission: () => { },
 });
 
 export const ContributionProvider = ({ children }: { children: React.ReactNode }) => {
@@ -60,13 +57,13 @@ export const ContributionProvider = ({ children }: { children: React.ReactNode }
     try {
       const storedCulture = localStorage.getItem('bihar_culture_submissions');
       if (storedCulture) setCultureSubmissions(JSON.parse(storedCulture));
-      
+
       const storedGallery = localStorage.getItem('bihar_gallery_submissions');
       if (storedGallery) setGallerySubmissions(JSON.parse(storedGallery));
-      
+
       const storedPersonality = localStorage.getItem('bihar_personality_submissions');
       if (storedPersonality) setPersonalitySubmissions(JSON.parse(storedPersonality));
-      
+
       const storedJourneys = localStorage.getItem('bihar_journey_submissions');
       if (storedJourneys) setJourneySubmissions(JSON.parse(storedJourneys));
 

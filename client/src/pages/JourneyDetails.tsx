@@ -27,6 +27,7 @@ import Navbar from "../components/layout/Navbar";
 import PremiumFooter from "../components/tourism/PremiumFooter";
 import JourneyCard from "../components/tourism/JourneyCard";
 import { featuredTrips } from "../data/tourismData";
+import { useContributions } from "../data/ContributionContext";
 
 // Amenities mapping
 const AMENITIES = [
@@ -40,7 +41,8 @@ const AMENITIES = [
 
 const JourneyDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const currentTrip = featuredTrips.find((t) => t.id === id);
+  const { journeySubmissions } = useContributions();
+  const foundTrip = featuredTrips.find((t) => t.id === id) || journeySubmissions.find((t) => t.id === id);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const { scrollY } = useScroll();
@@ -50,9 +52,46 @@ const JourneyDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
-  if (!currentTrip) {
+  if (!foundTrip) {
     return <Navigate to="/tourism" replace />;
   }
+
+  // Populate/sanitize currentTrip to ensure older/incomplete items in localStorage don't crash
+  const currentTrip = {
+    ...foundTrip,
+    overviewText: foundTrip.overviewText || foundTrip.description || (foundTrip as any).desc || "",
+    description: foundTrip.description || foundTrip.overviewText || (foundTrip as any).desc || "",
+    rating: foundTrip.rating || 4.9,
+    reviews: foundTrip.reviews || [],
+    galleryImages: foundTrip.galleryImages && foundTrip.galleryImages.length > 0
+      ? foundTrip.galleryImages
+      : [foundTrip.image],
+    guide: foundTrip.guide || {
+      name: "Ramesh Kumar",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop",
+      experience: "10+ Years",
+      languages: ["English", "Hindi", "Magahi"],
+      intro: "Verified Expert Guide for this custom trip.",
+      phone: "+919876543210",
+      email: "guide@example.com",
+      whatsapp: "+919876543210"
+    },
+    timeline: foundTrip.timeline && foundTrip.timeline.length > 0
+      ? foundTrip.timeline
+      : [
+        {
+          day: 1,
+          title: "Explore the Landmarks",
+          activities: [
+            {
+              time: "Flexible",
+              activity: "Sightseeing",
+              description: (foundTrip as any).desc || foundTrip.description || "Explore and discover the rich heritage of the location."
+            }
+          ]
+        }
+      ]
+  };
 
   const relatedTrips = featuredTrips.filter((t) => t.id !== id).slice(0, 3);
 

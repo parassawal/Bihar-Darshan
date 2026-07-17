@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Globe, Menu, X, User } from "lucide-react";
+import { Globe, Menu, X, User, Shield } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/new-logo.png";
 import { onAuthStateChanged, type User as FirebaseUser } from "firebase/auth";
@@ -130,6 +130,20 @@ const Navbar = ({ forceDarkText = false, forceWhiteText = false }: NavbarProps =
 
         {/* Right Side */}
         <div className="flex items-center gap-3">
+          {/* Admin Dashboard Button */}
+          {currentUser?.email === 'bihardarshanofficial@gmail.com' && (
+            <Link
+              to="/admin"
+              className={`hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-300 font-bold text-[11px] uppercase tracking-wider ${useDarkText
+                  ? "border-[#D4A017]/30 text-[#D4A017] hover:bg-[#D4A017]/10"
+                  : "border-gold/30 text-gold hover:bg-gold/10"
+                }`}
+            >
+              <Shield size={14} />
+              Admin
+            </Link>
+          )}
+
           {/* Share Your Story Button */}
           <Link
             to="/share-story"
@@ -242,6 +256,17 @@ const Navbar = ({ forceDarkText = false, forceWhiteText = false }: NavbarProps =
                   Login
                 </Link>
               )}
+
+            {currentUser?.email === 'bihardarshanofficial@gmail.com' && (
+              <Link
+                to="/admin"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-2xl border-2 border-gold/50 hover:bg-gold/10 text-gold font-bold text-center text-[15px] uppercase tracking-wider shadow-md transition-all active:scale-[0.98] mt-2 w-full"
+              >
+                <Shield size={18} />
+                Admin Dashboard
+              </Link>
+            )}
 
             <Link
               to="/share-story"
